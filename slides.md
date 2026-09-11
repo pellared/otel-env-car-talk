@@ -15,30 +15,22 @@ fonts:
   mono: JetBrains Mono
 ---
 
-<div class="cover-grid">
+<div class="cover-layout">
   <div class="cover-copy">
     <h1>Trace context<br><span>beyond HTTP</span></h1>
     <p class="cover-subtitle">Environment variables as OpenTelemetry propagation carriers</p>
-    <div class="speaker-line" aria-label="Presenters">
-      <div class="speaker practice">
-        <span>Practitioner</span>
-        <b>Alan Clucas</b>
-        <small><span class="speaker-handle">@Joibel</span><br>Pipekit, Argo contributor</small>
-      </div>
-      <div class="speaker theory">
-        <span>Theoretician</span>
-        <b>Robert Pająk</b>
-        <small><span class="speaker-handle">@pellared</span><br>Splunk, OpenTelemetry contributor</small>
-      </div>
-    </div>
   </div>
-  <div class="cover-trace" aria-label="A trace line crossing from HTTP into a child process">
-    <div class="cover-boundary"><span>process boundary</span></div>
-    <div class="cover-line line-a"></div>
-    <div class="cover-line line-b"></div>
-    <div class="cover-node node-a"><span>HTTP</span></div>
-    <div class="cover-node node-b"><code>TRACEPARENT</code></div>
-    <div class="cover-node node-c"><span>child span</span></div>
+  <div class="speaker-line" aria-label="Presenters">
+    <div class="speaker practice">
+      <span>Practitioner</span>
+      <b>Alan Clucas</b>
+      <small><span class="speaker-handle">@Joibel</span><br>Pipekit, Argo contributor</small>
+    </div>
+    <div class="speaker theory">
+      <span>Theoretician</span>
+      <b>Robert Pająk</b>
+      <small><span class="speaker-handle">@pellared</span><br>Splunk, OpenTelemetry contributor</small>
+    </div>
   </div>
 </div>
 

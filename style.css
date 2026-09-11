@@ -58,29 +58,19 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; bac
 .takeaway.warning { color: var(--amber); }
 
 /* S01 */
-.cover-grid { display: grid; grid-template-columns: 58% 42%; height: 100%; margin: -48px -64px -42px; }
-.cover-copy { display: flex; flex-direction: column; justify-content: center; padding: 62px 24px 56px 72px; }
-.cover-copy h1 { max-width: 760px; color: var(--ink); font-size: 76px; font-weight: 780; letter-spacing: -0.055em; line-height: .98; }
+.cover-layout { display: grid; height: 100%; grid-template-rows: minmax(0, 1fr) auto; margin: -48px -64px -42px; padding: 64px 82px 58px; background: radial-gradient(circle at 84% 12%, rgba(56,221,196,.12), transparent 34%); }
+.cover-copy { align-self: center; max-width: 1080px; }
+.cover-copy h1 { color: var(--ink); font-size: 92px; font-weight: 780; letter-spacing: -0.055em; line-height: .94; }
 .cover-copy h1 span { color: var(--cyan); }
-.cover-subtitle { max-width: 700px; margin-top: 30px; color: #bfd0cd; font-size: 28px; line-height: 1.28; }
-.speaker-line { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 38px; }
-.speaker { padding-top: 12px; border-top: 2px solid currentColor; }
+.cover-subtitle { max-width: 930px; margin-top: 30px; color: #bfd0cd; font-size: 31px; line-height: 1.25; }
+.speaker-line { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 72px; max-width: 1020px; padding-top: 24px; border-top: 1px solid var(--line); }
+.speaker { padding-left: 18px; border-left: 3px solid currentColor; }
 .speaker.practice { color: var(--amber); }
 .speaker.theory { color: var(--violet); }
-.speaker > span { font-size: 14px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-.speaker > b { display: block; margin-top: 5px; color: var(--ink); font-size: 24px; }
-.speaker > small { display: block; margin-top: 5px; color: var(--muted); font-size: 16px; line-height: 1.35; }
-.speaker-handle { color: currentColor; font: 15px/1.35 "JetBrains Mono", monospace; }
-.cover-trace { position: relative; min-height: 720px; background: linear-gradient(110deg, rgba(56,221,196,.035), rgba(56,221,196,.12)); }
-.cover-boundary { position: absolute; top: 78px; bottom: 74px; left: 49%; border-left: 2px dashed rgba(234,245,242,.34); }
-.cover-boundary span { position: absolute; top: 0; left: 14px; color: var(--muted); font-size: 17px; letter-spacing: .08em; text-transform: uppercase; writing-mode: vertical-rl; }
-.cover-line { position: absolute; top: 355px; height: 4px; background: var(--cyan); box-shadow: 0 0 28px rgba(56,221,196,.58); }
-.cover-line.line-a { left: 50px; right: 51%; }
-.cover-line.line-b { left: 49%; right: 44px; }
-.cover-node { position: absolute; top: 326px; display: grid; min-width: 76px; height: 62px; place-items: center; border: 3px solid var(--cyan); border-radius: 50%; background: var(--bg-deep); color: var(--ink); box-shadow: 0 0 26px rgba(56,221,196,.24); font-size: 18px; font-weight: 700; }
-.cover-node.node-a { left: 46px; }
-.cover-node.node-b { top: 305px; left: calc(49% - 89px); width: 178px; height: 104px; border-radius: 18px; background: #0d2023; color: var(--amber); font-size: 15px; }
-.cover-node.node-c { right: 42px; min-width: 116px; border-radius: 18px; }
+.speaker > span { font-size: 15px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.speaker > b { display: block; margin-top: 6px; color: var(--ink); font-size: 27px; }
+.speaker > small { display: block; margin-top: 6px; color: var(--muted); font-size: 17px; line-height: 1.35; }
+.speaker-handle { color: currentColor; font: 16px/1.35 "JetBrains Mono", monospace; }
 
 /* S02 */
 .broken-workflow { position: relative; height: 190px; margin: 20px 20px 0; }
