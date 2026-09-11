@@ -6,7 +6,10 @@ Help build a clear, technically accurate conference talk titled **Trace Context 
 
 The talk is for people interested in observability. Assume they understand why observability matters, but do not assume they know OpenTelemetry concepts, specifications, or terminology. Introduce each essential term in plain language before relying on it.
 
-Treat [README.md](./README.md) as the source brief. Every substantive promise in the README must appear in the talk or be explicitly marked as deferred in `plan.md`. Do not silently remove, weaken, or invent claims.
+Treat [README.md](./README.md) as the source brief, with this priority:
+
+- The content under **Description** is non-negotiable. Preserve every substantive promise in the presentation.
+- The content under **Benefits to the ecosystem** is negotiable supporting material. Refine, reframe, or omit it only with caution, without contradicting the Description or weakening the talk's core value.
 
 ## Non-negotiable constraints
 
@@ -43,7 +46,7 @@ Create missing artifacts only when the requested task calls for them. Do not put
 
 ## Required content coverage
 
-Use the README as the final authority, but make sure the narrative addresses all of the following:
+Use the README's **Description** as the final authority. Treat points derived from **Benefits to the ecosystem** as preferred coverage that may change when there is a clear narrative, timing, or accuracy reason documented in `plan.md`. Make sure the narrative addresses all of the following unless that documented exception applies:
 
 - Why conventional propagation through HTTP headers or message metadata does not cover process boundaries.
 - A simple newcomer-friendly model of traces, spans, parent-child relationships, trace context, propagation, carriers, and propagators.
@@ -155,7 +158,7 @@ Only the lines under `Spoken outline` belong in `outline.md`.
 When asked to build or revise the talk:
 
 1. Read this file, `README.md`, and every existing presentation artifact before editing.
-2. Make a small coverage matrix mapping README promises to slide IDs in `plan.md`.
+2. Make a small coverage matrix in `plan.md`. Map every Description promise and required demo to slide IDs. Also map the Benefits points, noting the rationale for any intentional change or omission.
 3. Check the narrative arc, terminology order, presenter roles, and timing before polishing slide copy.
 4. Update all affected artifacts according to the synchronization rules.
 5. Run `npm run build` after changing `slides.md`.
@@ -168,7 +171,8 @@ When reviewing rather than editing, identify exact slide IDs and distinguish blo
 
 Presentation work is complete only when:
 
-- every README promise maps to at least one planned slide;
+- every promise in the README's Description and both required demos maps to at least one planned slide;
+- every material change to or omission from Benefits to the ecosystem has a rationale in `plan.md`;
 - the story works for an observability audience new to OpenTelemetry terminology;
 - the Theoretician and Practitioner have distinct, complementary contributions;
 - both demos have an expected result and a failure fallback;
