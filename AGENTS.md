@@ -58,7 +58,7 @@ Use the README's **Description** as the final authority. Treat points derived fr
 - Security constraints. Discuss trust boundaries, untrusted inherited environments, leakage into logs or diagnostics, and deliberate allow-listing or scrubbing where appropriate.
 - Interoperability benefits for CI/CD systems, workflow engines, build tools, CLIs, and OpenTelemetry instrumentation.
 - How a shared model reduces custom glue and incompatible trace conventions.
-- How practitioner feedback can inform implementation guidance and future refinements while the relevant specification work matures. Verify current specification status before making a time-sensitive claim.
+- How real-world adoption and practitioner feedback can inform implementation guidance, examples, and future refinements while the relevant specification work matures. Verify current specification status before making a time-sensitive claim.
 
 Do not imply that an environment variable creates spans by itself. Injection and extraction carry context; instrumentation creates spans and assigns parentage. Do not imply that `TRACEPARENT` alone provides data lineage. In the lineage example, the instrumented jobs record dataset inputs and outputs as span metadata while propagation connects the work into one trace.
 
@@ -158,7 +158,7 @@ Only the lines under `Spoken outline` belong in `outline.md`.
 When asked to build or revise the talk:
 
 1. Read this file, `README.md`, and every existing presentation artifact before editing.
-2. Make a small coverage matrix in `plan.md`. Map every Description promise and required demo to slide IDs. Also map the Benefits points, noting the rationale for any intentional change or omission.
+2. Make a small coverage matrix in `plan.md`. Map every Description promise and required demo to slide IDs. Also map the Benefits points selected for the talk.
 3. Check the narrative arc, terminology order, presenter roles, and timing before polishing slide copy.
 4. Update all affected artifacts according to the synchronization rules.
 5. Run `npm run build` after changing `slides.md`.

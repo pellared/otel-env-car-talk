@@ -20,4 +20,4 @@ Two demos to make it concrete.
 
 The first is a Docker image build inside Argo Workflows. The controller injects TRACEPARENT into every step container, and clone, build, scan, and push all hang off one trace. When something gets slow or breaks, the trace points at the stage to blame, including subprocesses the build tool spawned itself.
 
-The second uses the same plumbing for data lineage. A batch pipeline spawns extract, transform, and load processes, each inheriting trace context through the environment. The span tree records which job read which dataset and produced which output. Lineage falls out of tracing rather than needing its own metadata system bolted on. 
+The second uses the same plumbing for data lineage. A batch pipeline spawns extract, transform, and load processes, each inheriting trace context through the environment. Instrumented jobs record dataset inputs and outputs as span metadata, so this pipeline derives useful lineage from the trace without a separate metadata path. This does not position tracing as a replacement for every dedicated lineage capability.
