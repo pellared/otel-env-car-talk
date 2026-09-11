@@ -46,7 +46,7 @@ Create missing artifacts only when the requested task calls for them. Do not put
 
 ## Required content coverage
 
-Use the README's **Description** as the final authority. Treat points derived from **Benefits to the ecosystem** as preferred coverage that may change when there is a clear narrative, timing, or accuracy reason documented in `plan.md`. Make sure the narrative addresses all of the following unless that documented exception applies:
+Use the README's **Description** as the final authority. Treat points derived from **Benefits to the ecosystem** as preferred coverage that may change when there is a clear narrative, timing, or accuracy reason. Make sure the narrative addresses all of the following unless that documented exception applies:
 
 - Why conventional propagation through HTTP headers or message metadata does not cover process boundaries.
 - A simple newcomer-friendly model of traces, spans, parent-child relationships, trace context, propagation, carriers, and propagators.
@@ -172,7 +172,6 @@ When reviewing rather than editing, identify exact slide IDs and distinguish blo
 Presentation work is complete only when:
 
 - every promise in the README's Description and both required demos maps to at least one planned slide;
-- every material change to or omission from Benefits to the ecosystem has a rationale in `plan.md`;
 - the story works for an observability audience new to OpenTelemetry terminology;
 - the Theoretician and Practitioner have distinct, complementary contributions;
 - both demos have an expected result and a failure fallback;
