@@ -1,8 +1,8 @@
 # S01: Trace context beyond HTTP
 
-Practitioner: We are going to follow one trace through places where there is no request header at all: shells, containers, build tools, and batch jobs.
+Practitioner: I’m Alan Clucas, Joibel on GitHub. I work at Pipekit and contribute to Argo. We’ll follow one trace through shells, containers, build tools, and batch jobs.
 
-Theoretician: I will name the model and its constraints. My colleague will show what the model changes when real processes start, fail, and leave evidence behind.
+Theoretician: I’m Robert Pająk, pellared on GitHub. I work at Splunk and contribute to OpenTelemetry. I’ll frame the model and constraints. Alan will show the operational consequences.
 
 # S02: Process launches leave gaps in the trace
 

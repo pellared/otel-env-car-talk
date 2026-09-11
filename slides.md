@@ -19,9 +19,17 @@ fonts:
   <div class="cover-copy">
     <h1>Trace context<br><span>beyond HTTP</span></h1>
     <p class="cover-subtitle">Environment variables as OpenTelemetry propagation carriers</p>
-    <div class="role-line">
-      <span class="role theory">Theoretician</span>
-      <span class="role practice">Practitioner</span>
+    <div class="speaker-line" aria-label="Presenters">
+      <div class="speaker practice">
+        <span>Practitioner</span>
+        <b>Alan Clucas</b>
+        <small><span class="speaker-handle">@Joibel</span><br>Pipekit, Argo contributor</small>
+      </div>
+      <div class="speaker theory">
+        <span>Theoretician</span>
+        <b>Robert Pająk</b>
+        <small><span class="speaker-handle">@pellared</span><br>Splunk, OpenTelemetry contributor</small>
+      </div>
     </div>
   </div>
   <div class="cover-trace" aria-label="A trace line crossing from HTTP into a child process">
@@ -36,14 +44,14 @@ fonts:
 
 <!--
 Spoken outline:
-Practitioner: We are going to follow one trace through places where there is no request header at all: shells, containers, build tools, and batch jobs.
+Practitioner: I’m Alan Clucas, Joibel on GitHub. I work at Pipekit and contribute to Argo. We’ll follow one trace through shells, containers, build tools, and batch jobs.
 
-Theoretician: I will name the model and its constraints. My colleague will show what the model changes when real processes start, fail, and leave evidence behind.
+Theoretician: I’m Robert Pająk, pellared on GitHub. I work at Splunk and contribute to OpenTelemetry. I’ll frame the model and constraints. Alan will show the operational consequences.
 
 Delivery notes:
 - Time: 00:25
 - Handoff: Practitioner to Theoretician, 00:05.
-- Sources: README.md.
+- Sources: README.md; https://github.com/pellared; https://github.com/Joibel.
 -->
 
 ---

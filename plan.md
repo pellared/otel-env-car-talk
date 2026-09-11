@@ -12,6 +12,13 @@ Attendees leave with a simple model for carrying trace context across process la
 4. Apply the contract in the Argo/Docker build and batch data-lineage demos.
 5. Close with the interoperability payoff, the current specification status, and an adoption checklist.
 
+## Presenter roles
+
+| Presenter | Talk role | Affiliation and community |
+| --- | --- | --- |
+| Robert Pająk (`@pellared`) | Theoretician | Splunk and OpenTelemetry contributor |
+| Alan Clucas (`@Joibel`) | Practitioner | Pipekit and Argo contributor |
+
 ## Sections and timing
 
 | Section | Slides | Duration |
@@ -30,7 +37,7 @@ Attendees leave with a simple model for carrying trace context across process la
 
 | ID | Purpose | Lead and handoff | Duration |
 | --- | --- | --- | ---: |
-| S01 | Name the subject and establish the two complementary presenter roles. | Practitioner leads; handoff to Theoretician, 00:05. | 00:25 |
+| S01 | Name the subject, introduce both presenters, and establish their complementary roles. | Practitioner leads; handoff to Theoretician, 00:05. | 00:25 |
 | S02 | Make the broken-trace problem concrete at a process boundary. | Practitioner leads; handoff to Theoretician, 00:08. | 01:25 |
 | S03 | Define span, trace, parent, child, and trace tree with one reusable model. | Theoretician leads; no handoff, 00:00. | 01:15 |
 | S04 | Define trace context, propagation, and carrier while separating context flow from telemetry export. | Theoretician leads; handoff to Practitioner, 00:08. | 01:15 |
