@@ -22,14 +22,20 @@ fonts:
   </div>
   <div class="speaker-line" aria-label="Presenters">
     <div class="speaker practice">
-      <span>Practitioner</span>
-      <b>Alan Clucas</b>
-      <small><span class="speaker-handle">@Joibel</span><br>Pipekit, Argo contributor</small>
+      <img class="speaker-photo" src="/speakers/alan-clucas-github.jpg" alt="Alan Clucas">
+      <div class="speaker-copy">
+        <span>Practitioner</span>
+        <b>Alan Clucas</b>
+        <small><span class="speaker-handle">@Joibel</span><br>Pipekit, Argo contributor</small>
+      </div>
     </div>
     <div class="speaker theory">
-      <span>Theoretician</span>
-      <b>Robert Pająk</b>
-      <small><span class="speaker-handle">@pellared</span><br>Splunk, OpenTelemetry contributor</small>
+      <img class="speaker-photo" src="/speakers/robert-pajak-github.jpg" alt="Robert Pająk">
+      <div class="speaker-copy">
+        <span>Theoretician</span>
+        <b>Robert Pająk</b>
+        <small><span class="speaker-handle">@pellared</span><br>Splunk, OpenTelemetry contributor</small>
+      </div>
     </div>
   </div>
 </div>
@@ -43,7 +49,7 @@ Theoretician: I’m Robert Pająk, pellared on GitHub. I work at Splunk and cont
 Delivery notes:
 - Time: 00:25
 - Handoff: Practitioner to Theoretician, 00:05.
-- Sources: README.md; https://github.com/pellared; https://github.com/Joibel.
+- Sources: README.md; Alan profile and portrait: https://github.com/Joibel, https://avatars.githubusercontent.com/u/1827156?s=512&v=4; Robert profile and portrait: https://github.com/pellared, https://avatars.githubusercontent.com/u/5067549?s=512&v=4.
 -->
 
 ---

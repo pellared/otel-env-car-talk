@@ -63,13 +63,15 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; bac
 .cover-copy h1 { color: var(--ink); font-size: 92px; font-weight: 780; letter-spacing: -0.055em; line-height: .94; }
 .cover-copy h1 span { color: var(--cyan); }
 .cover-subtitle { max-width: 930px; margin-top: 30px; color: #bfd0cd; font-size: 31px; line-height: 1.25; }
-.speaker-line { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 72px; max-width: 1020px; padding-top: 24px; border-top: 1px solid var(--line); }
-.speaker { padding-left: 18px; border-left: 3px solid currentColor; }
+.speaker-line { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; max-width: 1100px; padding-top: 24px; border-top: 1px solid var(--line); }
+.speaker { display: grid; min-width: 0; grid-template-columns: 108px minmax(0, 1fr); gap: 20px; align-items: center; }
 .speaker.practice { color: var(--amber); }
 .speaker.theory { color: var(--violet); }
-.speaker > span { font-size: 15px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-.speaker > b { display: block; margin-top: 6px; color: var(--ink); font-size: 27px; }
-.speaker > small { display: block; margin-top: 6px; color: var(--muted); font-size: 17px; line-height: 1.35; }
+.speaker-photo { box-sizing: border-box; width: 108px; height: 108px; border: 3px solid currentColor; border-radius: 50%; background: #0a1518; box-shadow: 0 12px 32px rgba(0,0,0,.28); object-fit: cover; }
+.speaker-copy { min-width: 0; }
+.speaker-copy > span { font-size: 15px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.speaker-copy > b { display: block; margin-top: 6px; color: var(--ink); font-size: 27px; }
+.speaker-copy > small { display: block; margin-top: 6px; color: var(--muted); font-size: 17px; line-height: 1.35; }
 .speaker-handle { color: currentColor; font: 16px/1.35 "JetBrains Mono", monospace; }
 
 /* S02 */
