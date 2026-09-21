@@ -20,7 +20,7 @@ run:
 	$(COMPOSE) run --rm client
 
 fixed:
-	$(COMPOSE) run --rm --env DEMO_PROPAGATE_ENV=true client
+	$(COMPOSE) run --rm --env 'REPORT_API_URL=http://api:8080/report?propagate=true' client
 
 broken: run
 

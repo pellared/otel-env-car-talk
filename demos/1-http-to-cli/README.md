@@ -1,21 +1,24 @@
 # One Trace, Two Carriers: HTTP to a Report CLI
 
-This minimal demo shows an HTTP trace context crossing a process boundary and a
-language boundary:
+Trace context is the trace and parent-span identity that lets later work join
+the same trace. A carrier is the key-value container that transports that
+context. This demo moves the same W3C Trace Context through two carriers and
+across process and language boundaries:
 
 ```text
-Java client -- HTTP traceparent --> Go report API -- TRACEPARENT --> Python report CLI
+Java client -- HTTP headers {traceparent} --> Go report API -- child environment {TRACEPARENT} --> Python report CLI
 ```
 
-The Go API receives a standard W3C Trace Context HTTP header and starts a
-`run report.py` span. In the fixed run, it injects the active context into a
-copied child environment; the Python CLI extracts that context at startup and
-creates `build report` (including its `fetch data` and `generate pdf` children)
-beneath it.
+Java injects and Go extracts W3C Trace Context through HTTP headers. The Go API
+then starts a `run report.py` span. In the fixed run, Go injects and Python
+extracts that context through a copied child environment. The Python CLI creates
+`build report` (including its `fetch data` and `generate pdf` children) beneath
+the extracted parent.
 
-No code parses a trace ID or synthesizes a propagation format. Both programs
-use W3C Trace Context; only the carrier changes from an HTTP header named
-`traceparent` to an environment variable named `TRACEPARENT`.
+No code parses a propagation value or invents a propagation format. Both
+boundaries use the W3C Trace Context propagator; only the carrier changes. The
+environment carrier normalizes `traceparent` to `TRACEPARENT` and, when present,
+`tracestate` to `TRACESTATE`. Baggage is not configured in this demo.
 
 ## Prerequisites
 
@@ -84,16 +87,15 @@ affects that request, so no container restart is needed between the two steps.
 
 ## What to point out
 
-1. HTTP instrumentation extracts and injects `traceparent` at the network
-   boundary.
+1. Java uses the configured W3C propagator to inject trace context into HTTP
+   headers; Go's HTTP instrumentation extracts it.
 2. The application, not the OpenTelemetry SDK, is responsible for launching
    the child process.
-3. Before the launch, the Go API copies its environment and uses the configured
-   propagator with the environment carrier to write `TRACEPARENT` into that
-   copy.
-4. The Python CLI extracts once from its startup environment, then its
-   instrumentation creates `build report` with the extracted parent and the
-   nested `fetch data` and `generate pdf` spans.
+3. Before the launch, Go uses the same propagator with the environment carrier
+   to inject context into a copy of the child environment.
+4. Python extracts once from its startup environment, then its instrumentation
+   creates `build report` with the extracted parent and the nested `fetch data`
+   and `generate pdf` spans.
 
 The environment carrier transports propagation fields; it does not create
 spans or automatically start child processes.
@@ -114,6 +116,6 @@ make down  # stop this demo's containers
   propagator to inject `traceparent` into its request.
 - The Python CLI uses OpenTelemetry Python's `EnvironmentGetter` to extract
   from `os.environ` at startup.
-- The demo deliberately propagates only trace context. Do not use environment
-  propagation for secrets, and review or remove baggage before crossing a
-  trust boundary.
+- The demo configures W3C Trace Context only; baggage is not configured. Do not
+  use environment propagation for secrets. If baggage is added, review or
+  remove it before crossing a trust boundary.

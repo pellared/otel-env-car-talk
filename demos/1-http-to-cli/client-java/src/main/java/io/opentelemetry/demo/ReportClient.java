@@ -39,9 +39,6 @@ public final class ReportClient {
 
   public static void main(String[] args) throws Exception {
     String apiUrl = System.getenv().getOrDefault("REPORT_API_URL", DEFAULT_API_URL);
-    if ("true".equals(System.getenv("DEMO_PROPAGATE_ENV"))) {
-      apiUrl = enableEnvironmentPropagation(apiUrl);
-    }
     String tracesEndpoint =
         System.getenv().getOrDefault("OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", DEFAULT_TRACES_ENDPOINT);
 
@@ -111,12 +108,6 @@ public final class ReportClient {
     } finally {
       requestSpan.end();
     }
-  }
-
-  private static String enableEnvironmentPropagation(String apiUrl) {
-    URI parsed = URI.create(apiUrl);
-    String separator = parsed.getQuery() == null ? "?" : "&";
-    return apiUrl + separator + "propagate=true";
   }
 
   private static void waitForEndpoint(String rawUrl, int defaultPort, String name)
