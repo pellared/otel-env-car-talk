@@ -53,9 +53,9 @@ request report                 (Java report-client)
         └── run report.py      (report-api)
 ```
 
-The Python process logs a different trace ID and exports `build report` as a
-separate root trace. This is the familiar broken-trace problem at a process
-boundary.
+The Python process reports that no `TRACEPARENT` was found and exports
+`build report` as a separate root trace. This is the familiar broken-trace
+problem at a process boundary.
 
 ### Then: apply the environment-carrier fix
 
