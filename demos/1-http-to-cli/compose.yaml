@@ -1,0 +1,33 @@
+name: http-to-cli
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:1.76.0
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+
+  api:
+    build:
+      context: .
+      target: api
+    command: ["/usr/local/bin/report-api"]
+    depends_on:
+      - jaeger
+    environment:
+      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://jaeger:4318/v1/traces
+    ports:
+      - "8080:8080"
+
+  client:
+    build:
+      context: .
+      target: client
+    depends_on:
+      - api
+    environment:
+      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://jaeger:4318/v1/traces
+      REPORT_API_URL: http://api:8080/report
+    profiles:
+      - manual
