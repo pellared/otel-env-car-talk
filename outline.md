@@ -53,3 +53,35 @@ Practitioner: Python instrumentation then creates `build report` using that extr
 Practitioner: In the captured fixed run, Jaeger shows seven spans from three services under one trace. We can now see the CLI’s `build report`, `fetch data`, and `generate pdf` work under `run report.py`. That visibility comes from preserving parentage across the spawn, not from the environment variable creating spans.
 
 Theoretician: Same trace context, same propagator, and a carrier suited to the boundary.
+
+# S11: Tracing a workflow
+
+Practitioner: Here is the dream. A workflow is a graph of steps: A runs first, B and C run in parallel once A finishes, and D waits for both. If the workflow were a trace, it would look like this. One span for the workflow itself, from submission to completion. One span per step, each a child of the workflow, sitting exactly where it ran. You can read the graph straight off the bars: B and C overlap because they ran together, and D starts when the longer of them finishes. That is the promise. The orchestrator’s view and the timing view become one picture.
+
+# S12: Inside the pods
+
+Practitioner: Every step runs in a Kubernetes pod. The bars from the last slide are the controller’s view of each step: from the moment it created the pod to the moment it noticed the pod had finished. Inside each pod something actually ran, and that deserves a span of its own. It starts later, because the pod had to be scheduled and its image pulled. It ends earlier, because the controller only notices completion on its next reconcile. On a quiet cluster the two bars almost coincide. On a stressed cluster they drift apart markedly, and the gap is exactly the time the workflow spent waiting on Kubernetes rather than doing work. I want to see both.
+
+Theoretician: Which means the trace context has to reach the inside of the pod.
+
+# S13: What the workload did
+
+Practitioner: Zoom into one step. The controller’s view, the pod’s view, and now, inside the pod, what the user’s workload actually did: three spans it emitted itself, named observability, summit, and prague. This is the layer that matters to the person who wrote the workflow, and the platform knows nothing about it. It only appears if the workload’s own instrumentation joins the same trace. Three layers, three owners: the controller, the executor in the pod, and the user’s code. One trace.
+
+Theoretician: Three process boundaries, and not one of them is an HTTP request.
+
+# S14: One step, three spans of its own
+
+Practitioner: This is demo 2 as Argo sees it: a workflow with a single step, so a single pod. And this is everything that pod runs. Three otel-cli commands, each emitting one span, named after this conference. And an echo of TRACEPARENT, purely so you can see the variable is there. Notice what is missing. Nothing in this workflow mentions tracing. Nobody named a propagator or configured an SDK. otel-cli is an off-the-shelf tool that reads its environment, and that is all it needs.
+
+# S15: The workload joins the workflow’s trace
+
+Practitioner: Here is the trace. The workflow span at the top belongs to the controller. Under it, the node, then creating the pod. Then argoexec, the executor inside the pod: runInitContainer, runWaitContainer, and runMainContainer. And under runMainContainer, the three spans the workload emitted: observability, summit, prague, three seconds, five, four. This is the third dream slide, for real. Notice where the workload spans hang. Not off the node, off runMainContainer. That tells you there were two injections, not one. The controller injected its context into the pod’s environment. Then the executor started its own span and injected again, into the environment of the process it launched. Two carrier hops, and the workflow author wrote neither of them.
+
+Theoretician: The propagator never changed. Only the carrier did, and it was the same carrier both times.
+
+# S16: Two injections, one carrier
+
+Practitioner: Two handoffs, and here they are, working outward from the workload. The nearer one is inside the pod. argoexec extracts the trace context from its own environment, starts the runMainContainer span, and injects again, into its process environment, upper-casing the key, immediately before it execs the user’s command. That is why the workload’s spans hang off runMainContainer. Now one level out: where did argoexec’s environment come from? From the workflow-controller, when it built the pod spec. It ran the same W3C propagator against a carrier whose Set method appends a Kubernetes environment variable, so every container in the pod is born with TRACEPARENT. That is the entire mechanism. Same propagator in both places. The carrier is the environment both times.
+
+Theoretician: Note what Argo did not do. It did not invent a format or parse a value. It reused W3C Trace Context and changed only where the fields travel. Upper-casing the key is the one rule the environment carrier adds, and it is the same rule demo 1’s Go launcher followed.

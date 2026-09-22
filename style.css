@@ -13,6 +13,12 @@
   --service-client: #087f8c;
   --service-api: #585fc0;
   --service-cli: #a9612a;
+  --service-workflow: #585fc0;
+  --service-node: #087f8c;
+  --pod-a: #a9612a;
+  --pod-b: #2f7d4f;
+  --pod-c: #b0397a;
+  --pod-d: #8a6d00;
   --timeline-track: #e8e8e8;
 }
 
@@ -35,6 +41,12 @@ html.dark {
   --service-client: #5cd4dc;
   --service-api: #aab4ff;
   --service-cli: #f2ad70;
+  --service-workflow: #aab4ff;
+  --service-node: #5cd4dc;
+  --pod-a: #f2ad70;
+  --pod-b: #7ed4a0;
+  --pod-c: #f090c8;
+  --pod-d: #e6c84a;
   --timeline-track: #343434;
   color-scheme: dark;
 }
@@ -1139,4 +1151,276 @@ body,
   .slidev-layout {
     background: var(--background) !important;
   }
+}
+
+/* S11 */
+.dream-model {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 72px;
+  align-items: center;
+}
+
+.dream-dag,
+.dream-trace {
+  display: grid;
+  gap: 16px;
+}
+
+.dream-dag > span,
+.dream-trace > span {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dag-figure {
+  width: 300px;
+  height: 340px;
+  overflow: visible;
+}
+
+.dag-figure .dag-edge {
+  fill: none;
+  stroke: var(--muted);
+  stroke-width: 2.5;
+  marker-end: url(#dag-arrow);
+}
+
+.dag-figure .dag-arrowhead {
+  fill: var(--muted);
+}
+
+.dag-figure .dag-node {
+  fill: var(--background);
+  stroke: var(--service-node);
+  stroke-width: 4;
+}
+
+.dag-figure .dag-label {
+  fill: var(--ink);
+  font: 700 30px/1 Inter, Aptos, "Segoe UI", Arial, sans-serif;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+.dream-trace .span-tree {
+  padding-top: 0;
+}
+
+.dream-trace .span-axis,
+.dream-trace .span-row {
+  grid-template-columns: 30px minmax(0, 1fr) 96px 330px;
+}
+
+.dream-trace .span-row {
+  min-height: 52px;
+}
+
+.dream-trace .span-row b {
+  font-size: 20px;
+}
+
+.dream-trace .span-row i {
+  height: 12px;
+}
+
+.span-row.service-workflow {
+  --service-color: var(--service-workflow);
+}
+
+.span-row.service-node {
+  --service-color: var(--service-node);
+}
+
+.dream-principle {
+  margin-top: 6px !important;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* S12 */
+.dream-pods .span-row {
+  min-height: 42px;
+}
+
+.dream-pods .span-row b {
+  font-size: 18px;
+}
+
+.dream-pods .span-row i {
+  height: 10px;
+}
+
+.dream-pods .span-row.depth-2 b {
+  font-weight: 600;
+}
+
+.span-row.service-pod-a {
+  --service-color: var(--pod-a);
+}
+
+.span-row.service-pod-b {
+  --service-color: var(--pod-b);
+}
+
+.span-row.service-pod-c {
+  --service-color: var(--pod-c);
+}
+
+.span-row.service-pod-d {
+  --service-color: var(--pod-d);
+}
+
+.dream-principle small {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* S13 */
+.dag-figure .dag-dim {
+  opacity: 0.28;
+}
+
+.span-row.service-workload {
+  --service-color: var(--ink);
+}
+
+.dream-pods .span-row.depth-3 b {
+  font-weight: 600;
+}
+
+/* S14 */
+.demo2-model {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 560px;
+  gap: 52px;
+  align-items: center;
+}
+
+.demo2-model .trace-screenshot img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  object-position: 57.5% 0; /* left edge lands on the gap before LOGS */
+}
+
+.demo2-model figcaption,
+.snippet-caption {
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.35;
+}
+
+.demo2-model figcaption b,
+.snippet-caption b {
+  color: var(--ink);
+}
+
+.code-snippet {
+  margin: 0;
+  padding: 22px 26px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--ink);
+  background: var(--placeholder);
+  color: var(--ink);
+  font: 500 17px/1.7 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  white-space: pre;
+  overflow: hidden;
+}
+
+.code-snippet .tok-muted {
+  color: var(--muted);
+}
+
+.code-snippet .tok-name {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.code-snippet .tok-env {
+  color: var(--warm);
+  font-weight: 700;
+}
+
+/* S16 */
+.inject-model {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: start;
+}
+
+.inject-step {
+  display: grid;
+  gap: 12px;
+}
+
+.inject-step > span {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.inject-step strong {
+  color: var(--ink);
+  font-size: 23px;
+  line-height: 1.1;
+}
+
+.inject-step .source-path {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.inject-model .code-snippet {
+  font-size: 14.5px;
+  line-height: 1.55;
+  padding: 18px 22px;
+}
+
+.inject-model .code-snippet .tok-kw {
+  color: var(--service-api);
+  font-weight: 700;
+}
+
+.inject-model .code-snippet .tok-fn {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.inject-step .code-snippet + small {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.inject-principle {
+  margin-top: 22px !important;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 19px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* S15 */
+.demo2-result .trace-screenshot img {
+  width: 100%;
+  height: 432px;
+  object-fit: cover;
+  /* keep the header stats line and the runMainContainer subtree near the bottom */
+  object-position: 50% 31%;
 }
