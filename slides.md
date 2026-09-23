@@ -889,3 +889,137 @@ Delivery notes:
 - Evidence: Playwright capture of the same Jaeger trace, collapsed to the path down to BuildKit’s `Solve` span and zoomed to 14.0–27.7 s with the minimap range selection; `cache request` rows are BuildKit’s own and left in.
 - Sources: demos/3-argo-to-buildkit/README.md.
 -->
+
+---
+layout: default
+id: S20
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>Lineage, hands off</h1>
+  </header>
+  <div class="lineage-intro">
+    <div class="lineage-roles">
+      <div><span>Platform team</span>wants data lineage</div>
+      <div><span>Data scientists</span>own the code</div>
+    </div>
+    <figure class="trace-screenshot dag-wide">
+      <img src="/demo-4/argo-dag.png" alt="Argo Workflows UI: setup, then customer-ltv and daily-revenue in parallel, then exec-summary, report and lineage">
+    </figure>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Demo 4 is a real one. A platform team wanted data lineage: which tables fed which. But the pipelines belonged to their data scientists, ordinary Python against Postgres, and the platform team could not rewrite that code. This is a stand-in for their pipeline: set up the tables, build two derived tables in parallel, join them into a summary, report on it. And one extra step at the end we’ll come back to.
+
+Delivery notes:
+- Time: 00:30.
+- Handoff: None.
+- Evidence: Playwright capture of the local Argo Workflows UI for the demo 4 workflow, horizontal layout, artifact nodes hidden.
+- Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/workflow.yaml.
+-->
+
+---
+layout: default
+id: S21
+---
+
+<div class="demo-slide evidence-slide connected-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>Every query is a span</h1>
+  </header>
+  <figure class="trace-screenshot connected-trace">
+    <div class="trace-crop crop-sql">
+      <img src="/demo-4/trace-sql.png" alt="Jaeger: customer_ltv and exec_summary INSERT spans under their runMainContainer spans, with the exec_summary span expanded to show its db.statement and otel.scope.name opentelemetry.instrumentation.psycopg">
+    </div>
+    <figcaption>
+      <strong>No tracing code</strong>
+      <span>psycopg, auto-instrumented</span>
+    </figcaption>
+  </figure>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: The data scientists’ code has no OpenTelemetry in it at all. The operator auto-instruments the Python and its Postgres driver, so every statement becomes a span, and the SQL rides along as db.statement. Each INSERT sits under its stage’s runMainContainer, in the workflow’s trace, because a small platform-owned wrapper reads TRACEPARENT from the environment. And look at the SQL: exec_summary reads from daily_revenue and customer_ltv. That is the lineage, sitting in the trace.
+
+Delivery notes:
+- Time: 00:45.
+- Handoff: None.
+- Point at: the highlighted INSERT rows, then `db.statement` on `exec_summary` naming both upstream tables, then `otel.scope.name: opentelemetry.instrumentation.psycopg`.
+- Evidence: Playwright capture of the local Jaeger trace with Jaeger’s own service filter pruning the pod-level executor services and the setup, report and lineage stages (the “spans pruned” rows are Jaeger’s), rows collapsed to the stage path, INSERT highlighted with Find, and the exec_summary INSERT expanded.
+- The wrapper: Python auto-instrumentation does not extract TRACEPARENT from the environment, so demos/4-argo-to-python-sql/datasci/tracectx.py does it with EnvironmentGetter. Mention only if asked, or keep for the next slide.
+- Sources: demos/4-argo-to-python-sql/README.md.
+-->
+
+---
+layout: default
+id: S22
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>The lineage, from the trace</h1>
+  </header>
+  <div class="lineage-result">
+    <figure class="trace-screenshot artifact-shot">
+      <img src="/demo-4/argo-artifacts.png" alt="Argo Workflows UI artifact panel rendering the lineage-report artifact, lineage.html, with its trace id and lineage graph">
+    </figure>
+    <figure class="trace-screenshot lineage-graph">
+      <img src="/demo-4/lineage.svg" alt="Lineage graph: orders and order_items feed daily_revenue; customers, orders and order_items feed customer_ltv; both feed exec_summary, which report reads">
+    </figure>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: The last step reads this workflow’s own trace back out of Jaeger, parses the SQL on every span, and draws the lineage. It is published as an ordinary workflow artifact, so it sits right there in the Argo UI. Orders and order items feed daily revenue. Customers, orders and order items feed customer lifetime value. Both feed the summary, and the report reads it. The data scientists changed nothing. And notice what is missing: the warehouse has a products table, and it is not here, because nothing read it. This is what the pipeline actually did, not what the schema says it might.
+
+Theoretician: And all of it hangs together only because one environment variable carried the trace into each pod.
+
+Delivery notes:
+- Time: 00:45.
+- Handoff: Practitioner to Theoretician for the final 00:05.
+- Point at: the lineage-report artifact panel in Argo (the trace id under the heading), then the enlarged graph; call out that `products` is absent.
+- Evidence: Left, Playwright capture of the local Argo Workflows UI artifact panel rendering lineage.html. Right, the SVG extracted verbatim from the workflow’s lineage-report artifact.
+- If asked about DDL: the setup step’s DROP and CREATE statements are in the trace but produce no edges, because DDL moves no data between tables.
+- Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/datasci/lineage.py.
+-->
+
+---
+layout: default
+id: S23
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>Python reads the carrier too</h1>
+  </header>
+  <div class="py-carrier">
+    <pre class="code-snippet"><span class="tok-kw">from</span> opentelemetry.propagators._envcarrier <span class="tok-kw">import</span> EnvironmentGetter
+ctx = <span class="tok-fn">extract</span>(os.environ, getter=EnvironmentGetter())
+context.<span class="tok-fn">attach</span>(ctx) <span class="tok-muted"># <span class="tok-env">TRACEPARENT</span> becomes the parent</span>
+runpy.<span class="tok-fn">run_path</span>(script, run_name=<span class="tok-name">"__main__"</span>)</pre>
+    <pre class="code-snippet py-command">command: [python, -m, <span class="tok-name">tracectx</span>]  <span class="tok-muted"># wraps the untouched pipeline</span></pre>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Theoretician: Here is the catch. The operator's Python auto-instrumentation installs the SDK and instruments psycopg, but it never looks at the environment for a parent. Without help, every query would start a new trace. The fix is a few lines the platform owns: extract the context from the environment with the SDK's own environment getter, attach it, then run the data scientist's script unchanged. Same carrier as the Go side, just read in Python.
+
+Delivery notes:
+- Time: 00:40.
+- Handoff: none; Theoretician continues from the S22 handoff.
+- Point at: `os.environ` in the extract call, then the `command` line, to show the pipeline itself is untouched.
+- Condensed: the real file adds a fallback if `_envcarrier` moves, and argv handling; this shows only the propagation.
+- If asked why a private module: `_envcarrier` ships in opentelemetry-api and its docstring names child-process initialisation as its use; nothing in auto-instrumentation calls it yet.
+- If asked about uppercase keys: EnvironmentGetter maps `traceparent` to `TRACEPARENT`, matching Argo's Go carrier.
+- Sources: demos/4-argo-to-python-sql/datasci/tracectx.py; demos/4-argo-to-python-sql/datasci-lineage-trace.yaml.
+-->

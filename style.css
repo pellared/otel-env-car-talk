@@ -1430,3 +1430,120 @@ body,
   margin: -232px 0 0 -455px;
   border: 0;
 }
+
+/* S20 */
+.lineage-intro {
+  display: grid;
+  gap: 34px;
+  align-content: center;
+}
+
+.lineage-roles {
+  display: flex;
+  gap: 56px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.lineage-roles span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Horizontal Argo DAG: source x 380-1110, y 180-400, scaled 1.5. */
+.dag-wide {
+  justify-self: center;
+  width: 1095px;
+  height: 330px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.dag-wide img {
+  width: 2250px;
+  max-width: none;
+  margin: -270px 0 0 -570px;
+  border: 0;
+}
+
+/* S21: source y 420-1105 (customer_ltv INSERT through otel.scope.name), scaled 0.672. */
+.crop-sql {
+  height: 460px;
+}
+
+.crop-sql img {
+  width: 1075px;
+  top: -282px;
+  left: 26px;
+}
+
+/* S22 */
+.lineage-result {
+  display: grid;
+  align-self: center;
+  grid-template-columns: 450px minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+/* Argo's artifact panel rendering lineage.html: source x 955-1481, y 150-688, scaled 0.855. */
+.artifact-shot {
+  width: 450px;
+  height: 460px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.artifact-shot img {
+  width: 1283px;
+  max-width: none;
+  margin: -128px 0 0 -816px;
+  border: 0;
+}
+
+.lineage-graph {
+  align-self: center;
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.lineage-graph img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+}
+
+/* S23 */
+.py-carrier {
+  display: grid;
+  align-self: center;
+  gap: 22px;
+}
+
+.py-carrier .code-snippet {
+  font-size: 21px;
+}
+
+.py-carrier .code-snippet .tok-kw {
+  color: var(--service-api);
+  font-weight: 700;
+}
+
+.py-carrier .code-snippet .tok-fn {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.py-carrier .py-command {
+  justify-self: start;
+  border-top-color: var(--accent);
+}

@@ -99,3 +99,21 @@ Practitioner: Demo 3 is a two-step build. The first step clones a repository, an
 Practitioner: The second step runs BuildKit, which is instrumented. It reads the same TRACEPARENT from the same place, and this is what comes back: about two hundred and fifty spans, all under the step’s runMainContainer. You can read the Dockerfile off it. Three base images resolve and pull at the same moment, because nothing makes them wait for each other. The Go and Node builders run side by side. The three-second Go build is the long bar. And the final stage waits for both, then copies their output in.
 
 Theoretician: Same carrier as the git step. The difference is entirely on the reading side: BuildKit extracts, git doesn’t.
+
+# S20: Lineage, hands off
+
+Practitioner: Demo 4 is a real one. A platform team wanted data lineage: which tables fed which. But the pipelines belonged to their data scientists, ordinary Python against Postgres, and the platform team could not rewrite that code. This is a stand-in for their pipeline: set up the tables, build two derived tables in parallel, join them into a summary, report on it. And one extra step at the end we’ll come back to.
+
+# S21: Every query is a span
+
+Practitioner: The data scientists’ code has no OpenTelemetry in it at all. The operator auto-instruments the Python and its Postgres driver, so every statement becomes a span, and the SQL rides along as db.statement. Each INSERT sits under its stage’s runMainContainer, in the workflow’s trace, because a small platform-owned wrapper reads TRACEPARENT from the environment. And look at the SQL: exec_summary reads from daily_revenue and customer_ltv. That is the lineage, sitting in the trace.
+
+# S22: The lineage, from the trace
+
+Practitioner: The last step reads this workflow’s own trace back out of Jaeger, parses the SQL on every span, and draws the lineage. It is published as an ordinary workflow artifact, so it sits right there in the Argo UI. Orders and order items feed daily revenue. Customers, orders and order items feed customer lifetime value. Both feed the summary, and the report reads it. The data scientists changed nothing. And notice what is missing: the warehouse has a products table, and it is not here, because nothing read it. This is what the pipeline actually did, not what the schema says it might.
+
+Theoretician: And all of it hangs together only because one environment variable carried the trace into each pod.
+
+# S23: Python reads the carrier too
+
+Theoretician: Here is the catch. The operator's Python auto-instrumentation installs the SDK and instruments psycopg, but it never looks at the environment for a parent. Without help, every query would start a new trace. The fix is a few lines the platform owns: extract the context from the environment with the SDK's own environment getter, attach it, then run the data scientist's script unchanged. Same carrier as the Go side, just read in Python.
