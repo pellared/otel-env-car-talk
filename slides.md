@@ -487,3 +487,314 @@ Delivery notes:
 - Fallback: Use the complete native span tree on S06 and the process handoff on S09.
 - Sources: demos/1-http-to-cli/README.md; demos/1-http-to-cli/cmd/report-api/main.go; demos/1-http-to-cli/python/report.py.
 -->
+
+---
+layout: default
+id: S11
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>The dream</p>
+    <h1>Tracing a workflow</h1>
+  </header>
+  <div class="dream-model">
+    <div class="dream-dag">
+      <svg class="dag-figure" viewBox="0 0 300 340" role="img" aria-label="Diamond DAG: A, then B and C in parallel, then D">
+        <defs>
+          <marker id="dag-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path class="dag-arrowhead" d="M 0 0 L 10 5 L 0 10 z"></path>
+          </marker>
+        </defs>
+        <line class="dag-edge" x1="130" y1="68"  x2="72"  y2="132"></line>
+        <line class="dag-edge" x1="170" y1="68"  x2="228" y2="132"></line>
+        <line class="dag-edge" x1="72"  y1="208" x2="130" y2="272"></line>
+        <line class="dag-edge" x1="228" y1="208" x2="170" y2="272"></line>
+        <circle class="dag-node" cx="150" cy="40"  r="32"></circle>
+        <circle class="dag-node" cx="50"  cy="170" r="32"></circle>
+        <circle class="dag-node" cx="250" cy="170" r="32"></circle>
+        <circle class="dag-node" cx="150" cy="300" r="32"></circle>
+        <text class="dag-label" x="150" y="40">A</text>
+        <text class="dag-label" x="50"  y="170">B</text>
+        <text class="dag-label" x="250" y="170">C</text>
+        <text class="dag-label" x="150" y="300">D</text>
+      </svg>
+    </div>
+    <div class="dream-trace">
+      <div class="span-tree" aria-label="Workflow span with four child step spans">
+        <div class="span-axis" aria-hidden="true">
+          <span>Trace time</span>
+          <div><b>submit</b><b>done</b></div>
+        </div>
+        <div class="span-row service-workflow depth-0"><b>workflow</b><span>orchestrator</span><i style="--start: 0%; --duration: 100%"></i></div>
+        <div class="span-row service-node depth-1"><em>├─</em><b>A</b><span>step</span><i style="--start: 3%; --duration: 20%"></i></div>
+        <div class="span-row service-node depth-1"><em>├─</em><b>B</b><span>step</span><i style="--start: 25%; --duration: 38%"></i></div>
+        <div class="span-row service-node depth-1"><em>├─</em><b>C</b><span>step</span><i style="--start: 25%; --duration: 19%"></i></div>
+        <div class="span-row service-node depth-1"><em>└─</em><b>D</b><span>step</span><i style="--start: 65%; --duration: 32%"></i></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Here is the dream. A workflow is a graph of steps: A runs first, B and C run in parallel once A finishes, and D waits for both. If the workflow were a trace, it would look like this. One span for the workflow itself, from submission to completion. One span per step, each a child of the workflow, sitting exactly where it ran. You can read the graph straight off the bars: B and C overlap because they ran together, and D starts when the longer of them finishes. That is the promise. The orchestrator’s view and the timing view become one picture.
+
+Delivery notes:
+- Time: 00:40.
+- Handoff: None.
+- Visual key: The orchestrator’s span uses the API color; step spans use the client color. Same trace timeline conventions as S06: position is start time, length is duration.
+- Sources: Argo Workflows DAG templates, https://argo-workflows.readthedocs.io/en/latest/walk-through/dag/.
+-->
+
+---
+layout: default
+id: S12
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>The dream</p>
+    <h1>Inside the pods</h1>
+  </header>
+  <div class="dream-model">
+    <div class="dream-dag">
+      <svg class="dag-figure" viewBox="0 0 300 340" role="img" aria-label="Diamond DAG: A, then B and C in parallel, then D, each step a pod">
+        <defs>
+          <marker id="dag-arrow-2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path class="dag-arrowhead" d="M 0 0 L 10 5 L 0 10 z"></path>
+          </marker>
+        </defs>
+        <line class="dag-edge" style="marker-end: url(#dag-arrow-2)" x1="130" y1="68"  x2="72"  y2="132"></line>
+        <line class="dag-edge" style="marker-end: url(#dag-arrow-2)" x1="170" y1="68"  x2="228" y2="132"></line>
+        <line class="dag-edge" style="marker-end: url(#dag-arrow-2)" x1="72"  y1="208" x2="130" y2="272"></line>
+        <line class="dag-edge" style="marker-end: url(#dag-arrow-2)" x1="228" y1="208" x2="170" y2="272"></line>
+        <circle class="dag-node" style="stroke: var(--pod-a)" cx="150" cy="40"  r="32"></circle>
+        <circle class="dag-node" style="stroke: var(--pod-b)" cx="50"  cy="170" r="32"></circle>
+        <circle class="dag-node" style="stroke: var(--pod-c)" cx="250" cy="170" r="32"></circle>
+        <circle class="dag-node" style="stroke: var(--pod-d)" cx="150" cy="300" r="32"></circle>
+        <text class="dag-label" x="150" y="40">A</text>
+        <text class="dag-label" x="50"  y="170">B</text>
+        <text class="dag-label" x="250" y="170">C</text>
+        <text class="dag-label" x="150" y="300">D</text>
+      </svg>
+    </div>
+    <div class="dream-trace dream-pods">
+      <div class="span-tree" aria-label="Workflow span, four controller step spans, and a pod span nested under each">
+        <div class="span-axis" aria-hidden="true">
+          <span>Trace time</span>
+          <div><b>submit</b><b>done</b></div>
+        </div>
+        <div class="span-row service-workflow depth-0"><b>workflow</b><span>orchestrator</span><i style="--start: 0%; --duration: 100%"></i></div>
+        <div class="span-row service-node depth-1"><em>├─</em><b>A</b><span>controller</span><i style="--start: 3%; --duration: 20%"></i></div>
+        <div class="span-row service-pod-a depth-2"><em>└─</em><b>A</b><span>pod</span><i style="--start: 7%; --duration: 14%"></i></div>
+        <div class="span-row service-node depth-1"><em>├─</em><b>B</b><span>controller</span><i style="--start: 25%; --duration: 38%"></i></div>
+        <div class="span-row service-pod-b depth-2"><em>└─</em><b>B</b><span>pod</span><i style="--start: 29%; --duration: 31%"></i></div>
+        <div class="span-row service-node depth-1"><em>├─</em><b>C</b><span>controller</span><i style="--start: 25%; --duration: 19%"></i></div>
+        <div class="span-row service-pod-c depth-2"><em>└─</em><b>C</b><span>pod</span><i style="--start: 30%; --duration: 12%"></i></div>
+        <div class="span-row service-node depth-1"><em>└─</em><b>D</b><span>controller</span><i style="--start: 65%; --duration: 32%"></i></div>
+        <div class="span-row service-pod-d depth-2"><em>└─</em><b>D</b><span>pod</span><i style="--start: 70%; --duration: 25%"></i></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Every step runs in a Kubernetes pod. The bars from the last slide are the controller’s view of each step: from the moment it created the pod to the moment it noticed the pod had finished. Inside each pod something actually ran, and that deserves a span of its own. It starts later, because the pod had to be scheduled and its image pulled. It ends earlier, because the controller only notices completion on its next reconcile. On a quiet cluster the two bars almost coincide. On a stressed cluster they drift apart markedly, and the gap is exactly the time the workflow spent waiting on Kubernetes rather than doing work. I want to see both.
+
+Theoretician: Which means the trace context has to reach the inside of the pod.
+
+Delivery notes:
+- Time: 00:45.
+- Handoff: Practitioner to Theoretician for the final 00:05, which sets up the carrier question.
+- Visual key: The step bars keep the S11 color and are relabelled "controller". Each pod span has its own color, because in Jaeger each pod is its own service. The DAG nodes take the pod colors to tie the two halves together.
+- Sources: Argo Workflows architecture, https://argo-workflows.readthedocs.io/en/latest/architecture/.
+-->
+
+---
+layout: default
+id: S13
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>The dream</p>
+    <h1>What the workload did</h1>
+  </header>
+  <div class="dream-model">
+    <div class="dream-dag">
+      <svg class="dag-figure" viewBox="0 0 300 340" role="img" aria-label="Diamond DAG with step A highlighted and B, C, D dimmed">
+        <defs>
+          <marker id="dag-arrow-3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path class="dag-arrowhead" d="M 0 0 L 10 5 L 0 10 z"></path>
+          </marker>
+        </defs>
+        <g class="dag-dim">
+          <line class="dag-edge" style="marker-end: url(#dag-arrow-3)" x1="130" y1="68"  x2="72"  y2="132"></line>
+          <line class="dag-edge" style="marker-end: url(#dag-arrow-3)" x1="170" y1="68"  x2="228" y2="132"></line>
+          <line class="dag-edge" style="marker-end: url(#dag-arrow-3)" x1="72"  y1="208" x2="130" y2="272"></line>
+          <line class="dag-edge" style="marker-end: url(#dag-arrow-3)" x1="228" y1="208" x2="170" y2="272"></line>
+          <circle class="dag-node" style="stroke: var(--pod-b)" cx="50"  cy="170" r="32"></circle>
+          <circle class="dag-node" style="stroke: var(--pod-c)" cx="250" cy="170" r="32"></circle>
+          <circle class="dag-node" style="stroke: var(--pod-d)" cx="150" cy="300" r="32"></circle>
+          <text class="dag-label" x="50"  y="170">B</text>
+          <text class="dag-label" x="250" y="170">C</text>
+          <text class="dag-label" x="150" y="300">D</text>
+        </g>
+        <circle class="dag-node" style="stroke: var(--pod-a)" cx="150" cy="40" r="32"></circle>
+        <text class="dag-label" x="150" y="40">A</text>
+      </svg>
+    </div>
+    <div class="dream-trace dream-pods">
+      <div class="span-tree" aria-label="Step A: controller span, pod span, and three workload spans nested inside">
+        <div class="span-axis" aria-hidden="true">
+          <span>Trace time</span>
+          <div><b>pod created</b><b>pod finished</b></div>
+        </div>
+        <div class="span-row service-node depth-0"><b>A</b><span>controller</span><i style="--start: 0%; --duration: 100%"></i></div>
+        <div class="span-row service-pod-a depth-1"><em>└─</em><b>A</b><span>pod</span><i style="--start: 20%; --duration: 70%"></i></div>
+        <div class="span-row service-workload depth-2"><em>├─</em><b>observability</b><span>workload</span><i style="--start: 22%; --duration: 16.5%"></i></div>
+        <div class="span-row service-workload depth-2"><em>├─</em><b>summit</b><span>workload</span><i style="--start: 39%; --duration: 27.5%"></i></div>
+        <div class="span-row service-workload depth-2"><em>└─</em><b>prague</b><span>workload</span><i style="--start: 67%; --duration: 22%"></i></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Zoom into one step. The controller’s view, the pod’s view, and now, inside the pod, what the user’s workload actually did: three spans it emitted itself, named observability, summit, and prague. This is the layer that matters to the person who wrote the workflow, and the platform knows nothing about it. It only appears if the workload’s own instrumentation joins the same trace. Three layers, three owners: the controller, the executor in the pod, and the user’s code. One trace.
+
+Theoretician: Three process boundaries, and not one of them is an HTTP request.
+
+Delivery notes:
+- Time: 00:40.
+- Handoff: Practitioner to Theoretician for the final 00:05, which lands the carrier problem.
+- Visual key: The controller and pod colors carry over from S12. Workload spans use the ink color to mark them as the user’s own code rather than a platform layer. In Jaeger they would share the pod’s service color; the distinction here is a teaching device.
+- Sources: demos/2-argo-to-otel-cli/README.md.
+-->
+
+---
+layout: default
+id: S14
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 2</p>
+    <h1>One step, three spans</h1>
+  </header>
+  <div class="demo2-model">
+    <figure class="trace-screenshot">
+      <img src="/demo-2/argo-dag.png" alt="Argo Workflows UI showing the otel-cli workflow: a single succeeded step">
+    </figure>
+    <div>
+      <pre class="code-snippet">echo "TRACEPARENT: <span class="tok-env">${TRACEPARENT}</span>"
+/otel-cli exec --name <span class="tok-name">observability</span> -- sleep 3
+/otel-cli exec --name <span class="tok-name">summit</span>        -- sleep 5
+/otel-cli exec --name <span class="tok-name">prague</span>        -- sleep 4</pre>
+    </div>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: This is demo 2 as Argo sees it: a workflow with a single step, so a single pod. And this is everything that pod runs. Three otel-cli commands, each emitting one span, named after this conference. And an echo of TRACEPARENT, purely so you can see the variable is there. Notice what is missing. Nothing in this workflow mentions tracing. Nobody named a propagator or configured an SDK. otel-cli is an off-the-shelf tool that reads its environment, and that is all it needs.
+
+Delivery notes:
+- Time: 00:40.
+- Handoff: None.
+- Evidence: Playwright capture of the local Argo Workflows UI for the demo 2 workflow.
+- Fallback: Read the snippet aloud; the DAG is a single node and needs no picture to be understood.
+- Sources: demos/2-argo-to-otel-cli/workflow.yaml; demos/2-argo-to-otel-cli/README.md.
+-->
+
+---
+layout: default
+id: S15
+---
+
+<div class="demo-slide evidence-slide connected-slide demo2-result">
+  <header class="demo-heading">
+    <p>Demo 2</p>
+    <h1>The workload joins the trace</h1>
+  </header>
+  <figure class="trace-screenshot connected-trace">
+    <img src="/demo-2/trace-jaeger.png" alt="Jaeger trace showing observability, summit and prague spans nested under runMainContainer inside the workflow trace">
+    <figcaption>
+      <strong>1 trace</strong>
+      <span>49 spans across 2 services</span>
+    </figcaption>
+  </figure>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Here is the trace. The workflow span at the top belongs to the controller. Under it, the node, then creating the pod. Then argoexec, the executor inside the pod: runInitContainer, runWaitContainer, and runMainContainer. And under runMainContainer, the three spans the workload emitted: observability, summit, prague, three seconds, five, four. This is the third dream slide, for real. Notice where the workload spans hang. Not off the node, off runMainContainer. That tells you there were two injections, not one. The controller injected its context into the pod’s environment. Then the executor started its own span and injected again, into the environment of the process it launched. Two carrier hops, and the workflow author wrote neither of them.
+
+Theoretician: The propagator never changed. Only the carrier did, and it was the same carrier both times.
+
+Delivery notes:
+- Time: 00:45.
+- Handoff: Practitioner to Theoretician for the final 00:10.
+- Expected result: 49 spans, one root `workflow` span from `workflow-controller`, and `observability`, `summit`, `prague` as children of `runMainContainer`.
+- Evidence: Playwright capture of the local Jaeger UI, scrolled to the runMainContainer subtree.
+- Fallback: The S13 dream slide is the same tree drawn by hand.
+- Sources: demos/2-argo-to-otel-cli/README.md.
+-->
+
+---
+layout: default
+id: S16
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 2</p>
+    <h1>Two injections</h1>
+  </header>
+  <div>
+    <div class="inject-model">
+      <div class="inject-step">
+        <strong>argoexec → workload</strong>
+        <pre class="code-snippet">ctx, span := tracer.<span class="tok-fn">StartRunMainContainer</span>(ctx, …)
+<span class="tok-kw">defer</span> span.End()
+env := os.Environ()
+carrier := &amp;envcar.Carrier{
+    SetEnvFunc: <span class="tok-kw">func</span>(key, value string) {
+        env = setEnvVar(env, key, value)
+    },
+}
+propagation.TraceContext{}.<span class="tok-fn">Inject</span>(ctx, carrier)
+cmd := exec.CommandContext(ctx, name, args...)
+cmd.Env = env <span class="tok-muted">// the child’s env, not argoexec’s</span></pre>
+      </div>
+      <div class="inject-step">
+        <strong>controller → pod</strong>
+        <pre class="code-snippet">carrier := telemetry.Carrier{
+    SetEnvFunc: <span class="tok-kw">func</span>(key, value string) {
+        envVars = append(envVars,
+            apiv1.EnvVar{Name: key, Value: value})
+    },
+}
+propagation.TraceContext{}.<span class="tok-fn">Inject</span>(ctx, carrier)
+<span class="tok-muted">// TRACEPARENT=00-&lt;trace&gt;-&lt;span&gt;-01</span></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Two handoffs, and here they are, working outward from the workload. The nearer one is inside the pod. argoexec starts the runMainContainer span, then injects again with the OpenTelemetry environment carrier, the same envcar package demo 1’s Go launcher used, into a copy of the environment it hands only to the user’s command. Its own environment stays exactly as the pod spec set it. That is why the workload’s spans hang off runMainContainer. Now one level out: where did argoexec’s environment come from? From the workflow-controller, when it built the pod spec. It ran the same W3C propagator against a carrier whose Set method appends a Kubernetes environment variable, so every container in the pod is born with TRACEPARENT. That is the entire mechanism. Same propagator in both places. The carrier is the environment both times.
+
+Theoretician: Note what Argo did not do. It did not invent a format or parse a value. It reused W3C Trace Context and changed only where the fields travel. Both sides now use the same SetEnvFunc shape, and argoexec uses the very carrier package demo 1 did.
+
+Delivery notes:
+- Time: 00:50.
+- Handoff: Practitioner to Theoretician for the final 00:15.
+- Visual key: The left snippet is condensed from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right snippet is abridged from v4.1.3. Function names in the accent color are the propagator and tracer calls; keywords use the API color.
+- Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
+- Sources: argo-workflows v4.1.3 workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
+-->

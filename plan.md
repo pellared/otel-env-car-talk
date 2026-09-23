@@ -2,7 +2,7 @@
 
 ## Current delivery
 
-The authored material now includes the opening and a screenshot-led HTTP-to-CLI teaching demo. It uses `07:45` of the 20-minute presentation allowance. The demo section, including its section transition, uses `04:55`; no live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
+The authored material now includes the opening, a screenshot-led HTTP-to-CLI teaching demo, the three "dream" slides that turn from the CLI example towards workflows, and Demo 2, which realises the dream with a single Argo step running otel-cli. It uses `12:05` of the 20-minute presentation allowance. Demo 1, including its section transition, uses `04:55`; the dream slides use `02:05`; Demo 2 uses `02:15`; no live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
 
 ## Audience outcome
 
@@ -20,6 +20,12 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 8. S08 compares the captured request trace with the Python CLI's separate root trace and explains why the parent-child link is missing.
 9. S09 keeps the propagator constant, changes the carrier to the child environment, and assigns injection and extraction responsibilities.
 10. S10 shows the captured connected trace and separates context transport from span creation.
+11. S11 states the dream for the second example: a workflow DAG rendered as one trace, with one span for the workflow and one child span per step, so the graph can be read off the bars.
+12. S12 reveals that each step bar was only the controller's view, nests a shorter pod span under each, and names the gap between them as waiting on Kubernetes, which is why context must reach inside the pod.
+13. S13 zooms into one step to add the third layer: spans the user's own workload emitted inside the pod, so the audience sees three owners in one trace and that none of the boundaries between them is HTTP.
+14. S14 shows Demo 2 as Argo sees it, one step and one pod, beside the container's verbatim commands, and points out that nothing in them configures tracing.
+15. S15 shows the captured Jaeger trace for Demo 2, with the workload's spans under runMainContainer, and reads the two environment-carrier injections off where those spans hang.
+16. S16 shows the two injection sites in Argo's source, nearest the workload first: argoexec starting the user's process, then the controller building the pod spec, and makes the point that the propagator never changed, only the carrier.
 
 ## Sections and timing
 
@@ -27,7 +33,9 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | --- | --- | ---: |
 | Opening: title, presenter roles, and photo quizzes | S01-S03 | 02:50 |
 | Learning through demos and Demo 1: HTTP to CLI | S04-S10 | 04:55 |
-| Remaining presentation material | Not yet authored | Up to 12:15 |
+| The dream: tracing a workflow | S11-S13 | 02:05 |
+| Demo 2: Argo to otel-cli | S14-S16 | 02:15 |
+| Remaining presentation material | Not yet authored | Up to 07:55 |
 | Questions and troubleshooting | After the presentation | 05:00 outside the 20:00 presentation |
 
 ## Slide purposes, presenter ownership, and handoffs
@@ -44,6 +52,12 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | S08 | Diagnose the process-boundary break by comparing the captured request trace with the Python CLI's separate root trace. | Practitioner leads; no handoff. | 00:50 |
 | S09 | Explain environment injection and extraction, key normalization, format independence, and ownership at process startup. | Theoretician leads; `00:15` handoff to Practitioner for the implementation consequence. | 00:55 |
 | S10 | Confirm one connected trace and reinforce that instrumentation creates spans. | Practitioner leads; `00:05` handoff to Theoretician for the closing contrast. | 00:30 |
+| S11 | Set up the workflow example by drawing a diamond DAG beside the trace it should produce: one workflow span and four step spans of unequal length. | Practitioner leads; no handoff. | 00:40 |
+| S12 | Nest a pod span under each step span to separate the controller's view from the pod's view, and motivate carrying context into the pod. | Practitioner leads; `00:05` handoff to Theoretician to pose the carrier question. | 00:45 |
+| S13 | Zoom into step A and nest the workload's own spans under the pod span, establishing three owners in one trace and that no boundary between them is HTTP. | Practitioner leads; `00:05` handoff to Theoretician to land the carrier problem. | 00:40 |
+| S14 | Present Demo 2's single-step workflow in the Argo UI beside its verbatim container commands, and establish that the workflow configures no tracing. | Practitioner leads; no handoff. | 00:40 |
+| S15 | Confirm the captured Demo 2 trace and read the two carrier injections off the span parentage. | Practitioner leads; `00:10` handoff to Theoretician for the closing contrast. | 00:45 |
+| S16 | Show both injection sites in Argo's source, working outward from the workload: argoexec for the process environment, then the controller for the pod spec. | Practitioner leads; `00:15` handoff to Theoretician for the format-independence point. | 00:50 |
 
 ## Demo 1 evidence and recovery plan
 
@@ -68,16 +82,16 @@ This incremental delivery adds the HTTP-to-CLI teaching demo. It does not replac
 | --- | --- | --- |
 | HTTP or message propagation does not automatically cross a process launch. | S05, S07-S08 | Covered for an HTTP-to-process example |
 | Newcomer model of traces, spans, parentage, trace context, propagation, carriers, and propagators. | S06-S07 | Covered |
-| Environment variables carry context into a launched CLI or subprocess. | S09-S10 | Covered for a child CLI |
-| Injected `TRACEPARENT` preserves trace continuity across the process boundary. | S09-S10 | Covered |
-| The carrier remains independent of a single propagation format. | S09 | Covered briefly |
-| Environment-variable name normalization. | S09 | Covered with `traceparent` to `TRACEPARENT` |
-| Launcher injection and child instrumentation extraction responsibilities. | S09 | Covered |
+| Environment variables carry context into a launched CLI or subprocess. | S09-S10, S14-S15 | Covered for a child CLI and for a workload inside a Kubernetes pod |
+| Injected `TRACEPARENT` preserves trace continuity across the process boundary. | S09-S10, S15 | Covered, including two successive injections in one pod |
+| The carrier remains independent of a single propagation format. | S09, S16 | Covered briefly, twice |
+| Environment-variable name normalization. | S09, S16 | Covered with `traceparent` to `TRACEPARENT`, in demo 1's launcher and in argoexec |
+| Launcher injection and child instrumentation extraction responsibilities. | S09, S16 | Covered, including a launcher that is itself a launched child |
 | Environment propagation does not create spans; instrumentation creates spans and assigns parentage. | S09-S10 | Covered |
 | Security, trust boundaries, inherited environments, logging leakage, allow-listing, and scrubbing. | None | Deferred |
-| Interoperability for CI/CD, workflow engines, build tools, CLIs, and instrumentation. | S05, S09 | CLI case covered; broader ecosystem implications deferred |
-| Shared propagation reduces custom glue and incompatible trace conventions. | None | Deferred |
+| Interoperability for CI/CD, workflow engines, build tools, CLIs, and instrumentation. | S05, S09, S14-S15 | CLI and workflow-engine cases covered; build tools and broader implications deferred |
+| Shared propagation reduces custom glue and incompatible trace conventions. | S16 | Covered by contrast: Argo reused the W3C propagator rather than inventing a format |
 | Current specification status, adoption feedback, and future refinements. | None | Deferred; status checked for slide notes but not yet part of the spoken narrative |
-| Required Argo/Docker build example. | None | Deferred; not replaced by Demo 1 |
+| Required Argo/Docker build example. | S11-S15 | Target picture and the Argo otel-cli step are covered; the Docker build evidence is not yet authored |
 | Required batch data-lineage example and its instrumentation caveat. | None | Deferred |
 | Complementary Theoretician and Practitioner roles. | S01-S10 | Covered |
