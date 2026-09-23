@@ -1235,14 +1235,6 @@ body,
   --service-color: var(--service-node);
 }
 
-.dream-principle {
-  margin-top: 6px !important;
-  padding-top: 18px;
-  border-top: 1px solid var(--line);
-  color: var(--ink);
-  font-size: 20px;
-  font-weight: 700;
-}
 
 /* S12 */
 .dream-pods .span-row {
@@ -1277,13 +1269,6 @@ body,
   --service-color: var(--pod-d);
 }
 
-.dream-principle small {
-  display: block;
-  margin-top: 6px;
-  color: var(--muted);
-  font-size: 16px;
-  font-weight: 500;
-}
 
 /* S13 */
 .dag-figure .dag-dim {
@@ -1313,18 +1298,7 @@ body,
   object-position: 57.5% 0; /* left edge lands on the gap before LOGS */
 }
 
-.demo2-model figcaption,
-.snippet-caption {
-  margin-top: 14px;
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.35;
-}
 
-.demo2-model figcaption b,
-.snippet-caption b {
-  color: var(--ink);
-}
 
 .code-snippet {
   margin: 0;
@@ -1365,29 +1339,18 @@ body,
   gap: 12px;
 }
 
-.inject-step > span {
-  color: var(--accent);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
 
 .inject-step strong {
   color: var(--ink);
-  font-size: 23px;
+  font-size: 26px;
   line-height: 1.1;
 }
 
-.inject-step .source-path {
-  color: var(--muted);
-  font-size: 13px;
-}
 
 .inject-model .code-snippet {
-  font-size: 14.5px;
-  line-height: 1.55;
-  padding: 18px 22px;
+  font-size: 16.5px;
+  line-height: 1.6;
+  padding: 20px 24px;
 }
 
 .inject-model .code-snippet .tok-kw {
@@ -1400,21 +1363,7 @@ body,
   font-weight: 700;
 }
 
-.inject-step .code-snippet + small {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.35;
-}
 
-.inject-principle {
-  margin-top: 22px !important;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
-  color: var(--ink);
-  font-size: 19px;
-  font-weight: 700;
-  text-align: center;
-}
 
 /* S15 */
 .demo2-result .trace-screenshot img {

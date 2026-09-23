@@ -70,18 +70,18 @@ Practitioner: Zoom into one step. The controller’s view, the pod’s view, and
 
 Theoretician: Three process boundaries, and not one of them is an HTTP request.
 
-# S14: One step, three spans of its own
+# S14: One step, three spans
 
 Practitioner: This is demo 2 as Argo sees it: a workflow with a single step, so a single pod. And this is everything that pod runs. Three otel-cli commands, each emitting one span, named after this conference. And an echo of TRACEPARENT, purely so you can see the variable is there. Notice what is missing. Nothing in this workflow mentions tracing. Nobody named a propagator or configured an SDK. otel-cli is an off-the-shelf tool that reads its environment, and that is all it needs.
 
-# S15: The workload joins the workflow’s trace
+# S15: The workload joins the trace
 
 Practitioner: Here is the trace. The workflow span at the top belongs to the controller. Under it, the node, then creating the pod. Then argoexec, the executor inside the pod: runInitContainer, runWaitContainer, and runMainContainer. And under runMainContainer, the three spans the workload emitted: observability, summit, prague, three seconds, five, four. This is the third dream slide, for real. Notice where the workload spans hang. Not off the node, off runMainContainer. That tells you there were two injections, not one. The controller injected its context into the pod’s environment. Then the executor started its own span and injected again, into the environment of the process it launched. Two carrier hops, and the workflow author wrote neither of them.
 
 Theoretician: The propagator never changed. Only the carrier did, and it was the same carrier both times.
 
-# S16: Two injections, one carrier
+# S16: Two injections
 
-Practitioner: Two handoffs, and here they are, working outward from the workload. The nearer one is inside the pod. argoexec extracts the trace context from its own environment, starts the runMainContainer span, and injects again, into its process environment, upper-casing the key, immediately before it execs the user’s command. That is why the workload’s spans hang off runMainContainer. Now one level out: where did argoexec’s environment come from? From the workflow-controller, when it built the pod spec. It ran the same W3C propagator against a carrier whose Set method appends a Kubernetes environment variable, so every container in the pod is born with TRACEPARENT. That is the entire mechanism. Same propagator in both places. The carrier is the environment both times.
+Practitioner: Two handoffs, and here they are, working outward from the workload. The nearer one is inside the pod. argoexec starts the runMainContainer span, then injects again with the OpenTelemetry environment carrier, the same envcar package demo 1’s Go launcher used, into a copy of the environment it hands only to the user’s command. Its own environment stays exactly as the pod spec set it. That is why the workload’s spans hang off runMainContainer. Now one level out: where did argoexec’s environment come from? From the workflow-controller, when it built the pod spec. It ran the same W3C propagator against a carrier whose Set method appends a Kubernetes environment variable, so every container in the pod is born with TRACEPARENT. That is the entire mechanism. Same propagator in both places. The carrier is the environment both times.
 
-Theoretician: Note what Argo did not do. It did not invent a format or parse a value. It reused W3C Trace Context and changed only where the fields travel. Upper-casing the key is the one rule the environment carrier adds, and it is the same rule demo 1’s Go launcher followed.
+Theoretician: Note what Argo did not do. It did not invent a format or parse a value. It reused W3C Trace Context and changed only where the fields travel. Both sides now use the same SetEnvFunc shape, and argoexec uses the very carrier package demo 1 did.
