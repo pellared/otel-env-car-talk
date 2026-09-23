@@ -2,7 +2,7 @@
 
 ## Current delivery
 
-The authored material now includes the opening, a screenshot-led HTTP-to-CLI teaching demo, the three "dream" slides that turn from the CLI example towards workflows, Demo 2, which realises the dream with a single Argo step running otel-cli, and Demo 3, which contrasts an uninstrumented git step with an instrumented BuildKit step. It uses `14:00` of the 20-minute presentation allowance. Demo 1, including its section transition, uses `04:55`; the dream slides use `02:05`; Demo 2 uses `02:15`; Demo 3 uses `01:55`; no live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
+The authored material now includes the opening, a screenshot-led HTTP-to-CLI teaching demo, the three "dream" slides that turn from the CLI example towards workflows, Demo 2, which realises the dream with a single Argo step running otel-cli, Demo 3, which contrasts an uninstrumented git step with an instrumented BuildKit step, and the opening of Demo 4, a real-world data-lineage case. It uses `16:40` of the 20-minute presentation allowance. Demo 1, including its section transition, uses `04:55`; the dream slides use `02:05`; Demo 2 uses `02:15`; Demo 3 uses `01:55`; Demo 4 so far uses `02:40`; no live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
 
 ## Audience outcome
 
@@ -29,6 +29,10 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 17. S17 introduces Demo 3 as a faked CI pipeline, clone then build, through its Argo DAG.
 18. S18 shows an uninstrumented git step: nothing nested under its runMainContainer, yet its duration and the controller's much longer node span are both visible, making S12's gap concrete.
 19. S19 shows the instrumented BuildKit step reading the same carrier and returning the Dockerfile's structure as spans, with parallel base-image pulls and builders.
+20. S20 introduces Demo 4 as a real case: a platform team wanting data lineage over pipelines its data scientists own, shown through the pipeline's Argo DAG.
+21. S21 shows the auto-instrumented SQL INSERT spans in the workflow trace, with db.statement already naming the upstream tables.
+22. S22 shows the lineage graph the pipeline's final step derived from its own trace, published as an Argo artifact, and points out the unread products table as proof it reflects what ran.
+23. S23 shows the few lines of platform-owned Python that read the same environment carrier, because auto-instrumentation does not extract it.
 
 ## Sections and timing
 
@@ -39,7 +43,8 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | The dream: tracing a workflow | S11-S13 | 02:05 |
 | Demo 2: Argo to otel-cli | S14-S16 | 02:15 |
 | Demo 3: git and BuildKit | S17-S19 | 01:55 |
-| Remaining presentation material | Not yet authored | Up to 06:00 |
+| Demo 4: data lineage | S20-S23 | 02:40 |
+| Remaining presentation material | Not yet authored | Up to 03:20 |
 | Questions and troubleshooting | After the presentation | 05:00 outside the 20:00 presentation |
 
 ## Slide purposes, presenter ownership, and handoffs
@@ -65,6 +70,10 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | S17 | Introduce Demo 3 as a faked CI pipeline through its two-step Argo DAG. | Practitioner leads; no handoff. | 00:20 |
 | S18 | Show the uninstrumented git step: no child spans, but its duration and the controller's longer node span are visible. | Practitioner leads; no handoff. | 00:45 |
 | S19 | Show the instrumented BuildKit step reading the same carrier and exposing the Dockerfile's parallel structure. | Practitioner leads; `00:10` handoff to Theoretician to locate the difference on the reading side. | 00:50 |
+| S20 | Introduce Demo 4 as a real case, platform team versus code owned by data scientists, through the pipeline's Argo DAG. | Practitioner leads; no handoff. | 00:30 |
+| S21 | Show the auto-instrumented SQL INSERT spans in the workflow trace and point at db.statement naming the upstream tables. | Practitioner leads; no handoff. | 00:45 |
+| S22 | Show the derived lineage graph as an Argo artifact and note the unread products table. | Practitioner leads; `00:05` handoff to Theoretician to tie it back to the carrier. | 00:45 |
+| S23 | Show the small platform-owned wrapper that extracts TRACEPARENT from the environment in Python, since auto-instrumentation does not. | Theoretician leads; no handoff. | 00:40 |
 
 ## Demo 1 evidence and recovery plan
 
@@ -100,5 +109,5 @@ This incremental delivery adds the HTTP-to-CLI teaching demo. It does not replac
 | Shared propagation reduces custom glue and incompatible trace conventions. | S16 | Covered by contrast: Argo reused the W3C propagator rather than inventing a format |
 | Current specification status, adoption feedback, and future refinements. | None | Deferred; status checked for slide notes but not yet part of the spoken narrative |
 | Required Argo/Docker build example. | S11-S19 | Covered: the target picture, an Argo step running otel-cli, and a Docker build with BuildKit beside an uninstrumented git step |
-| Required batch data-lineage example and its instrumentation caveat. | None | Deferred |
+| Required batch data-lineage example and its instrumentation caveat. | S20-S23 | Covered: case, SQL spans, derived lineage, and the Python extraction caveat with its wrapper |
 | Complementary Theoretician and Practitioner roles. | S01-S10 | Covered |
