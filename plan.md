@@ -2,7 +2,7 @@
 
 ## Current delivery
 
-The authored material now includes the opening, a screenshot-led HTTP-to-CLI teaching demo, the three "dream" slides that turn from the CLI example towards workflows, and Demo 2, which realises the dream with a single Argo step running otel-cli. It uses `12:05` of the 20-minute presentation allowance. Demo 1, including its section transition, uses `04:55`; the dream slides use `02:05`; Demo 2 uses `02:15`; no live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
+The authored material now includes the opening, a screenshot-led HTTP-to-CLI teaching demo, the three "dream" slides that turn from the CLI example towards workflows, Demo 2, which realises the dream with a single Argo step running otel-cli, and Demo 3, which contrasts an uninstrumented git step with an instrumented BuildKit step. It uses `14:00` of the 20-minute presentation allowance. Demo 1, including its section transition, uses `04:55`; the dream slides use `02:05`; Demo 2 uses `02:15`; Demo 3 uses `01:55`; no live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
 
 ## Audience outcome
 
@@ -26,6 +26,9 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 14. S14 shows Demo 2 as Argo sees it, one step and one pod, beside the container's verbatim commands, and points out that nothing in them configures tracing.
 15. S15 shows the captured Jaeger trace for Demo 2, with the workload's spans under runMainContainer, and reads the two environment-carrier injections off where those spans hang.
 16. S16 shows the two injection sites in Argo's source, nearest the workload first: argoexec starting the user's process, then the controller building the pod spec, and makes the point that the propagator never changed, only the carrier.
+17. S17 introduces Demo 3 as a faked CI pipeline, clone then build, through its Argo DAG.
+18. S18 shows an uninstrumented git step: nothing nested under its runMainContainer, yet its duration and the controller's much longer node span are both visible, making S12's gap concrete.
+19. S19 shows the instrumented BuildKit step reading the same carrier and returning the Dockerfile's structure as spans, with parallel base-image pulls and builders.
 
 ## Sections and timing
 
@@ -35,7 +38,8 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | Learning through demos and Demo 1: HTTP to CLI | S04-S10 | 04:55 |
 | The dream: tracing a workflow | S11-S13 | 02:05 |
 | Demo 2: Argo to otel-cli | S14-S16 | 02:15 |
-| Remaining presentation material | Not yet authored | Up to 07:55 |
+| Demo 3: git and BuildKit | S17-S19 | 01:55 |
+| Remaining presentation material | Not yet authored | Up to 06:00 |
 | Questions and troubleshooting | After the presentation | 05:00 outside the 20:00 presentation |
 
 ## Slide purposes, presenter ownership, and handoffs
@@ -58,6 +62,9 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | S14 | Present Demo 2's single-step workflow in the Argo UI beside its verbatim container commands, and establish that the workflow configures no tracing. | Practitioner leads; no handoff. | 00:40 |
 | S15 | Confirm the captured Demo 2 trace and read the two carrier injections off the span parentage. | Practitioner leads; `00:10` handoff to Theoretician for the closing contrast. | 00:45 |
 | S16 | Show both injection sites in Argo's source, working outward from the workload: argoexec for the process environment, then the controller for the pod spec. | Practitioner leads; `00:15` handoff to Theoretician for the format-independence point. | 00:50 |
+| S17 | Introduce Demo 3 as a faked CI pipeline through its two-step Argo DAG. | Practitioner leads; no handoff. | 00:20 |
+| S18 | Show the uninstrumented git step: no child spans, but its duration and the controller's longer node span are visible. | Practitioner leads; no handoff. | 00:45 |
+| S19 | Show the instrumented BuildKit step reading the same carrier and exposing the Dockerfile's parallel structure. | Practitioner leads; `00:10` handoff to Theoretician to locate the difference on the reading side. | 00:50 |
 
 ## Demo 1 evidence and recovery plan
 
@@ -92,6 +99,6 @@ This incremental delivery adds the HTTP-to-CLI teaching demo. It does not replac
 | Interoperability for CI/CD, workflow engines, build tools, CLIs, and instrumentation. | S05, S09, S14-S15 | CLI and workflow-engine cases covered; build tools and broader implications deferred |
 | Shared propagation reduces custom glue and incompatible trace conventions. | S16 | Covered by contrast: Argo reused the W3C propagator rather than inventing a format |
 | Current specification status, adoption feedback, and future refinements. | None | Deferred; status checked for slide notes but not yet part of the spoken narrative |
-| Required Argo/Docker build example. | S11-S15 | Target picture and the Argo otel-cli step are covered; the Docker build evidence is not yet authored |
+| Required Argo/Docker build example. | S11-S19 | Covered: the target picture, an Argo step running otel-cli, and a Docker build with BuildKit beside an uninstrumented git step |
 | Required batch data-lineage example and its instrumentation caveat. | None | Deferred |
 | Complementary Theoretician and Practitioner roles. | S01-S10 | Covered |
