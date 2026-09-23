@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workflow-controller-patch
+spec:
+  template:
+    metadata:
+      annotations:
+        # The OpenTelemetry operator injects OTEL_EXPORTER_OTLP_ENDPOINT (and
+        # friends) from the Instrumentation CR in this namespace. Tracing and
+        # OTLP metrics turn themselves on once that endpoint is set.
+        instrumentation.opentelemetry.io/inject-sdk: "true"
+    spec:
+      containers:
+        - name: workflow-controller
+          env:
+            - name: DEFAULT_REQUEUE_TIME
+              value: "10s"

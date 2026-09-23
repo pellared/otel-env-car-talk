@@ -1,5 +1,5 @@
 # A small Postgres "data warehouse" for the data-lineage demo
-# (datasci-lineage-trace.yaml).
+# (workflow.yaml).
 #
 # The four raw tables below are seeded with generated data. They are shaped so
 # that the derived tables the pipeline builds have overlapping but non-identical
@@ -9,9 +9,9 @@
 #   customers, orders, order_items -> customer_ltv
 #   daily_revenue, customer_ltv    -> exec_summary
 #
-# Credentials live in warehouse-secret.yaml, which deploy.sh applies to both this
+# Credentials live in warehouse-secret.yaml, which must be applied to both this
 # namespace and `default` (Secrets are namespaced and the pipeline runs in
-# `default`).
+# `default`). See README.md.
 apiVersion: v1
 kind: ConfigMap
 metadata:

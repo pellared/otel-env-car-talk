@@ -7,7 +7,7 @@
 # environment like any well-behaved OpenTelemetry tool, so these three spans nest
 # under runMainContainer in the workflow's own trace with nothing to plumb.
 #
-#   kubectl create -n default -f otel-cli-trace.yaml
+#   kubectl create -n default -f workflow.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:

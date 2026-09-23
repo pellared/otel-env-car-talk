@@ -25,10 +25,13 @@ pulls them concurrently, then converges at the `COPY --from` lines.
 
 ## Prerequisites
 
+The [demo cluster](../cluster/README.md) has everything this needs, including the
+registry the build pushes to. To use your own cluster instead, you need:
+
 - Argo Workflows with tracing enabled, and Jaeger, as in demo 2
-- A container registry the pod can push to. The workflow defaults to a k3d-hosted
-  one at `host.k3d.internal:5000`; change the `image` parameter to match your
-  setup, or drop `push=true` from the `--output` argument to build without
+- A container registry the pod can push to. The workflow defaults to the demo
+  cluster's, at `host.k3d.internal:5000`; change the `image` parameter to match
+  your setup, or drop `push=true` from the `--output` argument to build without
   pushing at all.
 
 ## Run it

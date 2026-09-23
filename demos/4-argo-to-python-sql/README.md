@@ -39,6 +39,9 @@ runpy.run_path(sys.argv[1], run_name="__main__")
 
 ## Prerequisites
 
+The [demo cluster](../cluster/README.md) has everything this needs, including the
+4318 receiver described below. To use your own cluster instead, you need:
+
 - Argo Workflows with tracing enabled, and Jaeger, as in demo 2
 - The OpenTelemetry operator, with an `Instrumentation` resource in the namespace
 - A registry your cluster can pull from
@@ -52,11 +55,12 @@ point Python at it via `spec.python.env` while Go components keep gRPC on 4317.
 
 ```sh
 # 1. the warehouse, with seeded raw tables
+kubectl create namespace warehouse
 kubectl apply -n warehouse -f warehouse-secret.yaml
 kubectl apply -n default   -f warehouse-secret.yaml   # the pipeline runs here
 kubectl apply -f warehouse.yaml
 
-# 2. the pipeline image
+# 2. the pipeline image (on the demo cluster, <your-registry> is localhost:5000)
 docker build -t <your-registry>/datasci:1 datasci/
 docker push  <your-registry>/datasci:1
 

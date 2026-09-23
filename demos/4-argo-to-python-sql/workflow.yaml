@@ -6,11 +6,10 @@
 # back out of Jaeger and derives a table-level lineage graph from those spans -
 # it never looks at the pipeline source.
 #
-# Prerequisites:
-#   ./build-datasci.sh          (builds host.k3d.internal:5000/datasci:1)
-#   kubectl apply -f warehouse.yaml
+# Runs on the demo cluster in ../cluster. See README.md for the warehouse and
+# image steps, then:
 #
-#   kubectl create -n default -f datasci-lineage-trace.yaml
+#   kubectl create -n default -f workflow.yaml
 #
 # Expected lineage:
 #   orders, order_items            -> daily_revenue
@@ -42,7 +41,7 @@ spec:
       # Image references are resolved by containerd, which has a mirror for
       # k3d-registry.localhost:5000 in the node's registries.yaml and so pulls it
       # over plain HTTP. Note this is NOT the name code inside a pod can use to
-      # reach the registry - see build-datasci.sh and buildkit-controller-trace.yaml.
+      # reach the registry - see the image parameter in ../3-argo-to-buildkit.
       - name: image
         value: k3d-registry.localhost:5000/datasci:1
   templates:
@@ -92,7 +91,7 @@ spec:
       container:
         image: "{{workflow.parameters.image}}"
         # The tag is fixed, so the default IfNotPresent would silently keep a
-        # stale cached image after ./build-datasci.sh rebuilds it. The registry is
+        # stale cached image after the image is rebuilt and pushed. The registry is
         # in-cluster, so always pulling costs almost nothing.
         imagePullPolicy: Always
         workingDir: /app
@@ -129,7 +128,7 @@ spec:
       container:
         image: "{{workflow.parameters.image}}"
         # The tag is fixed, so the default IfNotPresent would silently keep a
-        # stale cached image after ./build-datasci.sh rebuilds it. The registry is
+        # stale cached image after the image is rebuilt and pushed. The registry is
         # in-cluster, so always pulling costs almost nothing.
         imagePullPolicy: Always
         workingDir: /app

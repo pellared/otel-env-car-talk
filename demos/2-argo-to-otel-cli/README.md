@@ -24,6 +24,9 @@ work, and the workflow YAML mentions trace context nowhere.
 
 ## Prerequisites
 
+The [demo cluster](../cluster/README.md) has everything this needs:
+`../cluster/deploy.sh`. To use your own cluster instead, you need:
+
 - Argo Workflows, with `OTEL_EXPORTER_OTLP_ENDPOINT` set on the
   workflow-controller so it emits traces
 - Jaeger, receiving from the same collector
