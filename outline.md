@@ -85,3 +85,17 @@ Theoretician: The propagator never changed. Only the carrier did, and it was the
 Practitioner: Two handoffs, and here they are, working outward from the workload. The nearer one is inside the pod. argoexec starts the runMainContainer span, then injects again with the OpenTelemetry environment carrier, the same envcar package demo 1’s Go launcher used, into a copy of the environment it hands only to the user’s command. Its own environment stays exactly as the pod spec set it. That is why the workload’s spans hang off runMainContainer. Now one level out: where did argoexec’s environment come from? From the workflow-controller, when it built the pod spec. It ran the same W3C propagator against a carrier whose Set method appends a Kubernetes environment variable, so every container in the pod is born with TRACEPARENT. That is the entire mechanism. Same propagator in both places. The carrier is the environment both times.
 
 Theoretician: Note what Argo did not do. It did not invent a format or parse a value. It reused W3C Trace Context and changed only where the fields travel. Both sides now use the same SetEnvFunc shape, and argoexec uses the very carrier package demo 1 did.
+
+# S17: Let’s fake CI
+
+Practitioner: Let’s fake CI. Two steps: clone a repository, then build a container image from it. The same shape as almost every pipeline you have ever run.
+
+# S18: git says nothing
+
+Practitioner: Demo 3 is a two-step build. The first step clones a repository, and git has never heard of OpenTelemetry. It gets TRACEPARENT in its environment, exactly like otel-cli did, and throws it away. So under runMainContainer there is nothing. But look at what we still know. The executor wrapped git in a span, so git ran for two seconds. And the controller’s node span says the step took almost eleven. That is S12’s gap, for real: most of this step was Kubernetes, not git. An uninstrumented process is not a hole in the trace. You lose its insides. You keep its edges.
+
+# S19: BuildKit tells us everything
+
+Practitioner: The second step runs BuildKit, which is instrumented. It reads the same TRACEPARENT from the same place, and this is what comes back: about two hundred and fifty spans, all under the step’s runMainContainer. You can read the Dockerfile off it. Three base images resolve and pull at the same moment, because nothing makes them wait for each other. The Go and Node builders run side by side. The three-second Go build is the long bar. And the final stage waits for both, then copies their output in.
+
+Theoretician: Same carrier as the git step. The difference is entirely on the reading side: BuildKit extracts, git doesn’t.

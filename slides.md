@@ -798,3 +798,94 @@ Delivery notes:
 - Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
 - Sources: argo-workflows v4.1.3 workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
 -->
+
+---
+layout: default
+id: S17
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 3</p>
+    <h1>Let’s fake CI</h1>
+  </header>
+  <figure class="trace-screenshot dag-shot">
+    <img src="/demo-3/argo-dag.png" alt="Argo Workflows UI: the buildkit workflow, a clone step followed by a build step">
+  </figure>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Let’s fake CI. Two steps: clone a repository, then build a container image from it. The same shape as almost every pipeline you have ever run.
+
+Delivery notes:
+- Time: 00:20.
+- Handoff: None.
+- Evidence: Playwright capture of the local Argo Workflows UI for the demo 3 workflow.
+- Sources: demos/3-argo-to-buildkit/workflow.yaml.
+-->
+
+---
+layout: default
+id: S18
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 3</p>
+    <h1>git says nothing</h1>
+  </header>
+  <div>
+    <div class="trace-crop crop-clone">
+      <img src="/demo-3/trace-clone.png" alt="Jaeger: the clone step's node span lasts 10.8 seconds; its runMainContainer span lasts 2.0 seconds and has no child spans">
+    </div>
+    <pre class="code-snippet" style="margin-top: 26px">git clone --depth 1 https://github.com/Joibel/otel-deploy /src</pre>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Demo 3 is a two-step build. The first step clones a repository, and git has never heard of OpenTelemetry. It gets TRACEPARENT in its environment, exactly like otel-cli did, and throws it away. So under runMainContainer there is nothing. But look at what we still know. The executor wrapped git in a span, so git ran for two seconds. And the controller’s node span says the step took almost eleven. That is S12’s gap, for real: most of this step was Kubernetes, not git. An uninstrumented process is not a hole in the trace. You lose its insides. You keep its edges.
+
+Delivery notes:
+- Time: 00:45.
+- Handoff: None.
+- Point at: the clone `node` bar (10.8 s) and the clone `runMainContainer` bar (2.0 s), which has no child-count badge because nothing is nested inside it.
+- Evidence: Playwright capture of the local Jaeger trace with rows below `createWorkflowPod` collapsed and the name column widened, cropped on the slide to the clone node's subtree.
+- Sources: demos/3-argo-to-buildkit/workflow.yaml; demos/3-argo-to-buildkit/README.md.
+-->
+
+---
+layout: default
+id: S19
+---
+
+<div class="demo-slide evidence-slide connected-slide">
+  <header class="demo-heading">
+    <p>Demo 3</p>
+    <h1>BuildKit tells us everything</h1>
+  </header>
+  <figure class="trace-screenshot connected-trace">
+    <div class="trace-crop crop-buildkit">
+      <img src="/demo-3/trace-buildkit.png" alt="Jaeger zoomed to the build: three FROM steps start together, the gobuild and webbuild steps run side by side, and the stage-2 COPY --from steps land last">
+    </div>
+    <figcaption>
+      <strong>Same carrier</strong>
+      <span>~250 spans inside one step</span>
+    </figcaption>
+  </figure>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: The second step runs BuildKit, which is instrumented. It reads the same TRACEPARENT from the same place, and this is what comes back: about two hundred and fifty spans, all under the step’s runMainContainer. You can read the Dockerfile off it. Three base images resolve and pull at the same moment, because nothing makes them wait for each other. The Go and Node builders run side by side. The three-second Go build is the long bar. And the final stage waits for both, then copies their output in.
+
+Theoretician: Same carrier as the git step. The difference is entirely on the reading side: BuildKit extracts, git doesn’t.
+
+Delivery notes:
+- Time: 00:50.
+- Handoff: Practitioner to Theoretician for the final 00:10.
+- Point at: the three `FROM` rows starting together, the 3.1 s `go build` bar, and the `stage-2` `COPY --from` rows at the end.
+- Evidence: Playwright capture of the same Jaeger trace, collapsed to the path down to BuildKit’s `Solve` span and zoomed to 14.0–27.7 s with the minimap range selection; `cache request` rows are BuildKit’s own and left in.
+- Sources: demos/3-argo-to-buildkit/README.md.
+-->

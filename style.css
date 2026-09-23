@@ -1373,3 +1373,60 @@ body,
   /* keep the header stats line and the runMainContainer subtree near the bottom */
   object-position: 50% 31%;
 }
+
+/* S17 and S18 */
+.trace-crop {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+/* The captures are 1600px wide; 1128px is the slide's content width, so the
+   scale is 0.705 and each crop's top offset is the source y times that. */
+.trace-crop img {
+  position: absolute;
+  left: 0;
+  width: 1128px;
+  max-width: none;
+}
+
+/* The clone node only: source rows y 393-612, x 0-960, scaled 1.175. */
+.crop-clone {
+  height: 258px;
+}
+
+.crop-clone img {
+  width: 1880px;
+  top: -462px;
+}
+
+.crop-buildkit {
+  height: 430px;
+}
+
+/* Zoomed a little further than the default 0.705 so the step names read at a
+   distance: scale 0.77, dropping the indent guides on the left of the capture. */
+.crop-buildkit img {
+  width: 1232px;
+  left: -146px;
+  top: -245px;
+}
+
+/* S17 */
+/* Just the three nodes: source x 350-850, y 165-470, scaled 1.3. */
+.dag-shot {
+  align-self: center;
+  justify-self: center;
+  width: 650px;
+  height: 396px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.dag-shot img {
+  width: 1534px;
+  max-width: none;
+  margin: -232px 0 0 -455px;
+  border: 0;
+}
