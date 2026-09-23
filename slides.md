@@ -889,3 +889,318 @@ Delivery notes:
 - Evidence: Playwright capture of the same Jaeger trace, collapsed to the path down to BuildKit’s `Solve` span and zoomed to 14.0–27.7 s with the minimap range selection; `cache request` rows are BuildKit’s own and left in.
 - Sources: demos/3-argo-to-buildkit/README.md.
 -->
+
+---
+layout: default
+id: S20
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>Lineage, hands off</h1>
+  </header>
+  <div class="lineage-intro">
+    <div class="lineage-roles">
+      <div><span>Platform team</span>wants data lineage</div>
+      <div><span>Data scientists</span>own the code</div>
+    </div>
+    <figure class="trace-screenshot dag-wide">
+      <img src="/demo-4/argo-dag.png" alt="Argo Workflows UI: setup, then customer-ltv and daily-revenue in parallel, then exec-summary, report and lineage">
+    </figure>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Demo 4 is a real one. A platform team wanted data lineage: which tables fed which. But the pipelines belonged to their data scientists, ordinary Python against Postgres, and the platform team could not rewrite that code. This is a stand-in for their pipeline: set up the tables, build two derived tables in parallel, join them into a summary, report on it. And one extra step at the end we’ll come back to.
+
+Delivery notes:
+- Time: 00:30.
+- Handoff: None.
+- Evidence: Playwright capture of the local Argo Workflows UI for the demo 4 workflow, horizontal layout, artifact nodes hidden.
+- Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/workflow.yaml.
+-->
+
+---
+layout: default
+id: S21
+---
+
+<div class="demo-slide evidence-slide connected-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>Every query is a span</h1>
+  </header>
+  <figure class="trace-screenshot connected-trace">
+    <div class="trace-crop crop-sql">
+      <img src="/demo-4/trace-sql.png" alt="Jaeger: customer_ltv and exec_summary INSERT spans under their runMainContainer spans, with the exec_summary span expanded to show its db.statement and otel.scope.name opentelemetry.instrumentation.psycopg">
+    </div>
+    <figcaption>
+      <strong>No tracing code</strong>
+      <span>psycopg, auto-instrumented</span>
+    </figcaption>
+  </figure>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: The data scientists’ code has no OpenTelemetry in it at all. The operator auto-instruments the Python and its Postgres driver, so every statement becomes a span, and the SQL rides along as db.statement. Each INSERT sits under its stage’s runMainContainer, in the workflow’s trace, because a small platform-owned wrapper reads TRACEPARENT from the environment. And look at the SQL: exec_summary reads from daily_revenue and customer_ltv. That is the lineage, sitting in the trace.
+
+Delivery notes:
+- Time: 00:45.
+- Handoff: None.
+- Point at: the highlighted INSERT rows, then `db.statement` on `exec_summary` naming both upstream tables, then `otel.scope.name: opentelemetry.instrumentation.psycopg`.
+- Evidence: Playwright capture of the local Jaeger trace with Jaeger’s own service filter pruning the pod-level executor services and the setup, report and lineage stages (the “spans pruned” rows are Jaeger’s), rows collapsed to the stage path, INSERT highlighted with Find, and the exec_summary INSERT expanded.
+- The wrapper: Python auto-instrumentation does not extract TRACEPARENT from the environment, so demos/4-argo-to-python-sql/datasci/tracectx.py does it with EnvironmentGetter. Mention only if asked, or keep for the next slide.
+- Sources: demos/4-argo-to-python-sql/README.md.
+-->
+
+---
+layout: default
+id: S22
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>The lineage, from the trace</h1>
+  </header>
+  <div class="lineage-result">
+    <figure class="trace-screenshot artifact-shot">
+      <img src="/demo-4/argo-artifacts.png" alt="Argo Workflows UI artifact panel rendering the lineage-report artifact, lineage.html, with its trace id and lineage graph">
+    </figure>
+    <figure class="trace-screenshot lineage-graph">
+      <img src="/demo-4/lineage.svg" alt="Lineage graph: orders and order_items feed daily_revenue; customers, orders and order_items feed customer_ltv; both feed exec_summary, which report reads">
+    </figure>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: The last step reads this workflow’s own trace back out of Jaeger, parses the SQL on every span, and draws the lineage. It is published as an ordinary workflow artifact, so it sits right there in the Argo UI. Orders and order items feed daily revenue. Customers, orders and order items feed customer lifetime value. Both feed the summary, and the report reads it. The data scientists changed nothing. And notice what is missing: the warehouse has a products table, and it is not here, because nothing read it. This is what the pipeline actually did, not what the schema says it might.
+
+Theoretician: And all of it hangs together only because one environment variable carried the trace into each pod.
+
+Delivery notes:
+- Time: 00:45.
+- Handoff: Practitioner to Theoretician for the final 00:05.
+- Point at: the lineage-report artifact panel in Argo (the trace id under the heading), then the enlarged graph; call out that `products` is absent.
+- Evidence: Left, Playwright capture of the local Argo Workflows UI artifact panel rendering lineage.html. Right, the SVG extracted verbatim from the workflow’s lineage-report artifact.
+- If asked about DDL: the setup step’s DROP and CREATE statements are in the trace but produce no edges, because DDL moves no data between tables.
+- Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/datasci/lineage.py.
+-->
+
+---
+layout: default
+id: S23
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Demo 4</p>
+    <h1>Python reads the carrier too</h1>
+  </header>
+  <div class="py-carrier">
+    <pre class="code-snippet"><span class="tok-kw">from</span> opentelemetry.propagators._envcarrier <span class="tok-kw">import</span> EnvironmentGetter
+ctx = <span class="tok-fn">extract</span>(os.environ, getter=EnvironmentGetter())
+context.<span class="tok-fn">attach</span>(ctx) <span class="tok-muted"># <span class="tok-env">TRACEPARENT</span> becomes the parent</span>
+runpy.<span class="tok-fn">run_path</span>(script, run_name=<span class="tok-name">"__main__"</span>)</pre>
+    <pre class="code-snippet py-command">command: [python, -m, <span class="tok-name">tracectx</span>]  <span class="tok-muted"># wraps the untouched pipeline</span></pre>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Theoretician: Here is the catch. The operator's Python auto-instrumentation installs the SDK and instruments psycopg, but it never looks at the environment for a parent. Without help, every query would start a new trace. The fix is a few lines the platform owns: extract the context from the environment with the SDK's own environment getter, attach it, then run the data scientist's script unchanged. Same carrier as the Go side, just read in Python.
+
+Delivery notes:
+- Time: 00:40.
+- Handoff: Theoretician to Practitioner at the transition to S26.
+- Point at: `os.environ` in the extract call, then the `command` line, to show the pipeline itself is untouched.
+- Condensed: the real file adds a fallback if `_envcarrier` moves, and argv handling; this shows only the propagation.
+- If asked why a private module: `_envcarrier` ships in opentelemetry-api and its docstring names child-process initialisation as its use; nothing in auto-instrumentation calls it yet.
+- If asked about uppercase keys: EnvironmentGetter maps `traceparent` to `TRACEPARENT`, matching Argo's Go carrier.
+- Sources: demos/4-argo-to-python-sql/datasci/tracectx.py; demos/4-argo-to-python-sql/datasci-lineage-trace.yaml.
+-->
+
+---
+layout: default
+id: S26
+---
+
+<div class="closing-slide">
+  <header class="demo-heading">
+    <p>Adoption</p>
+    <h1>Tools already use TRACEPARENT</h1>
+  </header>
+
+  <div class="adoption-list" role="list" aria-label="Tools using TRACEPARENT in child environments">
+    <div role="listitem"><strong>Argo Workflows</strong><span>injects context into pods and commands</span></div>
+    <div role="listitem"><strong>Docker BuildKit</strong><span>reads and forwards process context</span></div>
+    <div role="listitem"><strong>Claude Code</strong><span>links headless sessions and subprocesses</span></div>
+    <div role="listitem"><strong>otel-cli</strong><span>wraps a command in a span</span></div>
+    <div role="listitem"><strong>Thoth</strong><span>instruments shells and GitHub Actions</span></div>
+    <div role="listitem"><strong>Jenkins OpenTelemetry plugin</strong><span>exposes context to build steps</span></div>
+  </div>
+
+  <p class="adoption-payoff">Shared field names let instrumented tools join without another custom adapter.</p>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: This pattern is already in use. Argo Workflows carries context into pods and workload commands. Docker BuildKit reads it and forwards it to child processes. Claude Code links headless sessions and traced subprocesses. otel-cli, Thoth, and the Jenkins OpenTelemetry plugin cover command wrappers, CI scripts, and build steps. Shared field names let these tools connect without custom adapters.
+
+Delivery notes:
+- Time: 00:25.
+- Handoff: Practitioner to Theoretician at the transition to S24.
+- Sources: OpenTelemetry feedback article and linked implementations, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; otel-cli, https://github.com/equinix-labs/otel-cli; Thoth, https://github.com/liatrio-labs/thoth; Argo Workflows injection, https://github.com/argoproj/argo-workflows/blob/main/workflow/controller/workflowpod.go and https://github.com/argoproj/argo-workflows/blob/main/cmd/argoexec/commands/emissary.go; Docker BuildKit extraction and injection, https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceenv.go and https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceexec.go; Claude Code tracing, https://code.claude.com/docs/en/monitoring-usage#traces-beta; Jenkins OpenTelemetry plugin, https://github.com/jenkinsci/opentelemetry-plugin.
+-->
+
+---
+layout: default
+id: S24
+---
+
+<div class="closing-slide">
+  <header class="demo-heading">
+    <p>Beyond TRACEPARENT</p>
+    <h1>One carrier, several formats</h1>
+  </header>
+
+  <div class="format-ledger" role="list" aria-label="Propagation fields carried through environment variables">
+    <div class="format-row" role="listitem">
+      <span>W3C Trace Context</span>
+      <code>TRACEPARENT=00-4bf92…-00f067…-01</code>
+      <small>trace and parent identity</small>
+    </div>
+    <div class="format-row format-baggage" role="listitem">
+      <span>W3C Baggage</span>
+      <code>BAGGAGE=build.id=42,repository.name=example</code>
+      <small>application context for downstream work</small>
+    </div>
+    <div class="format-row format-b3" role="listitem">
+      <span>B3</span>
+      <code>X_B3_TRACEID=463ac35c9f6413ad</code>
+      <small>normalized from <b>x-b3-traceid</b></small>
+    </div>
+  </div>
+
+  <p class="format-principle"><strong>Carrier:</strong> opaque strings <span></span> <strong>Propagator:</strong> field names, format, and validation</p>
+</div>
+
+<!--
+Spoken outline:
+Theoretician: TRACEPARENT was our concrete example, but the environment carrier is format-agnostic. Baggage can travel as BAGGAGE, while a B3 propagator can use fields such as X_B3_TRACEID. The carrier sees opaque strings. The configured propagator chooses the field names, format, and validation. Children inherit those fields, and logs or diagnostics may expose them, so treat them as untrusted. Allow-list baggage before forwarding it. Scrub propagation fields wherever continuity should stop, and never propagate secrets.
+
+Delivery notes:
+- Time: 00:30.
+- Handoff: None; Theoretician continues into S27.
+- Point at: `BAGGAGE`, then `X_B3_TRACEID`, then the carrier-versus-propagator line.
+- Safety reminder: Deliver the trust-boundary warning after explaining the visual; it intentionally has no separate slide.
+- Sources: OpenTelemetry Environment Variables as Context Propagation Carriers, https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/context/env-carriers.md; OpenTelemetry feedback article, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; W3C Baggage, https://www.w3.org/TR/baggage/; B3 propagation, https://github.com/openzipkin/b3-propagation.
+-->
+
+---
+layout: default
+id: S27
+---
+
+<div class="closing-slide resource-slide">
+  <header class="demo-heading">
+    <p>Release Candidate</p>
+    <h1>Feedback before stabilization</h1>
+  </header>
+
+  <div class="feedback-layout">
+    <div class="feedback-date">
+      <span>Earliest planned stabilization</span>
+      <strong>2 Nov 2026</strong>
+      <p>After at least 14 days without a new related issue, and only if no blocker remains.</p>
+      <small>Normalization, portability, concurrency, security</small>
+    </div>
+    <a class="qr-link" href="https://opentelemetry.io/blog/2026/environment-variable-context-propagation/" aria-label="Open the OpenTelemetry environment variable context propagation feedback article">
+      <QrCode value="https://opentelemetry.io/blog/2026/environment-variable-context-propagation/" label="QR code for the OpenTelemetry environment variable context propagation feedback article" />
+      <span>Read the proposal<br>Report what breaks</span>
+      <small class="qr-url">opentelemetry.io/blog/2026/<br>environment-variable-context-propagation</small>
+    </a>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Theoretician: The environment carrier is a Release Candidate. We plan to wait until at least November 2, 2026, and until fourteen days pass without a new related issue before stabilizing it. If you find a blocker in normalization, portability, concurrency, or security, please report it. The QR code opens the proposal and feedback guide.
+
+Delivery notes:
+- Time: 00:25.
+- Handoff: None.
+- Status verified: 2026-09-23. The specification is Release Candidate. November 2, 2026 is the earliest stabilization date, not a guaranteed release date; a new related issue or a significant update restarts the 14-day feedback period.
+- QR target: https://opentelemetry.io/blog/2026/environment-variable-context-propagation/
+- Sources: OpenTelemetry feedback article, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; environment carrier specification, https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/context/env-carriers.md; stabilization issue #5040, https://github.com/open-telemetry/opentelemetry-specification/issues/5040.
+-->
+
+---
+layout: default
+id: S28
+---
+
+<div class="closing-slide resource-slide">
+  <header class="demo-heading">
+    <p>Keep exploring</p>
+    <h1>Slides and demo material</h1>
+  </header>
+
+  <div class="repo-layout">
+    <div class="repo-copy">
+      <strong>Presentation</strong>
+      <strong>Demo source</strong>
+      <a href="https://github.com/pellared/otel-env-car-talk/">github.com/pellared/otel-env-car-talk</a>
+    </div>
+    <a class="qr-link" href="https://github.com/pellared/otel-env-car-talk/" aria-label="Open the presentation and demos repository">
+      <QrCode value="https://github.com/pellared/otel-env-car-talk/" label="QR code for the presentation and demos repository" />
+      <span>Open the repository</span>
+    </a>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: This repository contains the presentation and demo source. Scan the code to explore it, reproduce the examples, or adapt the carrier pattern to your own workflow.
+
+Delivery notes:
+- Time: 00:15.
+- Handoff: None.
+- QR target: https://github.com/pellared/otel-env-car-talk/
+- Sources: https://github.com/pellared/otel-env-car-talk/.
+-->
+
+---
+layout: default
+id: S29
+---
+
+<div class="thanks-slide">
+  <div class="thanks-heading">
+    <p>Thank you</p>
+    <h1>Questions?</h1>
+  </div>
+
+  <div class="contact-list" aria-label="Presenter and community contact links">
+    <a href="https://github.com/pellared/"><strong>Robert Pająk</strong><span>github.com/pellared</span></a>
+    <a href="https://github.com/Joibel"><strong>Alan Clucas</strong><span>github.com/Joibel</span></a>
+    <a href="https://cloud-native.slack.com/archives/C0598R66XAP"><strong>CNCF Slack</strong><span>#otel-cicd</span></a>
+    <a href="https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd"><strong>OpenTelemetry CI/CD SIG</strong><span>Open community meeting</span></a>
+  </div>
+</div>
+
+<!--
+Spoken outline:
+Practitioner: Thank you. What would you like to ask or troubleshoot?
+
+Theoretician: Find us on GitHub, or continue the conversation in the CNCF Slack channel #otel-cicd and the OpenTelemetry CI/CD SIG.
+
+Delivery notes:
+- Time: 00:10 for the presentation transition. The reserved 05:00 Q&A and troubleshooting window begins here and remains outside the 20-minute talk.
+- Handoff: Practitioner to Theoretician for the final 00:05.
+- Sources: presenter profiles, https://github.com/pellared/ and https://github.com/Joibel; CNCF Slack signup, https://slack.cncf.io/; `#otel-cicd`, https://cloud-native.slack.com/archives/C0598R66XAP; OpenTelemetry CI/CD SIG directory entry, https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd.
+-->

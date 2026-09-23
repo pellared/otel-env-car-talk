@@ -1430,3 +1430,396 @@ body,
   margin: -232px 0 0 -455px;
   border: 0;
 }
+
+/* S20 */
+.lineage-intro {
+  display: grid;
+  gap: 34px;
+  align-content: center;
+}
+
+.lineage-roles {
+  display: flex;
+  gap: 56px;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.lineage-roles span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Horizontal Argo DAG: source x 380-1110, y 180-400, scaled 1.5. */
+.dag-wide {
+  justify-self: center;
+  width: 1095px;
+  height: 330px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.dag-wide img {
+  width: 2250px;
+  max-width: none;
+  margin: -270px 0 0 -570px;
+  border: 0;
+}
+
+/* S21: source y 420-1105 (customer_ltv INSERT through otel.scope.name), scaled 0.672. */
+.crop-sql {
+  height: 460px;
+}
+
+.crop-sql img {
+  width: 1075px;
+  top: -282px;
+  left: 26px;
+}
+
+/* S22 */
+.lineage-result {
+  display: grid;
+  align-self: center;
+  grid-template-columns: 450px minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+}
+
+/* Argo's artifact panel rendering lineage.html: source x 955-1481, y 150-688, scaled 0.855. */
+.artifact-shot {
+  width: 450px;
+  height: 460px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.artifact-shot img {
+  width: 1283px;
+  max-width: none;
+  margin: -128px 0 0 -816px;
+  border: 0;
+}
+
+.lineage-graph {
+  align-self: center;
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.lineage-graph img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 0;
+}
+
+/* S23 */
+.py-carrier {
+  display: grid;
+  align-self: center;
+  gap: 22px;
+}
+
+.py-carrier .code-snippet {
+  font-size: 21px;
+}
+
+.py-carrier .code-snippet .tok-kw {
+  color: var(--service-api);
+  font-weight: 700;
+}
+
+.py-carrier .code-snippet .tok-fn {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.py-carrier .py-command {
+  justify-self: start;
+  border-top-color: var(--accent);
+}
+
+/* Closing sequence */
+.closing-slide {
+  display: grid;
+  min-height: 606px;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+}
+
+/* S24 */
+.format-ledger {
+  display: grid;
+  align-self: center;
+  border-top: 4px solid var(--ink);
+}
+
+.format-row {
+  display: grid;
+  min-height: 92px;
+  grid-template-columns: 210px minmax(0, 1fr) 250px;
+  gap: 24px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+
+.format-row > span {
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.format-row code {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.format-row small {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.format-row small b {
+  color: var(--warm);
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+.format-baggage code {
+  color: var(--warm);
+}
+
+.format-b3 code {
+  color: var(--service-api);
+}
+
+.format-principle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 19px;
+}
+
+.format-principle strong {
+  color: var(--ink);
+}
+
+.format-principle span {
+  width: 1px;
+  height: 24px;
+  background: var(--line);
+}
+
+/* S26 */
+.adoption-list {
+  display: grid;
+  align-self: center;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 64px;
+  border-top: 4px solid var(--ink);
+}
+
+.adoption-list div {
+  display: grid;
+  grid-template-columns: 245px minmax(0, 1fr);
+  gap: 22px;
+  align-items: baseline;
+  padding: 29px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.adoption-list strong {
+  color: var(--accent);
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.adoption-list span {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.adoption-payoff {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 21px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* QR resources */
+.feedback-layout,
+.repo-layout {
+  display: grid;
+  align-self: center;
+  grid-template-columns: minmax(0, 1fr) 310px;
+  gap: 88px;
+  align-items: center;
+}
+
+.feedback-date {
+  padding-top: 22px;
+  border-top: 4px solid var(--accent);
+}
+
+.feedback-date > span {
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.feedback-date strong {
+  display: block;
+  margin-top: 12px;
+  color: var(--ink);
+  font-size: 70px;
+  font-weight: 760;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.feedback-date p {
+  max-width: 690px;
+  margin-top: 24px !important;
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.feedback-date small {
+  display: block;
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 16px;
+}
+
+.qr-link {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  color: var(--ink);
+  text-align: center;
+}
+
+.qr-code {
+  display: block;
+  width: 266px;
+  height: 266px;
+  border: 1px solid var(--line);
+  background: #ffffff;
+}
+
+.qr-code svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.qr-link > span:not(.qr-code) {
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.25;
+}
+
+.qr-link .qr-url {
+  color: var(--muted);
+  font: 600 13px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+/* S28 */
+.repo-copy {
+  display: grid;
+  padding-top: 22px;
+  border-top: 4px solid var(--ink);
+}
+
+.repo-copy strong {
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 32px;
+  font-weight: 720;
+  line-height: 1.1;
+}
+
+.repo-copy a {
+  margin-top: 28px;
+  color: var(--accent);
+  font: 700 19px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+/* S29 */
+.thanks-slide {
+  display: grid;
+  min-height: 606px;
+  grid-template-rows: 1fr auto;
+}
+
+.thanks-heading {
+  align-self: center;
+}
+
+.thanks-heading p {
+  color: var(--accent);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.thanks-heading h1 {
+  margin-top: 18px;
+  color: var(--ink);
+  font-size: 104px;
+  font-weight: 760;
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+}
+
+.contact-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1.25fr;
+  gap: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.contact-list a {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.contact-list strong {
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.contact-list span {
+  color: var(--muted);
+  font: 600 16px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}

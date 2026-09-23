@@ -2,11 +2,11 @@
 
 ## Current delivery
 
-The authored material now includes the opening, a screenshot-led HTTP-to-CLI teaching demo, the three "dream" slides that turn from the CLI example towards workflows, Demo 2, which realises the dream with a single Argo step running otel-cli, and Demo 3, which contrasts an uninstrumented git step with an instrumented BuildKit step. It uses `14:00` of the 20-minute presentation allowance. Demo 1, including its section transition, uses `04:55`; the dream slides use `02:05`; Demo 2 uses `02:15`; Demo 3 uses `01:55`; no live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
+The authored material now includes the opening, a screenshot-led HTTP-to-CLI teaching demo, the three "dream" slides that turn from the CLI example towards workflows, Demo 2, which realises the dream with a single Argo step running otel-cli, Demo 3, which contrasts an uninstrumented git step with an instrumented BuildKit step, Demo 4, a real-world data-lineage case, and a closing sequence about existing adoption, formats, baggage, a brief security reminder, specification feedback, resources, and community contact. It uses `18:25` of the 20-minute presentation allowance. The closing sequence uses `01:45`, leaving a `01:35` transition and recovery buffer. No live-demo setup is required. The final 5 minutes remain reserved for questions and troubleshooting.
 
 ## Audience outcome
 
-By S10, attendees can distinguish a trace, span, parent relationship, trace context, propagator, and carrier. They can explain why HTTP propagation stops at a spawned process and how an environment carrier lets child instrumentation continue the same trace.
+By S10, attendees can distinguish a trace, span, parent relationship, trace context, propagator, and carrier. They can explain why HTTP propagation stops at a spawned process and how an environment carrier lets child instrumentation continue the same trace. By S29, they can also explain why the carrier is format-agnostic, decide what may safely cross a process trust boundary, and identify where to test the release candidate or ask for help.
 
 ## Narrative arc
 
@@ -29,6 +29,15 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 17. S17 introduces Demo 3 as a faked CI pipeline, clone then build, through its Argo DAG.
 18. S18 shows an uninstrumented git step: nothing nested under its runMainContainer, yet its duration and the controller's much longer node span are both visible, making S12's gap concrete.
 19. S19 shows the instrumented BuildKit step reading the same carrier and returning the Dockerfile's structure as spans, with parallel base-image pulls and builders.
+20. S20 introduces Demo 4 as a real case: a platform team wanting data lineage over pipelines its data scientists own, shown through the pipeline's Argo DAG.
+21. S21 shows the auto-instrumented SQL INSERT spans in the workflow trace, with db.statement already naming the upstream tables.
+22. S22 shows the lineage graph the pipeline's final step derived from its own trace, published as an Argo artifact, and points out the unread products table as proof it reflects what ran.
+23. S23 shows the few lines of platform-owned Python that read the same environment carrier, because auto-instrumentation does not extract it.
+24. S26 shows that otel-cli, Thoth, Argo Workflows, Docker BuildKit, the Jenkins OpenTelemetry plugin, and Claude Code already use `TRACEPARENT` across child-process boundaries.
+25. S24 separates the environment carrier from its payload and propagation format, using W3C trace context, W3C baggage, and B3 as concrete examples, then gives a concise trust-boundary warning.
+26. S27 states the verified Release Candidate status, the earliest planned stabilization date and quiet-period condition, and points to the feedback article with a QR code.
+27. S28 points to the presentation repository and demo material with a QR code.
+28. S29 thanks the audience, opens the 5-minute Q&A, and gives GitHub and CNCF Slack contact paths, including `#otel-cicd` and the OpenTelemetry CI/CD SIG.
 
 ## Sections and timing
 
@@ -39,7 +48,9 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | The dream: tracing a workflow | S11-S13 | 02:05 |
 | Demo 2: Argo to otel-cli | S14-S16 | 02:15 |
 | Demo 3: git and BuildKit | S17-S19 | 01:55 |
-| Remaining presentation material | Not yet authored | Up to 06:00 |
+| Demo 4: data lineage | S20-S23 | 02:40 |
+| Implications, feedback, resources, and thanks | S26, S24, S27-S29 | 01:45 |
+| Transition and recovery buffer | Between sections as needed | 01:35 |
 | Questions and troubleshooting | After the presentation | 05:00 outside the 20:00 presentation |
 
 ## Slide purposes, presenter ownership, and handoffs
@@ -65,6 +76,15 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 | S17 | Introduce Demo 3 as a faked CI pipeline through its two-step Argo DAG. | Practitioner leads; no handoff. | 00:20 |
 | S18 | Show the uninstrumented git step: no child spans, but its duration and the controller's longer node span are visible. | Practitioner leads; no handoff. | 00:45 |
 | S19 | Show the instrumented BuildKit step reading the same carrier and exposing the Dockerfile's parallel structure. | Practitioner leads; `00:10` handoff to Theoretician to locate the difference on the reading side. | 00:50 |
+| S20 | Introduce Demo 4 as a real case, platform team versus code owned by data scientists, through the pipeline's Argo DAG. | Practitioner leads; no handoff. | 00:30 |
+| S21 | Show the auto-instrumented SQL INSERT spans in the workflow trace and point at db.statement naming the upstream tables. | Practitioner leads; no handoff. | 00:45 |
+| S22 | Show the derived lineage graph as an Argo artifact and note the unread products table. | Practitioner leads; `00:05` handoff to Theoretician to tie it back to the carrier. | 00:45 |
+| S23 | Show the small platform-owned wrapper that extracts TRACEPARENT from the environment in Python, since auto-instrumentation does not. | Theoretician leads; `00:05` handoff to Practitioner at the transition to S26. | 00:40 |
+| S26 | Establish existing adoption through command wrappers, workflow and build tools, CI integrations, and coding agents that already inject or extract `TRACEPARENT`. | Practitioner leads; `00:05` handoff to Theoretician at the transition to S24. | 00:25 |
+| S24 | Show that one environment carrier can transport fields from W3C Trace Context, W3C Baggage, B3, or another configured propagation format, then state the trust-boundary rule for inherited fields. | Theoretician leads and continues into S27; no handoff. | 00:30 |
+| S27 | Ask for blocking feedback on the Release Candidate and show the verified stabilization conditions and article QR code. | Theoretician leads; no handoff. | 00:25 |
+| S28 | Give the audience the repository for the presentation and demo material. | Practitioner leads; no handoff. | 00:15 |
+| S29 | Thank the audience, transition to Q&A, and give online contact routes. | Practitioner leads; `00:05` handoff to Theoretician for the community contact. | 00:10 presentation transition; 05:00 Q&A follows outside the talk |
 
 ## Demo 1 evidence and recovery plan
 
@@ -77,13 +97,33 @@ By S10, attendees can distinguish a trace, span, parent relationship, trace cont
 - Display fallback: the native architecture and span-tree diagrams on S05-S07 and S09 preserve the explanation if a screenshot asset does not render.
 - Allotted time: S04-S10 use `04:55`, including the section transition and screenshot comparison. S05-S10 use `04:30` for Demo 1 itself.
 
+## Argo and Docker build evidence and recovery plan
+
+- Audience view before the evidence: S17 shows the two-stage Argo DAG before either trace crop appears.
+- Injection and extraction: the Argo controller and executor inject the active context into pod and child-process environments; BuildKit extracts `TRACEPARENT`, while git does not.
+- Expected result: S18 retains the wrapper spans around the uninstrumented clone, and S19 places BuildKit's Dockerfile spans under the build step in the workflow trace.
+- Failure insight: S18 shows that an inherited variable alone creates no child spans. Missing extraction hides the process internals, while the surrounding workflow spans still expose scheduling and runtime boundaries.
+- Planned path: captured Argo and Jaeger evidence only; no live interaction.
+- Display fallback: S11-S13 retain the native workflow, pod, and workload span model if a capture does not render.
+- Allotted time: S11-S19 use `06:15`, including the model and the preceding Argo carrier implementation; the build-specific evidence on S17-S19 uses `01:55`.
+
+## Required batch lineage evidence and recovery plan
+
+- Audience view before the evidence: S20 shows the complete Argo DAG and identifies the platform and data-scientist ownership boundary.
+- Injection and extraction: Argo injects context into each pod; the platform-owned Python wrapper extracts it before auto-instrumentation creates SQL spans.
+- Expected result: S21 connects the SQL spans into the workflow trace, and S22 derives dataset edges from the recorded SQL statements.
+- Failure insight: S23 explains that auto-instrumentation alone does not extract the parent from the environment; without the wrapper, each job starts a separate trace and the trace-derived lineage graph fragments.
+- Planned path: captured Argo and Jaeger evidence plus the captured lineage artifact; no live interaction.
+- Display fallback: S20's DAG and S23's extraction snippet preserve the ownership and propagation explanation if an evidence image does not render.
+- Allotted time: S20-S23 use `02:40`, including setup and transition.
+
 ## Photo placement
 
 S01 uses the presenters’ current GitHub profile photos. S02 and S03 reserve portrait-oriented areas for photos taken in Prague. Each portrait supports a one-minute audience quiz asking where the photo was taken. The location remains hidden until the presenter reveals the answer. The placeholders should be replaced only after the presenters provide the corresponding photos.
 
 ## Source-brief coverage matrix
 
-This incremental delivery adds the HTTP-to-CLI teaching demo. It does not replace either of the two examples required by the README.
+This coverage matrix maps the current authored deck to the source brief and records the remaining required-demo gap explicitly.
 
 | Source brief item | Slide mapping | Status |
 | --- | --- | --- |
@@ -91,14 +131,14 @@ This incremental delivery adds the HTTP-to-CLI teaching demo. It does not replac
 | Newcomer model of traces, spans, parentage, trace context, propagation, carriers, and propagators. | S06-S07 | Covered |
 | Environment variables carry context into a launched CLI or subprocess. | S09-S10, S14-S15 | Covered for a child CLI and for a workload inside a Kubernetes pod |
 | Injected `TRACEPARENT` preserves trace continuity across the process boundary. | S09-S10, S15 | Covered, including two successive injections in one pod |
-| The carrier remains independent of a single propagation format. | S09, S16 | Covered briefly, twice |
+| The carrier remains independent of a single propagation format. | S09, S16, S24 | Covered explicitly with W3C Trace Context, W3C Baggage, and B3 |
 | Environment-variable name normalization. | S09, S16 | Covered with `traceparent` to `TRACEPARENT`, in demo 1's launcher and in argoexec |
 | Launcher injection and child instrumentation extraction responsibilities. | S09, S16 | Covered, including a launcher that is itself a launched child |
 | Environment propagation does not create spans; instrumentation creates spans and assigns parentage. | S09-S10 | Covered |
-| Security, trust boundaries, inherited environments, logging leakage, allow-listing, and scrubbing. | None | Deferred |
-| Interoperability for CI/CD, workflow engines, build tools, CLIs, and instrumentation. | S05, S09, S14-S15 | CLI and workflow-engine cases covered; build tools and broader implications deferred |
+| Security, trust boundaries, inherited environments, logging leakage, allow-listing, and scrubbing. | S24 | Covered as a concise spoken constraint; the dedicated security slide was intentionally removed |
+| Interoperability for CI/CD, workflow engines, build tools, CLIs, and instrumentation. | S05, S09, S14-S19, S26 | Covered through the demos and existing tool adoption |
 | Shared propagation reduces custom glue and incompatible trace conventions. | S16 | Covered by contrast: Argo reused the W3C propagator rather than inventing a format |
-| Current specification status, adoption feedback, and future refinements. | None | Deferred; status checked for slide notes but not yet part of the spoken narrative |
-| Required Argo/Docker build example. | S11-S19 | Covered: the target picture, an Argo step running otel-cli, and a Docker build with BuildKit beside an uninstrumented git step |
-| Required batch data-lineage example and its instrumentation caveat. | None | Deferred |
-| Complementary Theoretician and Practitioner roles. | S01-S10 | Covered |
+| Current specification status, adoption feedback, and future refinements. | S26-S27 | Covered; Release Candidate status and stabilization conditions verified on 2026-09-23 |
+| Required Argo/Docker build example. | S11-S19 | Partially covered: clone and build have captured evidence; scan and push do not yet appear in the workflow or trace evidence |
+| Required batch data-lineage example and its instrumentation caveat. | S20-S23 | Covered: case, SQL spans, derived lineage, and the Python extraction caveat with its wrapper |
+| Complementary Theoretician and Practitioner roles. | S01-S24, S26-S29 | Covered throughout the model, implementation, safety, adoption, and closing handoffs |
