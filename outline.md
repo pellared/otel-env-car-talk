@@ -117,3 +117,25 @@ Theoretician: And all of it hangs together only because one environment variable
 # S23: Python reads the carrier too
 
 Theoretician: Here is the catch. The operator's Python auto-instrumentation installs the SDK and instruments psycopg, but it never looks at the environment for a parent. Without help, every query would start a new trace. The fix is a few lines the platform owns: extract the context from the environment with the SDK's own environment getter, attach it, then run the data scientist's script unchanged. Same carrier as the Go side, just read in Python.
+
+# S26: Tools already use TRACEPARENT
+
+Practitioner: This pattern is already in use. Argo Workflows carries context into pods and workload commands. Docker BuildKit reads it and forwards it to child processes. Claude Code links headless sessions and traced subprocesses. otel-cli, Thoth, and the Jenkins OpenTelemetry plugin cover command wrappers, CI scripts, and build steps. Shared field names let these tools connect without custom adapters.
+
+# S24: One carrier, several formats
+
+Theoretician: TRACEPARENT was our concrete example, but the environment carrier is format-agnostic. Baggage can travel as BAGGAGE, while a B3 propagator can use fields such as X_B3_TRACEID. The carrier sees opaque strings. The configured propagator chooses the field names, format, and validation. Children inherit those fields, and logs or diagnostics may expose them, so treat them as untrusted. Allow-list baggage before forwarding it. Scrub propagation fields wherever continuity should stop, and never propagate secrets.
+
+# S27: Feedback before stabilization
+
+Theoretician: The environment carrier is a Release Candidate. We plan to wait until at least November 2, 2026, and until fourteen days pass without a new related issue before stabilizing it. If you find a blocker in normalization, portability, concurrency, or security, please report it. The QR code opens the proposal and feedback guide.
+
+# S28: Slides and demo material
+
+Practitioner: This repository contains the presentation and demo source. Scan the code to explore it, reproduce the examples, or adapt the carrier pattern to your own workflow.
+
+# S29: Thank you
+
+Practitioner: Thank you. What would you like to ask or troubleshoot?
+
+Theoretician: Find us on GitHub, or continue the conversation in the CNCF Slack channel #otel-cicd and the OpenTelemetry CI/CD SIG.
