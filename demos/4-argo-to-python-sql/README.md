@@ -39,17 +39,14 @@ runpy.run_path(sys.argv[1], run_name="__main__")
 
 ## Prerequisites
 
-The [demo cluster](../cluster/README.md) has everything this needs, including the
-4318 receiver described below. To use your own cluster instead, you need:
-
-- Argo Workflows with tracing enabled, and Jaeger, as in demo 2
-- The OpenTelemetry operator, with an `Instrumentation` resource in the namespace
-- A registry your cluster can pull from
+The [demo cluster](../cluster/README.md), brought up with
+`../cluster/deploy.sh`.
 
 The operator's injected Python distro ships **only** the HTTP OTLP exporter, and
-forces `OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf`. Your collector therefore
-needs an HTTP receiver on **4318**, and the `Instrumentation` resource should
-point Python at it via `spec.python.env` while Go components keep gRPC on 4317.
+forces `OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf`. That is why the demo
+cluster's collector also listens for HTTP on **4318**, and its `Instrumentation`
+resource points Python there via `spec.python.env` while Go components keep gRPC
+on 4317.
 
 ## Run it
 
@@ -59,12 +56,13 @@ kubectl create namespace warehouse
 kubectl apply -n warehouse -f warehouse-secret.yaml
 kubectl apply -n default   -f warehouse-secret.yaml   # the pipeline runs here
 kubectl apply -f warehouse.yaml
+kubectl rollout status -n warehouse deployment/warehouse --timeout=120s
 
-# 2. the pipeline image (on the demo cluster, <your-registry> is localhost:5000)
-docker build -t <your-registry>/datasci:1 datasci/
-docker push  <your-registry>/datasci:1
+# 2. the pipeline image, pushed to the demo cluster's registry
+docker build -t localhost:5000/datasci:1 datasci/
+docker push  localhost:5000/datasci:1
 
-# 3. the pipeline, with the image parameter pointed at it
+# 3. the pipeline
 kubectl create -n default -f workflow.yaml
 ```
 

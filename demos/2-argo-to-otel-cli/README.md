@@ -24,27 +24,23 @@ work, and the workflow YAML mentions trace context nowhere.
 
 ## Prerequisites
 
-The [demo cluster](../cluster/README.md) has everything this needs:
-`../cluster/deploy.sh`. To use your own cluster instead, you need:
-
-- Argo Workflows, with `OTEL_EXPORTER_OTLP_ENDPOINT` set on the
-  workflow-controller so it emits traces
-- Jaeger, receiving from the same collector
-- A namespace whose pods can reach that collector. The workflow assumes
-  `default`.
+The [demo cluster](../cluster/README.md), brought up with
+`../cluster/deploy.sh`.
 
 ## Run it
 
 ```sh
-kubectl create -n default -f workflow.yaml
+wf=$(kubectl create -n default -f workflow.yaml -o name)
+kubectl wait -n default --for=condition=Completed "$wf" --timeout=5m
+kubectl get -n default "$wf" -o jsonpath='{.status.phase}{"\n"}'
 ```
 
-Then open Jaeger, pick the `workflow-controller` service, and open the newest
-trace. Or jump straight to it:
+It takes about 30 seconds and should print `Succeeded`. Then open that
+workflow's trace in Jaeger:
 
 ```sh
-kubectl get wf -n default -o custom-columns=\
-NAME:.metadata.name,TRACE:'.metadata.annotations.workflows\.argoproj\.io/trace-id'
+echo "http://localhost:16686/trace/$(kubectl get -n default "$wf" \
+  -o jsonpath='{.metadata.annotations.workflows\.argoproj\.io/trace-id}')"
 ```
 
 ## What you should see
