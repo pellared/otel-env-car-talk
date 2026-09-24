@@ -25,7 +25,7 @@ JAEGER = os.environ.get("JAEGER_URL", "http://jaeger.jaeger.svc.cluster.local:16
 # instrumentation emits by default, db.query.text is the newer stable semconv
 # name used when OTEL_SEMCONV_STABILITY_OPT_IN=database.
 SQL_KEYS = ("db.statement", "db.query.text")
-MIN_STATEMENTS = int(os.environ.get("MIN_STATEMENTS", "4"))
+MIN_STATEMENTS = int(os.environ.get("MIN_STATEMENTS", "10"))
 
 
 def trace_id() -> str:

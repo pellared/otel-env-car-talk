@@ -63,8 +63,8 @@ workflow                          (workflow-controller)
 
 ## What to point out
 
-1. The workflow author wrote no OpenTelemetry code and named no propagator. The
-   only trace-related thing in `workflow.yaml` is an `echo` of `$TRACEPARENT`,
+1. The workflow author wrote no propagation code and named no propagator. The
+   only context-related thing in `workflow.yaml` is an `echo` of `$TRACEPARENT`,
    and that is there purely so the audience can see the value exists.
 2. There are **two** injections, not one. The controller injects into the pod
    environment; the executor injects again into the child process environment,
