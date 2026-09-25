@@ -1,0 +1,66 @@
+# A service account for logging in to the Argo Server UI. argo-token.sh applies
+# this and prints its token.
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: argo
+  name: argo-workflows-rw-user
+  annotations:
+    workflows.argoproj.io/rbac-rule: "RW user"
+    workflows.argoproj.io/rbac-rule-precedence: "100"
+secrets:
+  - name: argo-workflows-rw-user
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  namespace: argo
+  name: argo-workflows-rw-user
+  annotations:
+    kubernetes.io/service-account.name: argo-workflows-rw-user
+type: kubernetes.io/service-account-token
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: argo-workflows-rw
+rules:
+  - apiGroups: [""]
+    resources: ["pods/log", "pods", "configmaps"]
+    verbs: ["get", "watch", "list", "delete", "patch"]
+  # The artifact server reads artifacts as the logged-in user, so viewing one in
+  # the UI needs read access to the artifact repository credentials. Without this
+  # the Artifacts panel fails with a 500 and the server logs
+  # 'secrets "my-minio-cred" is forbidden'. Scoped to just that secret.
+  - apiGroups: [""]
+    resources: ["secrets"]
+    resourceNames: ["my-minio-cred"]
+    verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: default
+  name: argo-workflows-rw
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argo-workflows-rw
+subjects:
+  - kind: ServiceAccount
+    name: argo-workflows-rw-user
+    namespace: argo
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argo-workflows-rw-edit-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argo-aggregate-to-edit
+subjects:
+  - kind: ServiceAccount
+    name: argo-workflows-rw-user
+    namespace: argo
