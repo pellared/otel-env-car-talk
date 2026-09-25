@@ -17,7 +17,9 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: main
-          image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+          # Silo, PIGSTY's MinIO fork: quay.io/minio/minio no longer serves
+          # images anonymously. Same env vars, health paths and console.
+          image: docker.io/pgsty/silo:RELEASE.2026-09-16T00-00-00Z
           env:
             - name: MINIO_ROOT_USER
               value: admin
@@ -28,7 +30,7 @@ spec:
               name: api
             - containerPort: 9001
               name: dashboard
-          command: [minio, server, --console-address, ":9001", /data]
+          command: [silo, server, --console-address, ":9001", /data]
           lifecycle:
             postStart:
               exec:

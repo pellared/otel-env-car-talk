@@ -20,7 +20,7 @@ which also adds Grafana, Tempo and span metrics.
 | OpenTelemetry operator | Injects `OTEL_EXPORTER_OTLP_ENDPOINT` into Argo and workload pods, and auto-instruments Python for demo 4 |
 | OpenTelemetry Collector | Receives OTLP on 4317 (gRPC) and 4318 (HTTP) and forwards traces to Jaeger |
 | Jaeger v2, in-memory | Where you look at the traces |
-| MinIO | Argo's artifact repository |
+| MinIO (the [Silo](https://silo.pgsty.com/) fork) | Argo's artifact repository |
 | cert-manager | Required by the operator's webhooks |
 
 ## Prerequisites
