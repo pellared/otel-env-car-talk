@@ -1,0 +1,45 @@
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: workflows
+spec:
+  mode: deployment
+  securityContext:
+    runAsNonRoot: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 75Mi
+  image: otel/opentelemetry-collector-contrib:0.161.0
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: "0.0.0.0:4317"
+          # Needed for the OpenTelemetry operator's Python auto-instrumentation
+          # (demo 4), which can only speak http/protobuf: its injected image
+          # bundles opentelemetry-exporter-otlp-proto-http and no gRPC exporter.
+          # Go components (workflow-controller, argoexec) keep using gRPC on 4317.
+          http:
+            endpoint: "0.0.0.0:4318"
+    exporters:
+      # Jaeger, queried by its own UI on http://localhost:16686
+      otlp/jaeger:
+        endpoint: "jaeger.jaeger.svc.cluster.local:4317"
+        tls:
+          insecure: true
+      # The workflow-controller also sends OTLP metrics once it has an endpoint.
+      # The demos only need traces, so accept and drop them rather than let the
+      # controller log export errors.
+      nop: {}
+    service:
+      pipelines:
+        # No batch processor: spans forward immediately, which demo 4's lineage
+        # step relies on when it reads its own trace back out of Jaeger.
+        traces:
+          receivers: [otlp]
+          exporters: [otlp/jaeger]
+        metrics:
+          receivers: [otlp]
+          exporters: [nop]

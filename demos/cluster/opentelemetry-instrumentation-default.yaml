@@ -1,0 +1,26 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: instrumentation
+  namespace: default
+spec:
+  exporter:
+    endpoint: http://workflows-collector.argo.svc.cluster.local:4317
+  propagators:
+    - tracecontext
+    - baggage
+    - b3
+  sampler:
+    type: parentbased_traceidratio
+    argument: "1.0"
+  python:
+    # Python must reach the collector over HTTP/4318, not the gRPC endpoint in
+    # spec.exporter.endpoint above: the operator's injected Python distro has no
+    # gRPC exporter and the operator forces OTEL_EXPORTER_OTLP_PROTOCOL to
+    # http/protobuf. Only Python is redirected; Go keeps the 4317 endpoint.
+    env:
+      - name: OTEL_EXPORTER_OTLP_ENDPOINT
+        value: http://workflows-collector.argo.svc.cluster.local:4318
+    resourceRequirements:
+      limits:
+        memory: "1Gi"
