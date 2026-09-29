@@ -140,6 +140,7 @@ Budget live-demo interaction as well as speech. Estimate spoken time at roughly 
 - Use plain, direct language and active voice. Avoid unexplained jargon and hype.
 - In speaker notes, label each presenter’s bullet prompts `Robert (Theoretician):` or `Alan (Practitioner):`.
 - Put stage directions, demo controls, timing cues, fallbacks, and citations in a separate `Delivery notes` subsection.
+- In `Delivery notes`, give each slide an `Expected start time` measured from the beginning of the talk and a `Duration`. Calculate starts from the planned slide durations; keep the recovery buffer unallocated.
 - Cite external facts, specification claims, and borrowed visuals in the relevant slide notes. Prefer primary OpenTelemetry and W3C sources for technical claims.
 - Never invent a specification status, API, demo result, benchmark, citation, or source.
 
@@ -155,7 +156,8 @@ Alan (Practitioner):
 - Point to cover.
 
 Delivery notes:
-- Time: 01:15
+- Expected start time: 00:20.
+- Duration: 01:15.
 - Handoff: ...
 - Demo cue or fallback: ...
 - Sources: ...
