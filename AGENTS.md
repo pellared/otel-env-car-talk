@@ -28,21 +28,21 @@ Maintain these files with distinct roles:
 
 1. `README.md` is the source brief and coverage checklist.
 2. `plan.md` contains only the high-level presentation plan: audience outcome, narrative arc, sections, slide purposes, presenter ownership, demo placement, and timing.
-3. `outline.md` contains only what the presenters intend to say. Organize it by slide and speaker, but do not add design instructions, TODOs, citations, rehearsal commentary, or production notes.
-4. `slides.md` is the Slidev presentation. It contains audience-facing slide content and speaker notes. The notes must include the matching spoken content from `outline.md`.
+3. `slides.md` is the Slidev presentation. It contains audience-facing content and speaker notes with concise bullet points for what each presenter should cover. These are prompts, not a verbatim script.
 
-Create missing artifacts only when the requested task calls for them. Do not put slide copy into `plan.md`, and do not turn `outline.md` into a second deck.
+Do not create or maintain `outline.md`.
+
+Create missing artifacts only when the requested task calls for them. Do not put slide copy into `plan.md`.
 
 ## Source-of-truth and synchronization rules
 
-- Develop in this order: `README.md` coverage check, `plan.md`, `outline.md`, then `slides.md`.
-- Treat `outline.md` as the canonical spoken narrative.
-- Give every planned slide a stable identifier such as `S01`, `S02`, and use the same identifier in all three presentation artifacts.
-- Copy each slide's spoken content into that slide's speaker notes in `slides.md`. Keep speaker labels and wording synchronized.
-- A change to the narrative must update `outline.md` and the corresponding notes in `slides.md` in the same task.
+- Develop in this order: `README.md` coverage check, `plan.md`, then `slides.md`.
+- Treat presenter bullets in `slides.md` as the canonical talking points.
+- Give every planned slide a stable identifier such as `S01`, `S02`, and use the same identifier in `plan.md` and `slides.md`.
+- A change to the narrative must update the corresponding presenter bullets in `slides.md`.
 - A change that affects structure or timing must also update `plan.md`.
-- Audience-facing slide text does not need to repeat the spoken outline. Slides should support the explanation visually and remain readable at a distance.
-- Before finishing, compare the three artifacts and report any intentional discrepancy.
+- Audience-facing slide text does not need to repeat the presenter cues. Slides should support the explanation visually and remain readable at a distance.
+- Before finishing, compare `plan.md` and `slides.md` against the README coverage checklist and report any intentional discrepancy.
 
 ## Required content coverage
 
@@ -73,7 +73,7 @@ For each demo, the artifacts must state:
 - a fallback visual or prerecorded path if the live demo fails;
 - the allotted time, including setup and transition.
 
-Keep setup details in `plan.md` or slide notes, not in `outline.md`, unless the presenters will say them aloud.
+Keep setup details in `plan.md` or the `Delivery notes` section, outside presenter cues unless the presenters will say them aloud.
 
 ### Demo 1: Docker image build in Argo Workflows
 
@@ -90,22 +90,30 @@ Show extract, transform, and load processes inheriting trace context through the
 - Use HTTP propagation as a familiar comparison, then show what changes at a process boundary.
 - Separate the carrier from the propagation format and from the instrumentation. This distinction is central to the talk.
 - Reuse one simple parent-child mental model through the explanation and both demos.
-- Connect theory to practice on the same slide when it helps: the Theoretician explains the rule, then the Practitioner shows the operational consequence or implementation choice.
+- Connect theory to practice across adjacent slides when it helps: the Theoretician explains the rule, then the Practitioner shows the operational consequence or implementation choice.
 - End with a concise recap that attendees can apply to their own tools and workflows.
 - Avoid long specification quotations, unexplained acronyms, and dense taxonomy slides.
 
 ## Two-presenter choreography
 
-Label spoken sections as `Theoretician:` and `Practitioner:` in `outline.md` and speaker notes. Each slide in `plan.md` must identify a lead presenter and any handoff.
+Use these presenter assignments in the plan and slide notes:
+
+- S01: Robert (Theoretician) and Alan (Practitioner).
+- S02 and S05-S10: Robert.
+- S03-S04 and S11-S23: Alan.
+- S24-S27: Robert.
+- S28: Alan.
+
+Each slide in `plan.md` must identify its presenter and any handoff. Within-slide handoffs occur only on S01.
 
 Use handoffs to add meaning. Good patterns include:
 
 - model followed by implementation consequence;
 - expected behavior followed by a failure seen in practice;
 - specification constraint followed by a safe deployment choice;
-- shared narration of one demo from trace-model and operator perspectives.
+- model and operator perspectives on adjacent slides in one demo.
 
-Do not alternate speakers mechanically on every slide. Avoid repeating the same explanation in different words. Keep handoffs short enough that they feel rehearsed rather than interruptive.
+Avoid repeating the same explanation in different words. Make the section handoffs clear and brief.
 
 ## Timing and scope control
 
@@ -130,8 +138,8 @@ Budget live-demo interaction as well as speech. Estimate spoken time at roughly 
 - Make code and environment-variable examples large enough to read from the back of a room.
 - Avoid dashboard-like grids, decorative UI panels, filler slogans, and paragraphs on slides.
 - Use plain, direct language and active voice. Avoid unexplained jargon and hype.
-- In speaker notes, retain the `Theoretician:` and `Practitioner:` labels from `outline.md`.
-- Put stage directions, demo controls, timing cues, fallbacks, and citations in clearly marked note subsections outside the synchronized spoken text.
+- In speaker notes, label each presenter’s bullet prompts `Robert (Theoretician):` or `Alan (Practitioner):`.
+- Put stage directions, demo controls, timing cues, fallbacks, and citations in a separate `Delivery notes` subsection.
 - Cite external facts, specification claims, and borrowed visuals in the relevant slide notes. Prefer primary OpenTelemetry and W3C sources for technical claims.
 - Never invent a specification status, API, demo result, benchmark, citation, or source.
 
@@ -139,9 +147,12 @@ A recommended Slidev note shape is:
 
 ```md
 <!--
-Spoken outline:
-Theoretician: ...
-Practitioner: ...
+Presenter cues:
+Robert (Theoretician):
+- Point to cover.
+
+Alan (Practitioner):
+- Point to cover.
 
 Delivery notes:
 - Time: 01:15
@@ -151,7 +162,7 @@ Delivery notes:
 -->
 ```
 
-Only the lines under `Spoken outline` belong in `outline.md`.
+The presenter cues should be brief enough to allow natural delivery without prescribing exact wording.
 
 ## Working method
 
@@ -160,7 +171,7 @@ When asked to build or revise the talk:
 1. Read this file, `README.md`, and every existing presentation artifact before editing.
 2. Make a small coverage matrix in `plan.md`. Map every Description promise and required demo to slide IDs. Also map the Benefits points selected for the talk.
 3. Check the narrative arc, terminology order, presenter roles, and timing before polishing slide copy.
-4. Update all affected artifacts according to the synchronization rules.
+4. Update the plan and slide notes according to the synchronization rules.
 5. Run `npm run build` after changing `slides.md`.
 6. Preview or export the deck when layout changed, and inspect every slide for clipping, unreadable text, bad contrast, and broken assets.
 7. Rehearse or estimate the complete delivery, including demos and handoffs, and keep it at or below 20 minutes.
@@ -172,11 +183,12 @@ When reviewing rather than editing, identify exact slide IDs and distinguish blo
 Presentation work is complete only when:
 
 - every promise in the README's Description and both required demos maps to at least one planned slide;
+- the deck has 28 slides with the presenter assignments above;
 - the story works for an observability audience new to OpenTelemetry terminology;
 - the Theoretician and Practitioner have distinct, complementary contributions;
 - both demos have an expected result and a failure fallback;
-- `outline.md` contains only spoken content;
-- the spoken content in `outline.md` matches the notes in `slides.md`;
+- each slide has concise, presenter-specific bullet prompts in its notes;
+- the presenter assignments and slide IDs in `plan.md` match `slides.md`;
 - all planned durations total no more than 20 minutes and leave the 5-minute Q&A untouched;
 - technical and time-sensitive claims have appropriate primary sources;
 - `npm run build` succeeds after slide changes;

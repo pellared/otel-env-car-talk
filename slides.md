@@ -38,14 +38,17 @@ canvasWidth: 1280
 </div>
 
 <!--
-Spoken outline:
-Theoretician: Welcome. We are Robert Pająk and Alan Clucas. This talk follows trace context across process boundaries, from one process into the next.
+Presenter cues:
+Robert (Theoretician):
+- Introduce the talk as a trace-context journey across process boundaries.
+- Name both presenters and the two perspectives.
 
-Practitioner: We will connect the model to the realities of launching containers, build steps, and batch jobs.
+Alan (Practitioner):
+- Preview containers, build steps, and batch jobs as the concrete cases.
 
 Delivery notes:
 - Time: 00:20.
-- Handoff: Theoretician to Practitioner, 00:05.
+- Handoff: Robert to Alan for the final 00:05.
 - Display: Follow the viewer’s color preference. In Slidev, use the built-in mode control or press `D` to toggle light and dark.
 - Sources: README.md; presenter profiles and profile photos: https://github.com/pellared/, https://avatars.githubusercontent.com/u/5067549?s=512&v=4, https://github.com/Joibel, https://avatars.githubusercontent.com/u/1827156?s=512&v=4.
 -->
@@ -77,16 +80,14 @@ id: S02
 </div>
 
 <!--
-Spoken outline:
-Theoretician: I’m Robert Pająk, pellared on GitHub. I work at Splunk and maintain OpenTelemetry Go and the OpenTelemetry Specification.
-
-Theoretician: Where was this picture taken? Take a guess.
-
-Theoretician: Prague. I’ll cover the model, terminology, and constraints behind safe context propagation.
+Presenter cues:
+Robert (Theoretician):
+- Introduce yourself, your Splunk role, and OpenTelemetry Go and Specification work.
+- Ask the audience to guess where the portrait was taken; reveal Prague.
+- Preview your focus on the model and its constraints.
 
 Delivery notes:
 - Time: 01:15, including a 01:00 quiz.
-- Handoff: None.
 - Quiz: Ask the audience where the picture was taken and take guesses for one minute. Then press next to reveal the answer, Prague.
 - Portrait: Replace the marked area with Robert’s supplied portrait. Keep a portrait crop and do not add a visible location caption.
 - Sources: https://github.com/pellared/; OpenTelemetry community roles: https://opentelemetry.io/community/members/.
@@ -119,16 +120,14 @@ id: S03
 </div>
 
 <!--
-Spoken outline:
-Practitioner: I’m Alan Clucas, Joibel on GitHub. I work at Pipekit and lead Argo Workflows.
-
-Practitioner: Where was this picture taken? Take a guess.
-
-Practitioner: Prague. I’ll show what it means for real workflows, operators, and failures.
+Presenter cues:
+Alan (Practitioner):
+- Introduce yourself, Pipekit, and your Argo Workflows role.
+- Ask the audience to guess where the portrait was taken; reveal Prague.
+- Preview your focus on workflows, operators, and failures.
 
 Delivery notes:
 - Time: 01:15, including a 01:00 quiz.
-- Handoff: None.
 - Quiz: Ask the audience where the picture was taken and take guesses for one minute. Then press next to reveal the answer, Prague.
 - Portrait: Replace the marked area with Alan’s supplied portrait. Keep a portrait crop and do not add a visible location caption.
 - Sources: https://github.com/Joibel; Argo Project maintainer list: https://github.com/argoproj/argoproj/blob/main/MAINTAINERS.md.
@@ -155,13 +154,14 @@ id: S04
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Rather than front-load a glossary, we will meet each concept inside a working system. First, an HTTP service launches a CLI. We will read the normal HTTP trace, find the break, change the carrier, and compare the result.
+Presenter cues:
+Alan (Practitioner):
+- Explain that each concept will appear beside working trace evidence.
+- Preview the HTTP-to-CLI boundary, the break, the carrier change, and the connected result.
 
 Delivery notes:
 - Time: 00:25.
-- Handoff: None.
-- Demo mode: Both demos use diagrams and captured evidence. No live interaction is planned.
+- Demo mode: All examples use diagrams and captured evidence. No live interaction is planned.
 - Sources: README.md.
 -->
 
@@ -222,12 +222,14 @@ id: S05
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Our Java client asks a Go API to build a report. The API starts a Python CLI in its own process. All three programs export spans to Jaeger. The network boundary is Java to Go. The process boundary is Go to Python. Those boundaries need different places to carry the same trace identity.
+Presenter cues:
+Robert (Theoretician):
+- Orient the audience to Java client, Go API, Python CLI, and Jaeger.
+- Distinguish the Java-to-Go HTTP hop from the Go-to-Python process launch.
+- Point out that the second boundary has no HTTP headers to carry context.
 
 Delivery notes:
 - Time: 00:40.
-- Handoff: Practitioner to Theoretician during the final 00:05.
 - Before the demo evidence: Let the audience locate both labeled boundaries before advancing.
 - Visual key: Teal identifies `report-client`, indigo identifies `report-api`, and orange identifies `report-cli`.
 - Sources: demos/1-http-to-cli/README.md; demos/1-http-to-cli/compose.yaml; demos/1-http-to-cli/cmd/report-api/main.go.
@@ -273,12 +275,14 @@ id: S06
 </div>
 
 <!--
-Spoken outline:
-Theoretician: A span records one timed operation, such as the POST or fetching data. A trace is the complete causal story, built from spans that name their parent. One trace ID groups the story. Each span has its own span ID. If the parent-child chain survives both boundaries, Jaeger can show the request, service, and CLI work as one tree.
+Presenter cues:
+Robert (Theoretician):
+- Define a span as one timed operation and a trace as the connected causal story.
+- Explain trace ID, span ID, and parent-child links using the displayed tree.
+- Show where the CLI work should appear if parentage survives.
 
 Delivery notes:
 - Time: 00:40.
-- Handoff: None.
 - Visual key: Service color matches S05. Every bar uses one trace timeline; horizontal position shows start time and length shows duration.
 - Fallback: This native span tree also serves as the evidence fallback if a later screenshot does not render.
 - Sources: OpenTelemetry Tracing API, https://opentelemetry.io/docs/specs/otel/trace/api/.
@@ -330,14 +334,15 @@ id: S07
 </div>
 
 <!--
-Spoken outline:
-Theoretician: To cross HTTP, the currently active span contributes trace context: the trace ID, parent span ID, and flags that the next program needs. A propagator translates that in-memory context into a standard format and back again. Here the W3C Trace Context propagator injects a `traceparent` field. The HTTP headers are the carrier, the key-value container that transports it. Go extracts that field, then its instrumentation starts a child span.
-
-Practitioner: This is the normal OpenTelemetry HTTP pattern. Java injects and Go’s HTTP instrumentation extracts, so the request reaches Go in one connected trace.
+Presenter cues:
+Robert (Theoretician):
+- Define trace context as the identity and parent information passed to the next operation.
+- Define propagation as moving that context; a propagator encodes and decodes the fields.
+- Identify W3C `traceparent` as the format field and HTTP headers as the carrier.
+- Explain that Go extracts the field before its instrumentation starts a child span.
 
 Delivery notes:
 - Time: 00:55.
-- Handoff: Theoretician to Practitioner for the final 00:10.
 - Sources: OpenTelemetry context propagation, https://opentelemetry.io/docs/concepts/context-propagation/; OpenTelemetry Propagators API, https://opentelemetry.io/docs/specs/otel/context/api-propagators/; W3C Trace Context, https://www.w3.org/TR/trace-context/.
 -->
 
@@ -383,12 +388,14 @@ id: S08
 </div>
 
 <!--
-Spoken outline:
-Practitioner: The Go API can see the active trace when it starts `run report.py`. But starting Python is not an HTTP request, so no request headers cross that boundary. With no other carrier, Python extracts no parent and starts `build report` as a separate root trace. The screenshots show both halves: the request trace ends at `run report.py`; the Python trace starts at `build report`. Different trace IDs prove the parent-child link was lost.
+Presenter cues:
+Robert (Theoretician):
+- Compare the captured request trace with the Python CLI root trace.
+- Point to `run report.py` ending one trace and `build report` starting another.
+- Explain that the process launch did not carry HTTP headers, so Python had no parent context.
 
 Delivery notes:
 - Time: 00:50.
-- Handoff: None.
 - Evidence: Playwright captures of local Jaeger traces `7dc2cf4ed9e5e29887bee1aafa31c53c` and `662ebaa1ca31466b2827be86bdda8748`, generated by the same `make run` execution.
 - Diagnostic point: The CLI still creates spans. Missing parent context places them in a different trace.
 - Fallback: Use the S05 architecture and remove the Go-to-Python parent link verbally, then point back to the expected S06 tree.
@@ -439,16 +446,17 @@ id: S09
 </div>
 
 <!--
-Spoken outline:
-Theoretician: We keep the W3C Trace Context propagator and change the carrier. Just before the spawn, Go injects the active context into a copy of the child environment. The environment carrier normalizes `traceparent` to `TRACEPARENT`. At startup, Python extracts from its environment.
-
-Practitioner: Python instrumentation then creates `build report` using that extracted parent. The launcher owns injection. Child instrumentation owns extraction and span creation. The carrier transports opaque propagation fields, so the same carrier model can support other configured formats.
+Presenter cues:
+Robert (Theoretician):
+- Keep the W3C propagator and change the carrier to a copied child environment.
+- Explain why the Go launcher injects just before spawn and Python extracts at startup.
+- Show `traceparent` normalizing to `TRACEPARENT`; consistent key rules make both sides agree.
+- Separate context transport from instrumentation creating the child span.
 
 Delivery notes:
 - Time: 00:55.
-- Handoff: Theoretician to Practitioner for the final 00:15.
 - Implementation: Go injects into `cmd.Env`; Python extracts from `os.environ` once at startup.
-- Specification status checked 2026-09-22: Environment Variables as Context Propagation Carriers is Release Candidate.
+- Specification status checked 2026-09-29: Environment Variables as Context Propagation Carriers is Release Candidate.
 - Sources: OpenTelemetry Environment Variables as Context Propagation Carriers, https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/context/env-carriers.md; OpenTelemetry Propagators API, https://opentelemetry.io/docs/specs/otel/context/api-propagators/; demos/1-http-to-cli/cmd/report-api/main.go; demos/1-http-to-cli/python/report.py.
 -->
 
@@ -474,14 +482,14 @@ id: S10
 </div>
 
 <!--
-Spoken outline:
-Practitioner: In the captured fixed run, Jaeger shows seven spans from three services under one trace. We can now see the CLI’s `build report`, `fetch data`, and `generate pdf` work under `run report.py`. That visibility comes from preserving parentage across the spawn, not from the environment variable creating spans.
-
-Theoretician: Same trace context, same propagator, and a carrier suited to the boundary.
+Presenter cues:
+Robert (Theoretician):
+- Point to the seven captured spans from three services in one trace.
+- Show the CLI spans under `run report.py` and name restored parentage as the cause.
+- Reinforce that the variable carried context; instrumentation created the spans.
 
 Delivery notes:
 - Time: 00:30.
-- Handoff: Practitioner to Theoretician for the final 00:05.
 - Expected result: Seven spans from `report-client`, `report-api`, and `report-cli` share trace `d2264e9b82e5cfbab0bf724d4308af96`.
 - Evidence: Playwright capture of the local Jaeger trace generated by `make fixed`.
 - Fallback: Use the complete native span tree on S06 and the process handoff on S09.
@@ -537,12 +545,14 @@ id: S11
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Here is the dream. A workflow is a graph of steps: A runs first, B and C run in parallel once A finishes, and D waits for both. If the workflow were a trace, it would look like this. One span for the workflow itself, from submission to completion. One span per step, each a child of the workflow, sitting exactly where it ran. You can read the graph straight off the bars: B and C overlap because they ran together, and D starts when the longer of them finishes. That is the promise. The orchestrator’s view and the timing view become one picture.
+Presenter cues:
+Alan (Practitioner):
+- Read the workflow graph: A, parallel B and C, then D.
+- Map the graph to a workflow span with child step spans.
+- Explain how overlap and waiting become visible as timing bars.
 
 Delivery notes:
 - Time: 00:40.
-- Handoff: None.
 - Visual key: The orchestrator’s span uses the API color; step spans use the client color. Same trace timeline conventions as S06: position is start time, length is duration.
 - Sources: Argo Workflows DAG templates, https://argo-workflows.readthedocs.io/en/latest/walk-through/dag/.
 -->
@@ -600,14 +610,14 @@ id: S12
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Every step runs in a Kubernetes pod. The bars from the last slide are the controller’s view of each step: from the moment it created the pod to the moment it noticed the pod had finished. Inside each pod something actually ran, and that deserves a span of its own. It starts later, because the pod had to be scheduled and its image pulled. It ends earlier, because the controller only notices completion on its next reconcile. On a quiet cluster the two bars almost coincide. On a stressed cluster they drift apart markedly, and the gap is exactly the time the workflow spent waiting on Kubernetes rather than doing work. I want to see both.
-
-Theoretician: Which means the trace context has to reach the inside of the pod.
+Presenter cues:
+Alan (Practitioner):
+- Distinguish each controller step span from the shorter work inside its pod.
+- Point to scheduling, image pull, and reconcile time in the gap.
+- Explain why the parent context must reach the pod to compare both layers.
 
 Delivery notes:
 - Time: 00:45.
-- Handoff: Practitioner to Theoretician for the final 00:05, which sets up the carrier question.
 - Visual key: The step bars keep the S11 color and are relabelled "controller". Each pod span has its own color, because in Jaeger each pod is its own service. The DAG nodes take the pod colors to tie the two halves together.
 - Sources: Argo Workflows architecture, https://argo-workflows.readthedocs.io/en/latest/architecture/.
 -->
@@ -663,14 +673,14 @@ id: S13
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Zoom into one step. The controller’s view, the pod’s view, and now, inside the pod, what the user’s workload actually did: three spans it emitted itself, named observability, summit, and prague. This is the layer that matters to the person who wrote the workflow, and the platform knows nothing about it. It only appears if the workload’s own instrumentation joins the same trace. Three layers, three owners: the controller, the executor in the pod, and the user’s code. One trace.
-
-Theoretician: Three process boundaries, and not one of them is an HTTP request.
+Presenter cues:
+Alan (Practitioner):
+- Add spans emitted by the user workload inside one pod span.
+- Name the three owners: controller, pod executor, and user code.
+- Emphasize that the workload must be instrumented to contribute its own spans.
 
 Delivery notes:
 - Time: 00:40.
-- Handoff: Practitioner to Theoretician for the final 00:05, which lands the carrier problem.
 - Visual key: The controller and pod colors carry over from S12. Workload spans use the ink color to mark them as the user’s own code rather than a platform layer. In Jaeger they would share the pod’s service color; the distinction here is a teaching device.
 - Sources: demos/2-argo-to-otel-cli/README.md.
 -->
@@ -699,12 +709,14 @@ id: S14
 </div>
 
 <!--
-Spoken outline:
-Practitioner: This is demo 2 as Argo sees it: a workflow with a single step, so a single pod. And this is everything that pod runs. Three otel-cli commands, each emitting one span, named after this conference. And an echo of TRACEPARENT, purely so you can see the variable is there. Notice what is missing. Nothing in this workflow mentions tracing. Nobody named a propagator or configured an SDK. otel-cli is an off-the-shelf tool that reads its environment, and that is all it needs.
+Presenter cues:
+Alan (Practitioner):
+- Show the single-step Argo workflow before opening its trace.
+- Point to three `otel-cli` commands and the visible `TRACEPARENT`.
+- Explain that the workflow author did not configure a propagator in this step.
 
 Delivery notes:
 - Time: 00:40.
-- Handoff: None.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 2 workflow.
 - Fallback: Read the snippet aloud; the DAG is a single node and needs no picture to be understood.
 - Sources: demos/2-argo-to-otel-cli/workflow.yaml; demos/2-argo-to-otel-cli/README.md.
@@ -730,14 +742,14 @@ id: S15
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Here is the trace. The workflow span at the top belongs to the controller. Under it, the node, then creating the pod. Then argoexec, the executor inside the pod: runInitContainer, runWaitContainer, and runMainContainer. And under runMainContainer, the three spans the workload emitted: observability, summit, prague, three seconds, five, four. This is the third dream slide, for real. Notice where the workload spans hang. Not off the node, off runMainContainer. That tells you there were two injections, not one. The controller injected its context into the pod’s environment. Then the executor started its own span and injected again, into the environment of the process it launched. Two carrier hops, and the workflow author wrote neither of them.
-
-Theoretician: The propagator never changed. Only the carrier did, and it was the same carrier both times.
+Presenter cues:
+Alan (Practitioner):
+- Read the captured tree from controller workflow span through pod executor to workload spans.
+- Explain the controller-to-pod injection and executor-to-command injection.
+- Use the parentage under `runMainContainer` as evidence of the second hop.
 
 Delivery notes:
 - Time: 00:45.
-- Handoff: Practitioner to Theoretician for the final 00:10.
 - Expected result: 49 spans, one root `workflow` span from `workflow-controller`, and `observability`, `summit`, `prague` as children of `runMainContainer`.
 - Evidence: Playwright capture of the local Jaeger UI, scrolled to the runMainContainer subtree.
 - Fallback: The S13 dream slide is the same tree drawn by hand.
@@ -786,14 +798,14 @@ propagation.TraceContext{}.<span class="tok-fn">Inject</span>(ctx, carrier)
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Two handoffs, and here they are, working outward from the workload. The nearer one is inside the pod. argoexec starts the runMainContainer span, then injects again with the OpenTelemetry environment carrier, the same envcar package demo 1’s Go launcher used, into a copy of the environment it hands only to the user’s command. Its own environment stays exactly as the pod spec set it. That is why the workload’s spans hang off runMainContainer. Now one level out: where did argoexec’s environment come from? From the workflow-controller, when it built the pod spec. It ran the same W3C propagator against a carrier whose Set method appends a Kubernetes environment variable, so every container in the pod is born with TRACEPARENT. That is the entire mechanism. Same propagator in both places. The carrier is the environment both times.
-
-Theoretician: Note what Argo did not do. It did not invent a format or parse a value. It reused W3C Trace Context and changed only where the fields travel. Both sides now use the same SetEnvFunc shape, and argoexec uses the very carrier package demo 1 did.
+Presenter cues:
+Alan (Practitioner):
+- Start with `argoexec` injecting into a copied environment for the launched command.
+- Move outward to the controller injecting into the pod specification.
+- Explain that both use the configured W3C propagator with environment carriers; Argo need not invent a trace format.
 
 Delivery notes:
 - Time: 00:50.
-- Handoff: Practitioner to Theoretician for the final 00:15.
 - Visual key: The left snippet is condensed from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right snippet is abridged from v4.1.3. Function names in the accent color are the propagator and tracer calls; keywords use the API color.
 - Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
 - Sources: argo-workflows v4.1.3 workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
@@ -810,19 +822,22 @@ id: S17
     <h1>Let’s fake CI</h1>
   </header>
   <figure class="trace-screenshot dag-shot">
-    <img src="/demo-3/argo-dag.png" alt="Argo Workflows UI: the buildkit workflow, a clone step followed by a build step">
+    <img src="/demo-3/argo-dag.png" alt="Argo Workflows UI: the captured buildkit workflow, a clone step followed by a build step">
   </figure>
+  <p class="build-pipeline-caption">Captured: clone → build <span>Expected in one trace: scan → push</span></p>
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Let’s fake CI. Two steps: clone a repository, then build a container image from it. The same shape as almost every pipeline you have ever run.
+Presenter cues:
+Alan (Practitioner):
+- Introduce the captured two-step CI example: clone, then Docker image build.
+- In a full workflow, scan and push would be child stages of the same trace; the displayed capture covers clone and build.
 
 Delivery notes:
 - Time: 00:20.
-- Handoff: None.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 3 workflow.
 - Sources: demos/3-argo-to-buildkit/workflow.yaml.
+- Scope: The screenshot is the captured clone/build run. Scan and push are the expected extension, not captured results.
 -->
 
 ---
@@ -844,12 +859,14 @@ id: S18
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Demo 3 is a two-step build. The first step clones a repository, and git has never heard of OpenTelemetry. It gets TRACEPARENT in its environment, exactly like otel-cli did, and throws it away. So under runMainContainer there is nothing. But look at what we still know. The executor wrapped git in a span, so git ran for two seconds. And the controller’s node span says the step took almost eleven. That is S12’s gap, for real: most of this step was Kubernetes, not git. An uninstrumented process is not a hole in the trace. You lose its insides. You keep its edges.
+Presenter cues:
+Alan (Practitioner):
+- Show that git ignores inherited `TRACEPARENT`, so it emits no nested spans.
+- Compare the two-second command span with the roughly eleven-second controller step span.
+- Use the gap to distinguish Kubernetes waiting from process runtime.
 
 Delivery notes:
 - Time: 00:45.
-- Handoff: None.
 - Point at: the clone `node` bar (10.8 s) and the clone `runMainContainer` bar (2.0 s), which has no child-count badge because nothing is nested inside it.
 - Evidence: Playwright capture of the local Jaeger trace with rows below `createWorkflowPod` collapsed and the name column widened, cropped on the slide to the clone node's subtree.
 - Sources: demos/3-argo-to-buildkit/workflow.yaml; demos/3-argo-to-buildkit/README.md.
@@ -877,17 +894,19 @@ id: S19
 </div>
 
 <!--
-Spoken outline:
-Practitioner: The second step runs BuildKit, which is instrumented. It reads the same TRACEPARENT from the same place, and this is what comes back: about two hundred and fifty spans, all under the step’s runMainContainer. You can read the Dockerfile off it. Three base images resolve and pull at the same moment, because nothing makes them wait for each other. The Go and Node builders run side by side. The three-second Go build is the long bar. And the final stage waits for both, then copies their output in.
-
-Theoretician: Same carrier as the git step. The difference is entirely on the reading side: BuildKit extracts, git doesn’t.
+Presenter cues:
+Alan (Practitioner):
+- Show BuildKit extracting the same inherited context and emitting its internal spans.
+- Point to parallel base-image pulls and builders, then the slower Go build.
+- Explain how the trace identifies the slow operation inside the build step.
+- Keep scan and push as an expected extension, not part of this captured trace.
 
 Delivery notes:
 - Time: 00:50.
-- Handoff: Practitioner to Theoretician for the final 00:10.
 - Point at: the three `FROM` rows starting together, the 3.1 s `go build` bar, and the `stage-2` `COPY --from` rows at the end.
 - Evidence: Playwright capture of the same Jaeger trace, collapsed to the path down to BuildKit’s `Solve` span and zoomed to 14.0–27.7 s with the minimap range selection; `cache request` rows are BuildKit’s own and left in.
 - Sources: demos/3-argo-to-buildkit/README.md.
+- Scope: The capture contains BuildKit spans only; do not describe scan or push as observed.
 -->
 
 ---
@@ -912,12 +931,14 @@ id: S20
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Demo 4 is a real one. A platform team wanted data lineage: which tables fed which. But the pipelines belonged to their data scientists, ordinary Python against Postgres, and the platform team could not rewrite that code. This is a stand-in for their pipeline: set up the tables, build two derived tables in parallel, join them into a summary, report on it. And one extra step at the end we’ll come back to.
+Presenter cues:
+Alan (Practitioner):
+- Introduce the platform team’s lineage question and explain that data scientists own the Python code.
+- Read the batch DAG as setup, parallel derived tables, summary, report, and lineage artifact.
+- Explain that the captured workflow stands in for extract, transform, and load stages.
 
 Delivery notes:
 - Time: 00:30.
-- Handoff: None.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 4 workflow, horizontal layout, artifact nodes hidden.
 - Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/workflow.yaml.
 -->
@@ -944,12 +965,14 @@ id: S21
 </div>
 
 <!--
-Spoken outline:
-Practitioner: The data scientists’ code has no OpenTelemetry in it at all. The operator auto-instruments the Python and its Postgres driver, so every statement becomes a span, and the SQL rides along as db.statement. Each INSERT sits under its stage’s runMainContainer, in the workflow’s trace, because a small platform-owned wrapper reads TRACEPARENT from the environment. And look at the SQL: exec_summary reads from daily_revenue and customer_ltv. That is the lineage, sitting in the trace.
+Presenter cues:
+Alan (Practitioner):
+- Show the SQL spans created by Python and psycopg auto-instrumentation.
+- Point to `db.statement` naming input and output tables; those fields provide the dataset evidence.
+- Explain that the platform wrapper extracts the parent first, so the SQL spans join the workflow trace.
 
 Delivery notes:
 - Time: 00:45.
-- Handoff: None.
 - Point at: the highlighted INSERT rows, then `db.statement` on `exec_summary` naming both upstream tables, then `otel.scope.name: opentelemetry.instrumentation.psycopg`.
 - Evidence: Playwright capture of the local Jaeger trace with Jaeger’s own service filter pruning the pod-level executor services and the setup, report and lineage stages (the “spans pruned” rows are Jaeger’s), rows collapsed to the stage path, INSERT highlighted with Find, and the exec_summary INSERT expanded.
 - The wrapper: Python auto-instrumentation does not extract TRACEPARENT from the environment, so demos/4-argo-to-python-sql/datasci/tracectx.py does it with EnvironmentGetter. Mention only if asked, or keep for the next slide.
@@ -977,14 +1000,15 @@ id: S22
 </div>
 
 <!--
-Spoken outline:
-Practitioner: The last step reads this workflow’s own trace back out of Jaeger, parses the SQL on every span, and draws the lineage. It is published as an ordinary workflow artifact, so it sits right there in the Argo UI. Orders and order items feed daily revenue. Customers, orders and order items feed customer lifetime value. Both feed the summary, and the report reads it. The data scientists changed nothing. And notice what is missing: the warehouse has a products table, and it is not here, because nothing read it. This is what the pipeline actually did, not what the schema says it might.
-
-Theoretician: And all of it hangs together only because one environment variable carried the trace into each pod.
+Presenter cues:
+Alan (Practitioner):
+- Show the final step reading its workflow trace and deriving edges from SQL span metadata.
+- Walk through upstream tables, derived tables, summary, and report.
+- Note the unread `products` table is absent; the graph reflects observed work.
+- Clarify that this trace-derived view does not replace every dedicated lineage capability.
 
 Delivery notes:
 - Time: 00:45.
-- Handoff: Practitioner to Theoretician for the final 00:05.
 - Point at: the lineage-report artifact panel in Argo (the trace id under the heading), then the enlarged graph; call out that `products` is absent.
 - Evidence: Left, Playwright capture of the local Argo Workflows UI artifact panel rendering lineage.html. Right, the SVG extracted verbatim from the workflow’s lineage-report artifact.
 - If asked about DDL: the setup step’s DROP and CREATE statements are in the trace but produce no edges, because DDL moves no data between tables.
@@ -1011,12 +1035,14 @@ runpy.<span class="tok-fn">run_path</span>(script, run_name=<span class="tok-nam
 </div>
 
 <!--
-Spoken outline:
-Theoretician: Here is the catch. The operator's Python auto-instrumentation installs the SDK and instruments psycopg, but it never looks at the environment for a parent. Without help, every query would start a new trace. The fix is a few lines the platform owns: extract the context from the environment with the SDK's own environment getter, attach it, then run the data scientist's script unchanged. Same carrier as the Go side, just read in Python.
+Presenter cues:
+Alan (Practitioner):
+- Explain that this Python auto-instrumentation does not extract an environment parent by itself.
+- Point to the platform-owned wrapper extracting and attaching context before running unchanged scientist code.
+- Describe the failure mode: without extraction, jobs start separate traces and the lineage view fragments.
 
 Delivery notes:
 - Time: 00:40.
-- Handoff: Theoretician to Practitioner at the transition to S26.
 - Point at: `os.environ` in the extract call, then the `command` line, to show the pipeline itself is untouched.
 - Condensed: the real file adds a fallback if `_envcarrier` moves, and argv handling; this shows only the propagation.
 - If asked why a private module: `_envcarrier` ships in opentelemetry-api and its docstring names child-process initialisation as its use; nothing in auto-instrumentation calls it yet.
@@ -1026,7 +1052,7 @@ Delivery notes:
 
 ---
 layout: default
-id: S26
+id: S24
 ---
 
 <div class="closing-slide">
@@ -1048,18 +1074,20 @@ id: S26
 </div>
 
 <!--
-Spoken outline:
-Practitioner: This pattern is already in use. Argo Workflows carries context into pods and workload commands. Docker BuildKit reads it and forwards it to child processes. Claude Code links headless sessions and traced subprocesses. otel-cli, Thoth, and the Jenkins OpenTelemetry plugin cover command wrappers, CI scripts, and build steps. Shared field names let these tools connect without custom adapters.
+Presenter cues:
+Robert (Theoretician):
+- Group existing examples by workflow engine, build tool, CLI wrapper, and CI integration.
+- Explain that shared field names connect independently instrumented tools and reduce custom adapters.
+- Tie practitioner adoption to useful implementation guidance and future refinement.
 
 Delivery notes:
 - Time: 00:25.
-- Handoff: Practitioner to Theoretician at the transition to S24.
 - Sources: OpenTelemetry feedback article and linked implementations, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; otel-cli, https://github.com/equinix-labs/otel-cli; Thoth, https://github.com/liatrio-labs/thoth; Argo Workflows injection, https://github.com/argoproj/argo-workflows/blob/main/workflow/controller/workflowpod.go and https://github.com/argoproj/argo-workflows/blob/main/cmd/argoexec/commands/emissary.go; Docker BuildKit extraction and injection, https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceenv.go and https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceexec.go; Claude Code tracing, https://code.claude.com/docs/en/monitoring-usage#traces-beta; Jenkins OpenTelemetry plugin, https://github.com/jenkinsci/opentelemetry-plugin.
 -->
 
 ---
 layout: default
-id: S24
+id: S25
 ---
 
 <div class="closing-slide">
@@ -1090,12 +1118,15 @@ id: S24
 </div>
 
 <!--
-Spoken outline:
-Theoretician: TRACEPARENT was our concrete example, but the environment carrier is format-agnostic. Baggage can travel as BAGGAGE, while a B3 propagator can use fields such as X_B3_TRACEID. The carrier sees opaque strings. The configured propagator chooses the field names, format, and validation. Children inherit those fields, and logs or diagnostics may expose them, so treat them as untrusted. Allow-list baggage before forwarding it. Scrub propagation fields wherever continuity should stop, and never propagate secrets.
+Presenter cues:
+Robert (Theoretician):
+- Separate opaque environment carrier strings from the fields, format, and validation chosen by the propagator.
+- Use `TRACEPARENT`, `BAGGAGE`, and normalized B3 field names as examples.
+- Treat inherited fields as untrusted; they may leak into logs or diagnostics.
+- Allow-list baggage, scrub fields when continuity should stop, and never propagate secrets.
 
 Delivery notes:
 - Time: 00:30.
-- Handoff: None; Theoretician continues into S27.
 - Point at: `BAGGAGE`, then `X_B3_TRACEID`, then the carrier-versus-propagator line.
 - Safety reminder: Deliver the trust-boundary warning after explaining the visual; it intentionally has no separate slide.
 - Sources: OpenTelemetry Environment Variables as Context Propagation Carriers, https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/context/env-carriers.md; OpenTelemetry feedback article, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; W3C Baggage, https://www.w3.org/TR/baggage/; B3 propagation, https://github.com/openzipkin/b3-propagation.
@@ -1103,7 +1134,7 @@ Delivery notes:
 
 ---
 layout: default
-id: S27
+id: S26
 ---
 
 <div class="closing-slide resource-slide">
@@ -1128,20 +1159,22 @@ id: S27
 </div>
 
 <!--
-Spoken outline:
-Theoretician: The environment carrier is a Release Candidate. We plan to wait until at least November 2, 2026, and until fourteen days pass without a new related issue before stabilizing it. If you find a blocker in normalization, portability, concurrency, or security, please report it. The QR code opens the proposal and feedback guide.
+Presenter cues:
+Robert (Theoretician):
+- State that the environment carrier specification is a Release Candidate as verified on 29 September 2026.
+- Explain that 2 November 2026 is the earliest stabilization date, subject to a 14-day quiet period and no blocker.
+- Invite concrete feedback on normalization, portability, concurrency, and security.
 
 Delivery notes:
 - Time: 00:25.
-- Handoff: None.
-- Status verified: 2026-09-23. The specification is Release Candidate. November 2, 2026 is the earliest stabilization date, not a guaranteed release date; a new related issue or a significant update restarts the 14-day feedback period.
+- Status verified: 2026-09-29. The specification is Release Candidate. November 2, 2026 is the earliest stabilization date, not a guaranteed release date; a new related issue or a significant update restarts the 14-day feedback period.
 - QR target: https://opentelemetry.io/blog/2026/environment-variable-context-propagation/
 - Sources: OpenTelemetry feedback article, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; environment carrier specification, https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/context/env-carriers.md; stabilization issue #5040, https://github.com/open-telemetry/opentelemetry-specification/issues/5040.
 -->
 
 ---
 layout: default
-id: S28
+id: S27
 ---
 
 <div class="closing-slide resource-slide">
@@ -1164,19 +1197,20 @@ id: S28
 </div>
 
 <!--
-Spoken outline:
-Practitioner: This repository contains the presentation and demo source. Scan the code to explore it, reproduce the examples, or adapt the carrier pattern to your own workflow.
+Presenter cues:
+Robert (Theoretician):
+- Point to the repository for the slides and demo source.
+- Invite attendees to reproduce the examples or adapt the carrier pattern to their tools.
 
 Delivery notes:
 - Time: 00:15.
-- Handoff: None.
 - QR target: https://github.com/pellared/otel-env-car-talk/
 - Sources: https://github.com/pellared/otel-env-car-talk/.
 -->
 
 ---
 layout: default
-id: S29
+id: S28
 ---
 
 <div class="thanks-slide">
@@ -1194,13 +1228,12 @@ id: S29
 </div>
 
 <!--
-Spoken outline:
-Practitioner: Thank you. What would you like to ask or troubleshoot?
-
-Theoretician: Find us on GitHub, or continue the conversation in the CNCF Slack channel #otel-cicd and the OpenTelemetry CI/CD SIG.
+Presenter cues:
+Alan (Practitioner):
+- Thank the audience and open the five-minute questions and troubleshooting window.
+- Point to presenter GitHub links, CNCF Slack `#otel-cicd`, and the OpenTelemetry CI/CD SIG.
 
 Delivery notes:
 - Time: 00:10 for the presentation transition. The reserved 05:00 Q&A and troubleshooting window begins here and remains outside the 20-minute talk.
-- Handoff: Practitioner to Theoretician for the final 00:05.
 - Sources: presenter profiles, https://github.com/pellared/ and https://github.com/Joibel; CNCF Slack signup, https://slack.cncf.io/; `#otel-cicd`, https://cloud-native.slack.com/archives/C0598R66XAP; OpenTelemetry CI/CD SIG directory entry, https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd.
 -->
