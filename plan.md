@@ -45,10 +45,10 @@ Handoffs between slides are included in each slide's duration; S01 has a 00:05 w
 | S14 | Show the one-step Argo workflow before its trace. | Alan; continues. | 00:40 |
 | S15 | Read two environment injections from the captured span tree. | Alan; continues. | 00:45 |
 | S16 | Show the controller and executor injection sites in Argo. | Alan; continues. | 00:50 |
-| S17 | Introduce the captured clone/build DAG and the full clone/build/scan/push pattern. | Alan; continues. | 00:20 |
+| S17 | Introduce the captured two-step clone/build DAG. | Alan; continues. | 00:20 |
 | S18 | Show what remains visible when git ignores the carrier. | Alan; continues. | 00:45 |
 | S19 | Show BuildKit child spans and the operational payoff of finding slow work. | Alan; continues. | 00:50 |
-| S20 | Show the batch DAG and platform/data-scientist ownership boundary. | Alan; continues. | 00:30 |
+| S20 | Show the batch DAG's setup, derived tables, summary, report, and lineage step, plus the ownership boundary. | Alan; continues. | 00:30 |
 | S21 | Show instrumented SQL spans and dataset information recorded in span metadata. | Alan; continues. | 00:45 |
 | S22 | Show the derived lineage artifact and what the trace actually observed. | Alan; continues. | 00:45 |
 | S23 | Show the platform-owned Python extraction wrapper and its failure mode. | Alan; handoff to Robert on S24. | 00:40 |
@@ -63,10 +63,10 @@ Handoffs between slides are included in each slide's duration; S01 has a 00:05 w
 | Demo | Before action | Injection and extraction | Expected result and diagnostic | Fallback | Allotted time |
 | --- | --- | --- | --- | --- | ---: |
 | HTTP-to-CLI teaching example, S05-S10 | S05 architecture names both boundaries. | Java HTTP instrumentation injects and Go extracts. Go injects into a copied child environment; Python instrumentation extracts at startup. | S08 shows two roots when the child has no parent. S10 shows seven spans from three services under one trace after extraction. | S05-S07 and S09 native diagrams explain the result if captures fail. | 04:30 including screenshot transition |
-| Argo and Docker build, S11-S19 | S17 shows the captured two-step clone/build DAG; S11-S13 establish the expected parent tree. | Argo controller injects into pod environments; the executor injects into the launched workload; BuildKit extracts. Git does not extract. | S18 preserves wrapper timing around git. S19 shows BuildKit subprocess spans and the slow build operation. The full clone/build/scan/push pattern is an extension of the captured two-stage run, not an observed four-stage trace. | S11-S13 native model and S16 injection diagram support the explanation if captures fail. | 06:15 including model and Argo mechanism; S17-S19 use 01:55 |
-| Batch lineage, S20-S23 | S20 shows the complete extract/transform/load-style DAG and ownership boundary. | Argo injects into each pod; the platform-owned Python wrapper extracts before auto-instrumentation creates SQL spans. | S21 connects SQL spans; dataset inputs and outputs are derived from recorded `db.statement` metadata. S22 shows the graph. Without extraction, jobs become separate traces and the graph fragments. | S20 DAG and S23 extraction snippet preserve the path if a capture fails. | 02:40 including setup and transition |
+| Argo and Docker build, S11-S19 | S17 shows the captured two-step clone/build DAG; S11-S13 establish the expected parent tree. | Argo controller injects into pod environments; the executor injects into the launched workload; BuildKit extracts. Git does not extract. | S18 preserves wrapper timing around git. S19 shows BuildKit's instrumented build operations and identifies slow work; BuildKit pushes the image within the build command. | S11-S13 native model and S16 injection diagram support the explanation if captures fail. | 06:15 including model and Argo mechanism; S17-S19 use 01:55 |
+| Batch lineage, S20-S23 | S20 shows setup, parallel derived-table jobs, summary, report, and lineage, plus the ownership boundary. | Argo injects into each pod; the platform-owned Python wrapper extracts before auto-instrumentation creates SQL spans. | S21 connects SQL spans; dataset inputs and outputs are derived from recorded `db.statement` metadata. S22 shows the graph. Without extraction, jobs become separate traces and the graph fragments. | S20 DAG and S23 extraction snippet preserve the path if a capture fails. | 02:40 including setup and transition |
 
-All demonstrations use captured evidence; there is no live interaction or setup. The BuildKit capture covers clone and build only. A future four-stage capture would be needed to claim that scan and push were observed in this demo.
+All demonstrations use captured evidence; there is no live interaction or setup. The build workflow contains clone and build steps, and its BuildKit command pushes the image. The batch workflow does not label separate extract and load processes.
 
 ## Source-brief coverage matrix
 
@@ -79,8 +79,8 @@ All demonstrations use captured evidence; there is no live interaction or setup.
 | Multiple formats and consistent variable-name normalization | S09, S25 | W3C Trace Context, baggage, B3; `traceparent` to `TRACEPARENT` |
 | Security and trust boundary | S25 | Inherited input, validation, log exposure, baggage allow-listing, scrubbing |
 | CI/CD, workflow, build-tool, CLI, and instrumentation interoperability | S14-S19, S24 | Shared conventions avoid custom adapters |
-| Argo/Docker example | S11-S19 | Captured clone/build, subprocesses, slow-stage diagnosis; scan/push shown as the intended extension, not captured evidence |
-| Batch lineage example | S20-S23 | Instrumented jobs record SQL metadata; propagation connects spans and does not replace a lineage system |
+| Argo/Docker example | S11-S19 | Captured clone/build trace, instrumented BuildKit operations, and slow-operation diagnosis; image push occurs within the build command |
+| Batch lineage example | S20-S23 | Captured setup, parallel derived tables, summary, report, and lineage artifact; instrumented jobs record SQL metadata and propagation connects spans |
 | Practitioner feedback and specification maturity | S26 | Current status and feedback route verified 2026-09-29 |
 
 ## Portraits and sources

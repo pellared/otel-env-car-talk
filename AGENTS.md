@@ -6,10 +6,10 @@ Help build a clear, technically accurate conference talk titled **Trace Context 
 
 The talk is for people interested in observability. Assume they understand why observability matters, but do not assume they know OpenTelemetry concepts, specifications, or terminology. Introduce each essential term in plain language before relying on it.
 
-Treat [README.md](./README.md) as the source brief, with this priority:
+Treat the current runnable demos and captured evidence as the authority for what the talk shows. Keep [README.md](./README.md) and this guidance aligned with them. For the talk brief:
 
-- The content under **Description** is non-negotiable. Preserve every substantive promise in the presentation.
-- The content under **Benefits to the ecosystem** is negotiable supporting material. Refine, reframe, or omit it only with caution, without contradicting the Description or weakening the talk's core value.
+- Preserve the substantive promises under **Description**. Correct the brief if a demo-specific claim conflicts with the current implementation or evidence.
+- The content under **Benefits to the ecosystem** is negotiable supporting material. Refine it to describe the actual demos without weakening the talk's core value.
 
 ## Non-negotiable constraints
 
@@ -36,7 +36,7 @@ Create missing artifacts only when the requested task calls for them. Do not put
 
 ## Source-of-truth and synchronization rules
 
-- Develop in this order: `README.md` coverage check, `plan.md`, then `slides.md`.
+- Develop in this order: inspect current demo implementations and captured evidence, align the `README.md` coverage check, update `plan.md`, then update `slides.md`.
 - Treat presenter bullets in `slides.md` as the canonical talking points.
 - Give every planned slide a stable identifier such as `S01`, `S02`, and use the same identifier in `plan.md` and `slides.md`.
 - A change to the narrative must update the corresponding presenter bullets in `slides.md`.
@@ -46,7 +46,7 @@ Create missing artifacts only when the requested task calls for them. Do not put
 
 ## Required content coverage
 
-Use the README's **Description** as the final authority. Treat points derived from **Benefits to the ecosystem** as preferred coverage that may change when there is a clear narrative, timing, or accuracy reason. Make sure the narrative addresses all of the following unless that documented exception applies:
+Use the current demos and captures for demo-specific facts, and the README's **Description** for the talk's core promise. Treat points derived from **Benefits to the ecosystem** as preferred coverage that may change when there is a clear narrative, timing, or accuracy reason. Make sure the narrative addresses all of the following unless that documented exception applies:
 
 - Why conventional propagation through HTTP headers or message metadata does not cover process boundaries.
 - A simple newcomer-friendly model of traces, spans, parent-child relationships, trace context, propagation, carriers, and propagators.
@@ -77,11 +77,11 @@ Keep setup details in `plan.md` or the `Delivery notes` section, outside present
 
 ### Demo 1: Docker image build in Argo Workflows
 
-Show a workflow in which the controller or launcher injects `TRACEPARENT` into step containers. Clone, build, scan, and push should appear under one trace, including relevant subprocesses spawned by build tooling. The operational payoff is locating the slow or failed stage.
+Show the current two-step Argo workflow. The controller and executor inject `TRACEPARENT` into the pod and workload environments. The git clone and BuildKit build appear under one trace, including the operations BuildKit instruments. BuildKit pushes the image within its build command; there is no separate scan or push workflow step. The operational payoff is distinguishing workflow waiting from command runtime and locating slow build operations.
 
 ### Demo 2: Batch pipeline and data lineage
 
-Show extract, transform, and load processes inheriting trace context through their environments. Make clear which instrumentation records dataset inputs and outputs. The span tree should connect the job stages and expose useful lineage without claiming that tracing replaces every dedicated lineage capability.
+Show the current batch workflow: table setup, parallel `daily_revenue` and `customer_ltv` jobs, `exec_summary`, report, and the final lineage artifact. The Python jobs inherit context through their environments; a platform-owned wrapper extracts it before psycopg auto-instrumentation records SQL statements in span metadata. The final step derives dataset inputs and outputs from those statements. Do not describe this workflow as explicit extract, transform, and load stages or claim that tracing replaces every dedicated lineage capability.
 
 ## Narrative and teaching approach
 
@@ -171,7 +171,7 @@ The presenter cues should be brief enough to allow natural delivery without pres
 When asked to build or revise the talk:
 
 1. Read this file, `README.md`, and every existing presentation artifact before editing.
-2. Make a small coverage matrix in `plan.md`. Map every Description promise and required demo to slide IDs. Also map the Benefits points selected for the talk.
+2. Make a small coverage matrix in `plan.md`. Map every Description promise and current required demo to slide IDs. Also map the Benefits points selected for the talk.
 3. Check the narrative arc, terminology order, presenter roles, and timing before polishing slide copy.
 4. Update the plan and slide notes according to the synchronization rules.
 5. Run `npm run build` after changing `slides.md`.
@@ -184,7 +184,7 @@ When reviewing rather than editing, identify exact slide IDs and distinguish blo
 
 Presentation work is complete only when:
 
-- every promise in the README's Description and both required demos maps to at least one planned slide;
+- every promise in the README's Description and both current workflow examples maps to at least one planned slide;
 - the deck has 28 slides with the presenter assignments above;
 - the story works for an observability audience new to OpenTelemetry terminology;
 - the Theoretician and Practitioner have distinct, complementary contributions;

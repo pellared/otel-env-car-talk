@@ -16,8 +16,8 @@ This talk helps practitioners and maintainers understand the OpenTelemetry speci
 
 The broader benefit is better interoperability between the tools that create work and the tools that observe it. A shared propagation model reduces custom glue code, prevents fragmented trace conventions from taking root in CI/CD and batch systems, and gives OpenTelemetry contributors clearer practitioner input as language implementations and operational guidance mature.
 
-Two demos to make it concrete.
+Two workflow examples make it concrete.
 
-The first is a Docker image build inside Argo Workflows. The controller injects TRACEPARENT into every step container, and clone, build, scan, and push all hang off one trace. When something gets slow or breaks, the trace points at the stage to blame, including subprocesses the build tool spawned itself.
+The first is a Docker image build inside Argo Workflows. The controller injects TRACEPARENT into each step container. An uninstrumented git clone and an instrumented BuildKit build hang off one trace; BuildKit also pushes the image as part of its build command. The trace separates workflow waiting time from command runtime and shows which operations inside the build took longest.
 
-The second uses the same plumbing for data lineage. A batch pipeline spawns extract, transform, and load processes, each inheriting trace context through the environment. Instrumented jobs record dataset inputs and outputs as span metadata, so this pipeline derives useful lineage from the trace without a separate metadata path. This does not position tracing as a replacement for every dedicated lineage capability.
+The second uses the same plumbing for data lineage. A batch workflow prepares tables, runs two parallel derived-table jobs, combines their outputs, and produces a report. Each Python job inherits trace context through its environment. Auto-instrumented psycopg spans record SQL statements as metadata; a final workflow step derives table-level inputs and outputs from those statements in the shared trace. This does not position tracing as a replacement for every dedicated lineage capability.

@@ -835,26 +835,24 @@ id: S17
 <div class="demo-slide">
   <header class="demo-heading">
     <p>Demo 3</p>
-    <h1>Let’s fake CI</h1>
+    <h1>Clone and build in Argo</h1>
   </header>
   <figure class="trace-screenshot dag-shot">
     <img src="/demo-3/argo-dag.png" alt="Argo Workflows UI: the captured buildkit workflow, a clone step followed by a build step">
   </figure>
-  <p class="build-pipeline-caption">Captured: clone → build <span>Expected in one trace: scan → push</span></p>
 </div>
 
 <!--
 Presenter cues:
 Alan (Practitioner):
-- Introduce the captured two-step CI example: clone, then Docker image build.
-- In a full workflow, scan and push would be child stages of the same trace; the displayed capture covers clone and build.
+- Introduce the two-step Argo workflow: git clones a repository, then BuildKit builds the image.
+- Preview the shared workflow trace; the next two slides show how clone and build respond differently to inherited context.
 
 Delivery notes:
 - Expected start time: 12:05.
 - Duration: 00:20.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 3 workflow.
 - Sources: demos/3-argo-to-buildkit/workflow.yaml.
-- Scope: The screenshot is the captured clone/build run. Scan and push are the expected extension, not captured results.
 -->
 
 ---
@@ -898,7 +896,7 @@ id: S19
 <div class="demo-slide evidence-slide connected-slide">
   <header class="demo-heading">
     <p>Demo 3</p>
-    <h1>BuildKit tells us everything</h1>
+    <h1>BuildKit reveals the build graph</h1>
   </header>
   <figure class="trace-screenshot connected-trace">
     <div class="trace-crop crop-buildkit">
@@ -917,15 +915,14 @@ Alan (Practitioner):
 - Show BuildKit extracting the same inherited context and emitting its internal spans.
 - Point to parallel base-image pulls and builders, then the slower Go build.
 - Explain how the trace identifies the slow operation inside the build step.
-- Keep scan and push as an expected extension, not part of this captured trace.
+- Mention that BuildKit pushes the finished image as part of its build command; there is no separate push step.
 
 Delivery notes:
 - Expected start time: 13:10.
 - Duration: 00:50.
 - Point at: the three `FROM` rows starting together, the 3.1 s `go build` bar, and the `stage-2` `COPY --from` rows at the end.
 - Evidence: Playwright capture of the same Jaeger trace, collapsed to the path down to BuildKit’s `Solve` span and zoomed to 14.0–27.7 s with the minimap range selection; `cache request` rows are BuildKit’s own and left in.
-- Sources: demos/3-argo-to-buildkit/README.md.
-- Scope: The capture contains BuildKit spans only; do not describe scan or push as observed.
+- Sources: demos/3-argo-to-buildkit/README.md; demos/3-argo-to-buildkit/workflow.yaml.
 -->
 
 ---
@@ -936,7 +933,7 @@ id: S20
 <div class="demo-slide">
   <header class="demo-heading">
     <p>Demo 4</p>
-    <h1>Lineage, hands off</h1>
+    <h1>Batch lineage workflow</h1>
   </header>
   <div class="lineage-intro">
     <div class="lineage-roles">
@@ -953,8 +950,8 @@ id: S20
 Presenter cues:
 Alan (Practitioner):
 - Introduce the platform team’s lineage question and explain that data scientists own the Python code.
-- Read the batch DAG as setup, parallel derived tables, summary, report, and lineage artifact.
-- Explain that the captured workflow stands in for extract, transform, and load stages.
+- Read the captured DAG: table setup, parallel `daily_revenue` and `customer_ltv`, `exec_summary`, report, and lineage artifact.
+- Explain that raw tables were seeded before this workflow; the traced jobs transform and read them.
 
 Delivery notes:
 - Expected start time: 14:00.

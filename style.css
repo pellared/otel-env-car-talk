@@ -1431,20 +1431,6 @@ body,
   border: 0;
 }
 
-.build-pipeline-caption {
-  margin: 0;
-  text-align: center;
-  color: var(--ink);
-  font-size: 23px;
-  font-weight: 700;
-}
-
-.build-pipeline-caption span {
-  margin-left: 28px;
-  color: var(--muted);
-  font-weight: 500;
-}
-
 /* S20 */
 .lineage-intro {
   display: grid;
