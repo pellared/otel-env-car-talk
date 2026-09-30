@@ -21,7 +21,7 @@ The opening uses a Prague location quiz (S02) before brief presenter introductio
 | **Presentation total** | | **20:00** |
 | Questions and troubleshooting | After S28 | 05:00 outside the presentation |
 
-The timed slide content is 17:55. `Expected start time` in the slide notes is elapsed time from the start of the talk, calculated from preceding slide durations. The 02:05 transition and recovery buffer is unallocated, so actual starts may move later. Captured evidence avoids live setup. Presenter cues are prompts, so rehearsal should confirm the actual pace.
+The timed slide content is 17:55. `Expected start time` in the slide notes is elapsed time from the start of the talk, calculated from preceding slide durations. The 02:05 transition and recovery buffer is unallocated, so actual starts may move later. Slidev's presenter countdown is set to 25:00 for the full event slot, including the final 05:00 for questions and troubleshooting. Captured evidence avoids live setup. Presenter cues are prompts, so rehearsal should confirm the actual pace.
 
 ## Slide purposes and ownership
 

@@ -12,6 +12,8 @@ mdc: true
 colorSchema: auto
 aspectRatio: 16/9
 canvasWidth: 1280
+duration: 25min
+timer: countdown
 ---
 
 <div class="title-slide">
