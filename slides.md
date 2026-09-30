@@ -22,14 +22,14 @@ canvasWidth: 1280
 
   <div class="author-list" aria-label="Presenters">
     <a href="https://github.com/pellared/" class="author author-theory">
-      <img class="profile-photo" src="https://avatars.githubusercontent.com/u/5067549?s=512&amp;v=4" alt="Robert Pająk’s GitHub profile photo">
+      <img class="profile-photo" src="/presenters/robert-github.jpg" alt="Robert Pająk’s GitHub profile photo">
       <span class="author-copy">
         <b>Robert Pająk</b>
         <span class="author-url">github.com/pellared</span>
       </span>
     </a>
     <a href="https://github.com/Joibel" class="author author-practice">
-      <img class="profile-photo" src="https://avatars.githubusercontent.com/u/1827156?s=512&amp;v=4" alt="Alan Clucas’s GitHub profile photo">
+      <img class="profile-photo" src="/presenters/alan-github.jpg" alt="Alan Clucas’s GitHub profile photo">
       <span class="author-copy">
         <b>Alan Clucas</b>
         <span class="author-url">github.com/Joibel</span>
@@ -49,7 +49,7 @@ Alan (Practitioner):
 Delivery notes:
 - Expected start time: 00:00.
 - Duration: 00:20.
-- Handoff: Robert to Alan for the final 00:05.
+- Handoff: Robert to Alan for the final 00:05; Alan hands back to Robert on S02.
 - Display: Follow the viewer’s color preference. In Slidev, use the built-in mode control or press `D` to toggle light and dark.
 - Sources: README.md; presenter profiles and profile photos: https://github.com/pellared/, https://avatars.githubusercontent.com/u/5067549?s=512&v=4, https://github.com/Joibel, https://avatars.githubusercontent.com/u/1827156?s=512&v=4.
 -->
@@ -57,6 +57,32 @@ Delivery notes:
 ---
 layout: default
 id: S02
+---
+
+<div class="location-quiz-slide">
+  <h1>Where is this?</h1>
+  <figure class="location-quiz-photo">
+    <img src="/quiz/branicke-skaly.jpg" alt="A pale rock cliff rising above autumn trees">
+    <figcaption v-click>Branické skály, Prague</figcaption>
+  </figure>
+</div>
+
+<!--
+Presenter cues:
+Robert (Theoretician):
+- Invite the audience to guess where the pictured cliff is.
+- Reveal Branické skály in Prague before the presenter introductions.
+
+Delivery notes:
+- Expected start time: 00:20.
+- Duration: 01:15, including about 01:00 for audience guesses.
+- Quiz cue: Press next to reveal the answer after taking guesses.
+- Photo: Vít Pohanka / Radio Prague International, https://english.radio.cz/branik-rocks-where-pragues-prehistoric-past-meets-todays-city-life-8867183.
+-->
+
+---
+layout: default
+id: S03
 ---
 
 <div class="presenter-slide theory-slide">
@@ -67,16 +93,8 @@ id: S02
     <p class="presenter-focus"><span>Open source</span>OpenTelemetry maintainer</p>
   </div>
 
-  <figure class="portrait-slot theory-portrait" aria-label="Portrait photo for Robert Pająk">
-    <div class="portrait-placeholder">
-      <span>Presenter photo</span>
-      <small>insert photo</small>
-    </div>
-    <figcaption class="photo-quiz">
-      <span class="photo-quiz-label">Audience quiz</span>
-      <strong>Where was this picture taken?</strong>
-      <span v-click class="photo-quiz-answer">Answer: Prague</span>
-    </figcaption>
+  <figure class="portrait-slot theory-portrait" aria-label="GitHub profile photo of Robert Pająk">
+    <img class="presenter-photo" src="/presenters/robert-github.jpg" alt="Robert Pająk">
   </figure>
 </div>
 
@@ -84,20 +102,18 @@ id: S02
 Presenter cues:
 Robert (Theoretician):
 - Introduce yourself, your Splunk role, and OpenTelemetry Go and Specification work.
-- Ask the audience to guess where the portrait was taken; reveal Prague.
 - Preview your focus on the model and its constraints.
 
 Delivery notes:
-- Expected start time: 00:20.
-- Duration: 01:15, including a 01:00 quiz.
-- Quiz: Ask the audience where the picture was taken and take guesses for one minute. Then press next to reveal the answer, Prague.
-- Portrait: Replace the marked area with Robert’s supplied portrait. Keep a portrait crop and do not add a visible location caption.
-- Sources: https://github.com/pellared/; OpenTelemetry community roles: https://opentelemetry.io/community/members/.
+- Expected start time: 01:35.
+- Duration: 00:35.
+- Handoff: Robert to Alan on S04.
+- Sources: https://github.com/pellared/; GitHub profile photo: https://avatars.githubusercontent.com/u/5067549?s=768&v=4; OpenTelemetry community roles: https://opentelemetry.io/community/members/.
 -->
 
 ---
 layout: default
-id: S03
+id: S04
 ---
 
 <div class="presenter-slide practitioner-slide">
@@ -108,16 +124,8 @@ id: S03
     <p class="presenter-focus"><span>Open source</span>Argo Workflows lead</p>
   </div>
 
-  <figure class="portrait-slot practitioner-portrait" aria-label="Portrait photo for Alan Clucas">
-    <div class="portrait-placeholder">
-      <span>Presenter photo</span>
-      <small>insert photo</small>
-    </div>
-    <figcaption class="photo-quiz">
-      <span class="photo-quiz-label">Audience quiz</span>
-      <strong>Where was this picture taken?</strong>
-      <span v-click class="photo-quiz-answer">Answer: Prague</span>
-    </figcaption>
+  <figure class="portrait-slot practitioner-portrait" aria-label="GitHub profile photo of Alan Clucas">
+    <img class="presenter-photo" src="/presenters/alan-github.jpg" alt="Alan Clucas">
   </figure>
 </div>
 
@@ -125,47 +133,13 @@ id: S03
 Presenter cues:
 Alan (Practitioner):
 - Introduce yourself, Pipekit, and your Argo Workflows role.
-- Ask the audience to guess where the portrait was taken; reveal Prague.
-- Preview your focus on workflows, operators, and failures.
+- Preview the captured workflow and trace evidence you will explain.
 
 Delivery notes:
-- Expected start time: 01:35.
-- Duration: 01:15, including a 01:00 quiz.
-- Quiz: Ask the audience where the picture was taken and take guesses for one minute. Then press next to reveal the answer, Prague.
-- Portrait: Replace the marked area with Alan’s supplied portrait. Keep a portrait crop and do not add a visible location caption.
-- Sources: https://github.com/Joibel; Argo Project maintainer list: https://github.com/argoproj/argoproj/blob/main/MAINTAINERS.md.
--->
-
----
-layout: default
-id: S04
----
-
-<div class="demo-section-slide">
-  <p class="section-label">Concepts through trace evidence</p>
-  <h1>Learning through demos</h1>
-  <p class="section-statement">We’ll introduce each concept inside a working trace, then show what changes at the boundary.</p>
-  <div class="section-sequence" aria-label="Teaching sequence">
-    <span>System</span>
-    <i></i>
-    <span>Trace</span>
-    <i></i>
-    <span>Boundary</span>
-    <i></i>
-    <span>Result</span>
-  </div>
-</div>
-
-<!--
-Presenter cues:
-Alan (Practitioner):
-- Explain that each concept will be presented by using examples.
-
-Delivery notes:
-- Expected start time: 02:50.
-- Duration: 00:25.
-- Demo mode: All examples use diagrams and captured evidence. No live interaction is planned.
-- Sources: README.md.
+- Expected start time: 02:10.
+- Duration: 00:35.
+- Handoff: Alan to Robert on S05.
+- Sources: https://github.com/Joibel; GitHub profile photo: https://avatars.githubusercontent.com/u/1827156?s=768&v=4; Argo Project maintainer list: https://github.com/argoproj/argoproj/blob/main/MAINTAINERS.md.
 -->
 
 ---
@@ -232,7 +206,7 @@ Robert (Theoretician):
 - Point out that the second boundary has no HTTP headers to carry context.
 
 Delivery notes:
-- Expected start time: 03:15.
+- Expected start time: 02:45.
 - Duration: 00:40.
 - Before the demo evidence: Let the audience locate both labeled boundaries before advancing.
 - Visual key: Teal identifies `report-client`, indigo identifies `report-api`, and orange identifies `report-cli`.
@@ -286,7 +260,7 @@ Robert (Theoretician):
 - Show where the CLI work should appear if parentage survives.
 
 Delivery notes:
-- Expected start time: 03:55.
+- Expected start time: 03:25.
 - Duration: 00:40.
 - Visual key: Service color matches S05. Every bar uses one trace timeline; horizontal position shows start time and length shows duration.
 - Fallback: This native span tree also serves as the evidence fallback if a later screenshot does not render.
@@ -347,7 +321,7 @@ Robert (Theoretician):
 - Explain that Go extracts the field before its instrumentation starts a child span.
 
 Delivery notes:
-- Expected start time: 04:35.
+- Expected start time: 04:05.
 - Duration: 00:55.
 - Sources: OpenTelemetry context propagation, https://opentelemetry.io/docs/concepts/context-propagation/; OpenTelemetry Propagators API, https://opentelemetry.io/docs/specs/otel/context/api-propagators/; W3C Trace Context, https://www.w3.org/TR/trace-context/.
 -->
@@ -401,7 +375,7 @@ Robert (Theoretician):
 - Explain that the process launch did not carry HTTP headers, so Python had no parent context.
 
 Delivery notes:
-- Expected start time: 05:30.
+- Expected start time: 05:00.
 - Duration: 00:50.
 - Evidence: Playwright captures of local Jaeger traces `7dc2cf4ed9e5e29887bee1aafa31c53c` and `662ebaa1ca31466b2827be86bdda8748`, generated by the same `make run` execution.
 - Diagnostic point: The CLI still creates spans. Missing parent context places them in a different trace.
@@ -461,7 +435,7 @@ Robert (Theoretician):
 - Separate context transport from instrumentation creating the child span.
 
 Delivery notes:
-- Expected start time: 06:20.
+- Expected start time: 05:50.
 - Duration: 00:55.
 - Implementation: Go injects into `cmd.Env`; Python extracts from `os.environ` once at startup.
 - Specification status checked 2026-09-29: Environment Variables as Context Propagation Carriers is Release Candidate.
@@ -497,7 +471,7 @@ Robert (Theoretician):
 - Reinforce that the variable carried context; instrumentation created the spans.
 
 Delivery notes:
-- Expected start time: 07:15.
+- Expected start time: 06:45.
 - Duration: 00:30.
 - Expected result: Seven spans from `report-client`, `report-api`, and `report-cli` share trace `d2264e9b82e5cfbab0bf724d4308af96`.
 - Evidence: Playwright capture of the local Jaeger trace generated by `make fixed`.
@@ -561,7 +535,7 @@ Alan (Practitioner):
 - Explain how overlap and waiting become visible as timing bars.
 
 Delivery notes:
-- Expected start time: 07:45.
+- Expected start time: 07:15.
 - Duration: 00:40.
 - Visual key: The orchestrator’s span uses the API color; step spans use the client color. Same trace timeline conventions as S06: position is start time, length is duration.
 - Sources: Argo Workflows DAG templates, https://argo-workflows.readthedocs.io/en/latest/walk-through/dag/.
@@ -627,7 +601,7 @@ Alan (Practitioner):
 - Explain why the parent context must reach the pod to compare both layers.
 
 Delivery notes:
-- Expected start time: 08:25.
+- Expected start time: 07:55.
 - Duration: 00:45.
 - Visual key: The step bars keep the S11 color and are relabelled "controller". Each pod span has its own color, because in Jaeger each pod is its own service. The DAG nodes take the pod colors to tie the two halves together.
 - Sources: Argo Workflows architecture, https://argo-workflows.readthedocs.io/en/latest/architecture/.
@@ -691,7 +665,7 @@ Alan (Practitioner):
 - Emphasize that the workload must be instrumented to contribute its own spans.
 
 Delivery notes:
-- Expected start time: 09:10.
+- Expected start time: 08:40.
 - Duration: 00:40.
 - Visual key: The controller and pod colors carry over from S12. Workload spans use the ink color to mark them as the user’s own code rather than a platform layer. In Jaeger they would share the pod’s service color; the distinction here is a teaching device.
 - Sources: demos/2-argo-to-otel-cli/README.md.
@@ -728,7 +702,7 @@ Alan (Practitioner):
 - Explain that the workflow author did not configure a propagator in this step.
 
 Delivery notes:
-- Expected start time: 09:50.
+- Expected start time: 09:20.
 - Duration: 00:40.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 2 workflow.
 - Fallback: Read the snippet aloud; the DAG is a single node and needs no picture to be understood.
@@ -762,7 +736,7 @@ Alan (Practitioner):
 - Use the parentage under `runMainContainer` as evidence of the second hop.
 
 Delivery notes:
-- Expected start time: 10:30.
+- Expected start time: 10:00.
 - Duration: 00:45.
 - Expected result: 49 spans, one root `workflow` span from `workflow-controller`, and `observability`, `summit`, `prague` as children of `runMainContainer`.
 - Evidence: Playwright capture of the local Jaeger UI, scrolled to the runMainContainer subtree.
@@ -819,7 +793,7 @@ Alan (Practitioner):
 - Explain that both use the configured W3C propagator with environment carriers; Argo need not invent a trace format.
 
 Delivery notes:
-- Expected start time: 11:15.
+- Expected start time: 10:45.
 - Duration: 00:50.
 - Visual key: The left snippet is condensed from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right snippet is abridged from argo-workflows PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier. Function names in the accent color are the propagator and tracer calls; keywords use the API color.
 - Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
@@ -848,7 +822,7 @@ Alan (Practitioner):
 - Preview the shared workflow trace; the next two slides show how clone and build respond differently to inherited context.
 
 Delivery notes:
-- Expected start time: 12:05.
+- Expected start time: 11:35.
 - Duration: 00:20.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 3 workflow.
 - Sources: demos/3-argo-to-buildkit/workflow.yaml.
@@ -880,7 +854,7 @@ Alan (Practitioner):
 - Use the gap to distinguish Kubernetes waiting from process runtime.
 
 Delivery notes:
-- Expected start time: 12:25.
+- Expected start time: 11:55.
 - Duration: 00:45.
 - Point at: the clone `node` bar (10.8 s) and the clone `runMainContainer` bar (2.0 s), which has no child-count badge because nothing is nested inside it.
 - Evidence: Playwright capture of the local Jaeger trace with rows below `createWorkflowPod` collapsed and the name column widened, cropped on the slide to the clone node's subtree.
@@ -917,7 +891,7 @@ Alan (Practitioner):
 - Mention that BuildKit pushes the finished image as part of its build command; there is no separate push step.
 
 Delivery notes:
-- Expected start time: 13:10.
+- Expected start time: 12:40.
 - Duration: 00:50.
 - Point at: the three `FROM` rows starting together, the 3.1 s `go build` bar, and the `stage-2` `COPY --from` rows at the end.
 - Evidence: Playwright capture of the same Jaeger trace, collapsed to the path down to BuildKit’s `Solve` span and zoomed to 14.0–27.7 s with the minimap range selection; `cache request` rows are BuildKit’s own and left in.
@@ -953,7 +927,7 @@ Alan (Practitioner):
 - Explain that raw tables were seeded before this workflow; the traced jobs transform and read them.
 
 Delivery notes:
-- Expected start time: 14:00.
+- Expected start time: 13:30.
 - Duration: 00:30.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 4 workflow, horizontal layout, artifact nodes hidden.
 - Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/workflow.yaml.
@@ -988,7 +962,7 @@ Alan (Practitioner):
 - Explain that the platform wrapper extracts the parent first, so the SQL spans join the workflow trace.
 
 Delivery notes:
-- Expected start time: 14:30.
+- Expected start time: 14:00.
 - Duration: 00:45.
 - Point at: the highlighted INSERT rows, then `db.statement` on `exec_summary` naming both upstream tables, then `otel.scope.name: opentelemetry.instrumentation.psycopg`.
 - Evidence: Playwright capture of the local Jaeger trace with Jaeger’s own service filter pruning the pod-level executor services and the setup, report and lineage stages (the “spans pruned” rows are Jaeger’s), rows collapsed to the stage path, INSERT highlighted with Find, and the exec_summary INSERT expanded.
@@ -1025,7 +999,7 @@ Alan (Practitioner):
 - Clarify that this trace-derived view does not replace every dedicated lineage capability.
 
 Delivery notes:
-- Expected start time: 15:15.
+- Expected start time: 14:45.
 - Duration: 00:45.
 - Point at: the lineage-report artifact panel in Argo (the trace id under the heading), then the enlarged graph; call out that `products` is absent.
 - Evidence: Left, Playwright capture of the local Argo Workflows UI artifact panel rendering lineage.html. Right, the SVG extracted verbatim from the workflow’s lineage-report artifact.
@@ -1060,7 +1034,7 @@ Alan (Practitioner):
 - Describe the failure mode: without extraction, jobs start separate traces and the lineage view fragments.
 
 Delivery notes:
-- Expected start time: 16:00.
+- Expected start time: 15:30.
 - Duration: 00:40.
 - Point at: `os.environ` in the extract call, then the `command` line, to show the pipeline itself is untouched.
 - Condensed: the real file adds a fallback if `_envcarrier` moves, and argv handling; this shows only the propagation.
@@ -1100,7 +1074,7 @@ Robert (Theoretician):
 - Tie practitioner adoption to useful implementation guidance and future refinement.
 
 Delivery notes:
-- Expected start time: 16:40.
+- Expected start time: 16:10.
 - Duration: 00:25.
 - Sources: OpenTelemetry feedback article and linked implementations, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; otel-cli, https://github.com/equinix-labs/otel-cli; Thoth, https://github.com/liatrio-labs/thoth; Argo Workflows injection, https://github.com/argoproj/argo-workflows/blob/main/workflow/controller/workflowpod.go and https://github.com/argoproj/argo-workflows/blob/main/cmd/argoexec/commands/emissary.go; Docker BuildKit extraction and injection, https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceenv.go and https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceexec.go; Claude Code tracing, https://code.claude.com/docs/en/monitoring-usage#traces-beta; Jenkins OpenTelemetry plugin, https://github.com/jenkinsci/opentelemetry-plugin.
 -->
@@ -1146,7 +1120,7 @@ Robert (Theoretician):
 - Allow-list baggage, scrub fields when continuity should stop, and never propagate secrets.
 
 Delivery notes:
-- Expected start time: 17:05.
+- Expected start time: 16:35.
 - Duration: 00:30.
 - Point at: `BAGGAGE`, then `X_B3_TRACEID`, then the carrier-versus-propagator line.
 - Safety reminder: Deliver the trust-boundary warning after explaining the visual; it intentionally has no separate slide.
@@ -1187,7 +1161,7 @@ Robert (Theoretician):
 - Invite concrete feedback on normalization, portability, concurrency, and security.
 
 Delivery notes:
-- Expected start time: 17:35.
+- Expected start time: 17:05.
 - Duration: 00:25.
 - Status verified: 2026-09-29. The specification is Release Candidate. November 2, 2026 is the earliest stabilization date, not a guaranteed release date; a new related issue or a significant update restarts the 14-day feedback period.
 - QR target: https://opentelemetry.io/blog/2026/environment-variable-context-propagation/
@@ -1225,7 +1199,7 @@ Robert (Theoretician):
 - Invite attendees to reproduce the examples or adapt the carrier pattern to their tools.
 
 Delivery notes:
-- Expected start time: 18:00.
+- Expected start time: 17:30.
 - Duration: 00:15.
 - QR target: https://github.com/pellared/otel-env-car-talk/
 - Sources: https://github.com/pellared/otel-env-car-talk/.
@@ -1257,7 +1231,7 @@ Alan (Practitioner):
 - Point to presenter GitHub links, CNCF Slack `#otel-cicd`, and the OpenTelemetry CI/CD SIG.
 
 Delivery notes:
-- Expected start time: 18:15.
+- Expected start time: 17:45.
 - Duration: 00:10 for the presentation transition. The reserved 05:00 Q&A and troubleshooting window begins here and remains outside the 20-minute talk.
 - Sources: presenter profiles, https://github.com/pellared/ and https://github.com/Joibel; CNCF Slack signup, https://slack.cncf.io/; `#otel-cicd`, https://cloud-native.slack.com/archives/C0598R66XAP; OpenTelemetry CI/CD SIG directory entry, https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd.
 -->

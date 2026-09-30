@@ -4,24 +4,24 @@
 
 In at most 20 minutes, attendees should be able to explain how trace context crosses an HTTP boundary, why a process launch breaks the usual header path, and how a launcher and child instrumentation can preserve parentage through environment variables. The audience should leave with a useful distinction between carrier, propagation format, and instrumentation, plus a safe way to apply the pattern in workflow, build, and batch tools.
 
-The story moves from a broken HTTP-to-CLI trace (S05-S10), through a workflow's three layers of work (S11-S16), to captured build and data-lineage examples (S17-S23). Robert closes with interoperability, formats, trust boundaries, specification feedback, and the repository (S24-S27). Alan invites questions (S28). S01 is shared; all other slides have one owner.
+The opening uses a Prague location quiz (S02) before brief presenter introductions (S03-S04). The technical story moves from a broken HTTP-to-CLI trace (S05-S10), through a workflow's three layers of work (S11-S16), to captured build and data-lineage examples (S17-S23). Robert closes with interoperability, formats, trust boundaries, specification feedback, and the repository (S24-S27). Alan invites questions (S28). S01 is shared; all other slides have one owner.
 
 ## Sections and timing
 
 | Section | Slides | Duration |
 | --- | --- | ---: |
-| Opening and presenter introductions | S01-S03 | 02:50 |
-| Teaching setup and HTTP-to-CLI example | S04-S10 | 04:55 |
+| Opening quiz and presenter introductions | S01-S04 | 02:45 |
+| HTTP-to-CLI teaching example | S05-S10 | 04:30 |
 | Workflow trace model | S11-S13 | 02:05 |
 | Argo-to-CLI evidence | S14-S16 | 02:15 |
 | Clone and BuildKit evidence | S17-S19 | 01:55 |
 | Batch lineage evidence | S20-S23 | 02:40 |
 | Adoption, formats, feedback, resources, Q&A transition | S24-S28 | 01:45 |
-| Transition and recovery buffer | Between sections | 01:35 |
+| Transition and recovery buffer | Between sections | 02:05 |
 | **Presentation total** | | **20:00** |
 | Questions and troubleshooting | After S28 | 05:00 outside the presentation |
 
-The timed slide content is 18:25. `Expected start time` in the slide notes is elapsed time from the start of the talk, calculated from preceding slide durations. The 01:35 transition and recovery buffer is unallocated, so actual starts may move later. Captured evidence avoids live setup. Presenter cues are prompts, so rehearsal should confirm the actual pace.
+The timed slide content is 17:55. `Expected start time` in the slide notes is elapsed time from the start of the talk, calculated from preceding slide durations. The 02:05 transition and recovery buffer is unallocated, so actual starts may move later. Captured evidence avoids live setup. Presenter cues are prompts, so rehearsal should confirm the actual pace.
 
 ## Slide purposes and ownership
 
@@ -29,10 +29,10 @@ Handoffs between slides are included in each slide's duration; S01 has a 00:05 w
 
 | ID | Purpose | Presenter and handoff | Duration |
 | --- | --- | --- | ---: |
-| S01 | Name the topic and introduce both presenters. | Robert and Alan; Robert hands to Alan for 00:05. | 00:20 |
-| S02 | Introduce Robert and run the portrait-location quiz. | Robert; handoff to Alan on S03. | 01:15 |
-| S03 | Introduce Alan and run the portrait-location quiz. | Alan; continues on S04. | 01:15 |
-| S04 | Establish the learn-through-evidence sequence. | Alan; handoff to Robert on S05. | 00:25 |
+| S01 | Name the topic and introduce both presenters. | Robert and Alan; Robert hands to Alan for 00:05, then Alan hands back to Robert on S02. | 00:20 |
+| S02 | Invite the audience to locate the supplied Branické skály photo, then reveal its name and Prague location. | Robert; continues on S03. | 01:15 |
+| S03 | Introduce Robert with his GitHub profile photo and theory focus. | Robert; handoff to Alan on S04. | 00:35 |
+| S04 | Introduce Alan with his GitHub profile photo and preview the captured trace evidence. | Alan; handoff to Robert on S05. | 00:35 |
 | S05 | Show the Java-to-Go HTTP hop and Go-to-Python process hop. | Robert; continues. | 00:40 |
 | S06 | Define spans, traces, and parent relationships with one tree. | Robert; continues. | 00:40 |
 | S07 | Define trace context, propagation, propagator, and HTTP carrier. | Robert; continues. | 00:55 |
@@ -83,6 +83,6 @@ All demonstrations use captured evidence; there is no live interaction or setup.
 | Batch lineage example | S20-S23 | Captured setup, parallel derived tables, summary, report, and lineage artifact; instrumented jobs record SQL metadata and propagation connects spans |
 | Practitioner feedback and specification maturity | S26 | Current status and feedback route verified 2026-09-29 |
 
-## Portraits and sources
+## Opening images and sources
 
-S01 uses the presenters' current GitHub profile photos. S02 and S03 contain marked portrait placeholders for the Prague photo quizzes; replace them when supplied, keeping the location hidden until the reveal. Technical sources and evidence provenance remain in each slide's `Delivery notes`.
+S01, S03, and S04 use the presenters' current GitHub profile photos, stored locally for presentation reliability. S02 uses the supplied Branické skály photo, credited to Vít Pohanka and Radio Prague International in its `Delivery notes`; the location appears only on reveal. Technical sources and evidence provenance remain in each slide's `Delivery notes`.
