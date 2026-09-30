@@ -99,8 +99,8 @@ Show the current batch workflow: table setup, parallel `daily_revenue` and `cust
 Use these presenter assignments in the plan and slide notes:
 
 - S01: Robert (Theoretician) and Alan (Practitioner).
-- S02 and S05-S10: Robert.
-- S03-S04 and S11-S23: Alan.
+- S02-S03 and S05-S10: Robert.
+- S04 and S11-S23: Alan.
 - S24-S27: Robert.
 - S28: Alan.
 
