@@ -1,7 +1,8 @@
 ---
 theme: default
 id: S01
-title: "Trace Context Beyond HTTP: Environment Variables as OpenTelemetry Propagation Carriers"
+title: "Trace Context Beyond HTTP: Environment Variables as OpenTelemetry
+  Propagation Carriers"
 info: |
   A 20-minute, two-presenter conference talk about OpenTelemetry trace-context
   propagation through child-process environments.
@@ -15,8 +16,8 @@ canvasWidth: 1280
 
 <div class="title-slide">
   <div class="title-copy">
-    <h1>Trace Context<br><span>Beyond HTTP</span></h1>
-    <p class="title-subtitle">Environment variables as OpenTelemetry propagation carriers</p>
+    <h1>Trace Context Beyond HTTP</h1>
+    <h2>Environment variables as OpenTelemetry propagation carriers</h2>
   </div>
 
   <div class="author-list" aria-label="Presenters">
@@ -40,11 +41,10 @@ canvasWidth: 1280
 <!--
 Presenter cues:
 Robert (Theoretician):
-- Introduce the talk as a trace-context journey across process boundaries.
-- Name both presenters and the two perspectives.
+- Say hello. Introduce the talk as a trace-context journey across process boundaries.
 
 Alan (Practitioner):
-- Preview containers, build steps, and batch jobs as the concrete cases.
+- Say hello. Preview containers, build steps, and batch jobs as the concrete cases.
 
 Delivery notes:
 - Expected start time: 00:00.
@@ -159,8 +159,7 @@ id: S04
 <!--
 Presenter cues:
 Alan (Practitioner):
-- Explain that each concept will appear beside working trace evidence.
-- Preview the HTTP-to-CLI boundary, the break, the carrier change, and the connected result.
+- Explain that each concept will be presented by using examples.
 
 Delivery notes:
 - Expected start time: 02:50.
@@ -228,7 +227,7 @@ id: S05
 <!--
 Presenter cues:
 Robert (Theoretician):
-- Orient the audience to Java client, Go API, Python CLI, and Jaeger.
+- Software archiecture: Java application, Go web service, Python CLI, and Jaeger as tracing backend.
 - Distinguish the Java-to-Go HTTP hop from the Go-to-Python process launch.
 - Point out that the second boundary has no HTTP headers to carry context.
 
@@ -282,7 +281,7 @@ id: S06
 <!--
 Presenter cues:
 Robert (Theoretician):
-- Define a span as one timed operation and a trace as the connected causal story.
+- Define a span as one timed operation (a unit of work) and a trace as the connected causal story.
 - Explain trace ID, span ID, and parent-child links using the displayed tree.
 - Show where the CLI work should appear if parentage survives.
 
@@ -1183,7 +1182,7 @@ id: S26
 <!--
 Presenter cues:
 Robert (Theoretician):
-- State that the environment carrier specification is a Release Candidate as verified on 29 September 2026.
+- State that the environment carrier specification is a Release Candidate.
 - Explain that 2 November 2026 is the earliest stabilization date, subject to a 14-day quiet period and no blocker.
 - Invite concrete feedback on normalization, portability, concurrency, and security.
 
