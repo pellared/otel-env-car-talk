@@ -798,7 +798,7 @@ cmd.Env = env <span class="tok-muted">// the child’s env, not argoexec’s</sp
       </div>
       <div class="inject-step">
         <strong>controller → pod</strong>
-        <pre class="code-snippet">carrier := telemetry.Carrier{
+        <pre class="code-snippet">carrier := &amp;envcar.Carrier{
     SetEnvFunc: <span class="tok-kw">func</span>(key, value string) {
         envVars = append(envVars,
             apiv1.EnvVar{Name: key, Value: value})
@@ -821,9 +821,9 @@ Alan (Practitioner):
 Delivery notes:
 - Expected start time: 11:15.
 - Duration: 00:50.
-- Visual key: The left snippet is condensed from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right snippet is abridged from v4.1.3. Function names in the accent color are the propagator and tracer calls; keywords use the API color.
+- Visual key: The left snippet is condensed from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right snippet is abridged from argo-workflows PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier. Function names in the accent color are the propagator and tracer calls; keywords use the API color.
 - Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
-- Sources: argo-workflows v4.1.3 workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
+- Sources: https://github.com/argoproj/argo-workflows/pull/17015 for workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
 -->
 
 ---
