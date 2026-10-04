@@ -5,11 +5,9 @@
   --line: #d8d8d8;
   --placeholder: #f4f4f4;
   --accent: #087f8c;
-  --accent-soft: #e8f5f6;
   --warm: #a9612a;
   --warm-soft: #fbf1e7;
   --danger: #bd3038;
-  --danger-soft: #fff0f1;
   --service-client: #087f8c;
   --service-api: #585fc0;
   --service-cli: #a9612a;
@@ -33,11 +31,9 @@ html.dark {
   --line: #484848;
   --placeholder: #1d1d1d;
   --accent: #5cd4dc;
-  --accent-soft: #143337;
   --warm: #f2ad70;
   --warm-soft: #38271b;
   --danger: #ff858b;
-  --danger-soft: #3b2023;
   --service-client: #5cd4dc;
   --service-api: #aab4ff;
   --service-cli: #f2ad70;
@@ -149,12 +145,11 @@ body,
 
 /* S02 */
 .location-quiz-slide {
-  display: flex;
+  display: grid;
   min-height: 606px;
-  flex-direction: column;
+  grid-template-columns: minmax(0, 1fr) 432px;
   align-items: center;
-  justify-content: center;
-  gap: 20px;
+  gap: 64px;
 }
 
 .location-quiz-slide h1 {
@@ -166,9 +161,8 @@ body,
 }
 
 .location-quiz-photo {
-  position: relative;
-  width: min(100%, 915px);
-  aspect-ratio: 16 / 9;
+  width: 100%;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
 }
 
@@ -176,21 +170,35 @@ body,
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
-.location-quiz-photo figcaption {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 26px 22px 20px;
-  background: linear-gradient(transparent, rgb(0 0 0 / 78%));
-  color: #fff;
-  font-size: 36px;
+.location-quiz-answer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.location-quiz-answer h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 40px;
   font-weight: 750;
   line-height: 1.1;
-  text-align: center;
+}
+
+.location-quiz-answer p {
+  color: var(--ink);
+  font-size: 30px;
+  line-height: 1.25;
+}
+
+.location-quiz-answer .location-quiz-detail {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 26px;
+  line-height: 1.35;
 }
 
 /* S03 and S04 */
@@ -256,12 +264,6 @@ body,
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-}
-
-.presenter-focus br {
-  display: block;
-  content: "";
-  margin-top: 6px;
 }
 
 .portrait-slot {
@@ -457,14 +459,6 @@ body,
   content: "";
 }
 
-.connector-process i {
-  background: var(--ink);
-}
-
-.connector-process i::after {
-  border-left-color: var(--ink);
-}
-
 .telemetry-bus {
   position: absolute;
   z-index: 1;
@@ -480,10 +474,6 @@ body,
   stroke: var(--line);
   stroke-dasharray: 5 6;
   stroke-width: 2;
-}
-
-.telemetry-bus .telemetry-trunk {
-  stroke: var(--line);
 }
 
 .telemetry-bus .service-client-line {
@@ -1091,15 +1081,6 @@ body,
   gap: 16px;
 }
 
-.dream-dag > span,
-.dream-trace > span {
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
 .dag-figure {
   width: 300px;
   height: 340px;
@@ -1159,7 +1140,6 @@ body,
   --service-color: var(--service-node);
 }
 
-
 /* S12 */
 .dream-pods .span-row {
   min-height: 42px;
@@ -1193,7 +1173,6 @@ body,
   --service-color: var(--pod-d);
 }
 
-
 /* S13 */
 .dag-figure .dag-dim {
   opacity: 0.28;
@@ -1201,10 +1180,6 @@ body,
 
 .span-row.service-workload {
   --service-color: var(--ink);
-}
-
-.dream-pods .span-row.depth-3 b {
-  font-weight: 600;
 }
 
 /* S14 */
@@ -1221,8 +1196,6 @@ body,
   object-fit: cover;
   object-position: 57.5% 0; /* left edge lands on the gap before LOGS */
 }
-
-
 
 .code-snippet {
   margin: 0;
@@ -1263,13 +1236,11 @@ body,
   gap: 12px;
 }
 
-
 .inject-step strong {
   color: var(--ink);
   font-size: 26px;
   line-height: 1.1;
 }
-
 
 .inject-model .code-snippet {
   font-size: 16.5px;
@@ -1286,8 +1257,6 @@ body,
   color: var(--accent);
   font-weight: 700;
 }
-
-
 
 /* S15 */
 .demo2-result .trace-screenshot img {
@@ -1480,7 +1449,7 @@ body,
   gap: 24px;
 }
 
-/* S24 */
+/* S25 */
 .format-ledger {
   display: grid;
   align-self: center;
@@ -1551,7 +1520,7 @@ body,
   background: var(--line);
 }
 
-/* S26 */
+/* S24 */
 .adoption-list {
   display: grid;
   align-self: center;
@@ -1672,7 +1641,7 @@ body,
   font: 600 13px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-/* S28 */
+/* S27 */
 .repo-copy {
   display: grid;
   padding-top: 22px;
@@ -1694,7 +1663,7 @@ body,
   font: 700 19px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
-/* S29 */
+/* S28 */
 .thanks-slide {
   display: grid;
   min-height: 606px;
