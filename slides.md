@@ -6,7 +6,6 @@ title: "Trace Context Beyond HTTP: Environment Variables as OpenTelemetry
 info: |
   A 20-minute, two-presenter conference talk about OpenTelemetry trace-context
   propagation through child-process environments.
-class: intro-deck
 transition: slide-left
 mdc: true
 colorSchema: auto
@@ -23,14 +22,14 @@ timer: countdown
   </div>
 
   <div class="author-list" aria-label="Presenters">
-    <a href="https://github.com/pellared/" class="author author-theory">
+    <a href="https://github.com/pellared/" class="author">
       <img class="profile-photo" src="/presenters/robert-github.jpg" alt="Robert Pająk’s GitHub profile photo">
       <span class="author-copy">
         <b>Robert Pająk</b>
         <span class="author-url">github.com/pellared</span>
       </span>
     </a>
-    <a href="https://github.com/Joibel" class="author author-practice">
+    <a href="https://github.com/Joibel" class="author">
       <img class="profile-photo" src="/presenters/alan-github.jpg" alt="Alan Clucas’s GitHub profile photo">
       <span class="author-copy">
         <b>Alan Clucas</b>
@@ -62,10 +61,16 @@ id: S02
 ---
 
 <div class="location-quiz-slide">
-  <h1>Where is this?</h1>
+  <div>
+    <h1>Where is this?</h1>
+    <div class="location-quiz-answer" v-click>
+      <h2>Hlubočepské plotny</h2>
+      <p>Prague</p>
+      <p class="location-quiz-detail">A beautiful spot for rock climbing</p>
+    </div>
+  </div>
   <figure class="location-quiz-photo">
-    <img src="/quiz/branicke-skaly.jpg" alt="A pale rock cliff rising above autumn trees">
-    <figcaption v-click>Branické skály, Prague</figcaption>
+    <img src="/quiz/prague.jpeg" alt="Robert standing below rock cliffs surrounded by autumn foliage">
   </figure>
 </div>
 
@@ -73,13 +78,14 @@ id: S02
 Presenter cues:
 Robert (Theoretician):
 - Invite the audience to guess where the pictured cliff is.
-- Reveal Branické skály in Prague before the presenter introductions.
+- Reveal Hlubočepské plotny in Prague before the presenter introductions.
+- Mention that this is your personal photo of a beautiful landmark where you can practice rock climbing.
 
 Delivery notes:
 - Expected start time: 00:20.
 - Duration: 01:15, including about 01:00 for audience guesses.
 - Quiz cue: Press next to reveal the answer after taking guesses.
-- Photo: Vít Pohanka / Radio Prague International, https://english.radio.cz/branik-rocks-where-pragues-prehistoric-past-meets-todays-city-life-8867183.
+- Photo: Robert Pająk, personal photo.
 -->
 
 ---
@@ -87,7 +93,7 @@ layout: default
 id: S03
 ---
 
-<div class="presenter-slide theory-slide">
+<div class="presenter-slide">
   <div class="presenter-copy">
     <p class="presenter-role">Splunk</p>
     <h1>Robert Pająk</h1>
@@ -95,7 +101,7 @@ id: S03
     <p class="presenter-focus"><span>Open source</span>OpenTelemetry maintainer</p>
   </div>
 
-  <figure class="portrait-slot theory-portrait" aria-label="GitHub profile photo of Robert Pająk">
+  <figure class="portrait-slot" aria-label="GitHub profile photo of Robert Pająk">
     <img class="presenter-photo" src="/presenters/robert-github.jpg" alt="Robert Pająk">
   </figure>
 </div>
@@ -118,7 +124,7 @@ layout: default
 id: S04
 ---
 
-<div class="presenter-slide practitioner-slide">
+<div class="presenter-slide">
   <div class="presenter-copy">
     <p class="presenter-role">Pipekit</p>
     <h1>Alan Clucas</h1>
@@ -126,7 +132,7 @@ id: S04
     <p class="presenter-focus"><span>Open source</span>Argo Workflows lead</p>
   </div>
 
-  <figure class="portrait-slot practitioner-portrait" aria-label="GitHub profile photo of Alan Clucas">
+  <figure class="portrait-slot" aria-label="GitHub profile photo of Alan Clucas">
     <img class="presenter-photo" src="/presenters/alan-github.jpg" alt="Alan Clucas">
   </figure>
 </div>
@@ -185,7 +191,7 @@ id: S05
       <code>build report</code>
     </div>
     <svg class="telemetry-bus" viewBox="0 0 1128 430" aria-hidden="true">
-      <path class="telemetry-trunk" d="M140 296 H989" />
+      <path d="M140 296 H989" />
       <path class="service-client-line" d="M140 215 V296" />
       <path class="service-api-line" d="M551 215 V296" />
       <path class="service-cli-line" d="M989 215 V296" />
@@ -281,13 +287,13 @@ id: S07
   </header>
 
   <div class="propagation-diagram" role="img" aria-label="A W3C Trace Context propagator injects active trace context into an HTTP traceparent header and extracts it as a remote parent for a child span.">
-    <div class="prop-context context-source">
+    <div class="prop-context">
       <span>Context</span>
       <strong>Active span</strong>
       <code>trace=T&nbsp;&nbsp;span=A</code>
       <small>identity held while work runs</small>
     </div>
-    <div class="propagator-step step-inject">
+    <div class="propagator-step">
       <span>Propagator</span>
       <strong>W3C Trace Context</strong>
       <code>inject</code>
@@ -299,13 +305,13 @@ id: S07
       <code>traceparent: 00-4bf92…-00f067…-01</code>
       <small>key-value fields cross the boundary</small>
     </div>
-    <div class="propagator-step step-extract">
+    <div class="propagator-step">
       <span>Propagator</span>
       <strong>W3C Trace Context</strong>
       <code>extract</code>
       <i></i>
     </div>
-    <div class="prop-context context-target">
+    <div class="prop-context">
       <span>Context</span>
       <strong>Remote parent</strong>
       <code>trace=T&nbsp;&nbsp;parent=A</code>
@@ -340,7 +346,7 @@ id: S08
   </header>
 
   <div class="broken-trace-pair" role="group" aria-label="Two Jaeger traces from the same broken run have different trace IDs">
-    <figure class="trace-screenshot broken-trace request-trace">
+    <figure class="trace-screenshot broken-trace">
       <div class="trace-card-heading">
         <span>Request trace</span>
         <code>7dc2cf4…</code>
@@ -397,13 +403,13 @@ id: S09
   </header>
 
   <div class="environment-diagram" role="img" aria-label="The Go launcher injects W3C Trace Context into TRACEPARENT in a copied child environment. Python extracts it at startup and its instrumentation creates a child span.">
-    <div class="environment-process env-parent">
+    <div class="environment-process">
       <span>Parent process: Go</span>
       <strong>active context</strong>
       <code>trace=T&nbsp;&nbsp;span=R</code>
       <small>copy the child environment</small>
     </div>
-    <div class="environment-step env-inject">
+    <div class="environment-step">
       <strong>inject</strong>
       <span>W3C Trace Context</span>
       <i></i>
@@ -413,12 +419,12 @@ id: S09
       <code>TRACEPARENT=<br>00-4bf92…-00f067…-01</code>
       <small><b>traceparent</b> normalizes to <b>TRACEPARENT</b></small>
     </div>
-    <div class="environment-step env-extract">
+    <div class="environment-step">
       <strong>extract</strong>
       <span>W3C Trace Context</span>
       <i></i>
     </div>
-    <div class="environment-process env-child">
+    <div class="environment-process">
       <span>Child process: Python</span>
       <strong>extracted parent</strong>
       <code>trace=T&nbsp;&nbsp;parent=R</code>
@@ -449,7 +455,7 @@ layout: default
 id: S10
 ---
 
-<div class="demo-slide evidence-slide connected-slide">
+<div class="demo-slide evidence-slide">
   <header class="demo-heading">
     <p>Connected result</p>
     <h1>The CLI joins the original trace</h1>
@@ -716,7 +722,7 @@ layout: default
 id: S15
 ---
 
-<div class="demo-slide evidence-slide connected-slide demo2-result">
+<div class="demo-slide evidence-slide demo2-result">
   <header class="demo-heading">
     <p>Demo 2</p>
     <h1>The workload joins the trace</h1>
@@ -868,7 +874,7 @@ layout: default
 id: S19
 ---
 
-<div class="demo-slide evidence-slide connected-slide">
+<div class="demo-slide evidence-slide">
   <header class="demo-heading">
     <p>Demo 3</p>
     <h1>BuildKit reveals the build graph</h1>
@@ -940,7 +946,7 @@ layout: default
 id: S21
 ---
 
-<div class="demo-slide evidence-slide connected-slide">
+<div class="demo-slide evidence-slide">
   <header class="demo-heading">
     <p>Demo 4</p>
     <h1>Every query is a span</h1>
@@ -1134,7 +1140,7 @@ layout: default
 id: S26
 ---
 
-<div class="closing-slide resource-slide">
+<div class="closing-slide">
   <header class="demo-heading">
     <p>Release Candidate</p>
     <h1>Feedback before stabilization</h1>
@@ -1175,7 +1181,7 @@ layout: default
 id: S27
 ---
 
-<div class="closing-slide resource-slide">
+<div class="closing-slide">
   <header class="demo-heading">
     <p>Keep exploring</p>
     <h1>Slides and demo material</h1>

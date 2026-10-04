@@ -30,7 +30,7 @@ Handoffs between slides are included in each slide's duration; S01 has a 00:05 w
 | ID | Purpose | Presenter and handoff | Duration |
 | --- | --- | --- | ---: |
 | S01 | Name the topic and introduce both presenters. | Robert and Alan; Robert hands to Alan for 00:05, then Alan hands back to Robert on S02. | 00:20 |
-| S02 | Invite the audience to locate the supplied Branické skály photo, then reveal its name and Prague location. | Robert; continues on S03. | 01:15 |
+| S02 | Invite the audience to locate Robert’s photo of Hlubočepské plotny, then reveal its Prague location and mention rock climbing. | Robert; continues on S03. | 01:15 |
 | S03 | Introduce Robert with his GitHub profile photo and theory focus. | Robert; handoff to Alan on S04. | 00:35 |
 | S04 | Introduce Alan with his GitHub profile photo and preview the captured trace evidence. | Alan; handoff to Robert on S05. | 00:35 |
 | S05 | Show the Java-to-Go HTTP hop and Go-to-Python process hop. | Robert; continues. | 00:40 |
@@ -85,4 +85,4 @@ All demonstrations use captured evidence; there is no live interaction or setup.
 
 ## Opening images and sources
 
-S01, S03, and S04 use the presenters' current GitHub profile photos, stored locally for presentation reliability. S02 uses the supplied Branické skály photo, credited to Vít Pohanka and Radio Prague International in its `Delivery notes`; the location appears only on reveal. Technical sources and evidence provenance remain in each slide's `Delivery notes`.
+S01, S03, and S04 use the presenters' current GitHub profile photos, stored locally for presentation reliability. S02 uses Robert’s personal photo of Hlubočepské plotny, stored locally for presentation reliability. The location and rock climbing detail appear only on reveal; the photo is credited to Robert in its `Delivery notes`. Technical sources and evidence provenance remain in each slide's `Delivery notes`.
