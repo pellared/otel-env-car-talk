@@ -85,4 +85,4 @@ All demonstrations use captured evidence; there is no live interaction or setup.
 
 ## Opening images and sources
 
-S01, S03, and S04 use the presenters' current GitHub profile photos, stored locally for presentation reliability. S02 uses Robert’s personal photo of Hlubočepské plotny, supplied as `~/Downloads/prague.jpeg` and stored locally for presentation reliability. The location and rock climbing detail appear only on reveal; the photo is credited to Robert in its `Delivery notes`. Technical sources and evidence provenance remain in each slide's `Delivery notes`.
+S01, S03, and S04 use the presenters' current GitHub profile photos, stored locally for presentation reliability. S02 uses Robert’s personal photo of Hlubočepské plotny, stored locally for presentation reliability. The location and rock climbing detail appear only on reveal; the photo is credited to Robert in its `Delivery notes`. Technical sources and evidence provenance remain in each slide's `Delivery notes`.
