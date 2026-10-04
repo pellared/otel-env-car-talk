@@ -85,7 +85,7 @@ Delivery notes:
 - Expected start time: 00:20.
 - Duration: 01:15, including about 01:00 for audience guesses.
 - Quiz cue: Press next to reveal the answer after taking guesses.
-- Photo: Robert Pająk, personal photo supplied as ~/Downloads/prague.jpeg. Location and rock climbing detail supplied by Robert.
+- Photo: Robert Pająk, personal photo.
 -->
 
 ---
