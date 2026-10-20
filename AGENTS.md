@@ -100,11 +100,13 @@ Use these presenter assignments in the plan and slide notes:
 
 - S01: Robert (Theoretician) and Alan (Practitioner).
 - S02-S03 and S05-S10: Robert.
-- S04 and S11-S23: Alan.
+- S04, S10A, and S11-S23: Alan.
 - S24-S27: Robert.
 - S28: Alan.
 
 Each slide in `plan.md` must identify its presenter and any handoff. Within-slide handoffs occur only on S01.
+
+S10A introduces Argo Workflows between S10 and S11. Preserve the existing slide identifiers when inserting this slide.
 
 Use handoffs to add meaning. Good patterns include:
 
@@ -185,7 +187,7 @@ When reviewing rather than editing, identify exact slide IDs and distinguish blo
 Presentation work is complete only when:
 
 - every promise in the README's Description and both current workflow examples maps to at least one planned slide;
-- the deck has 28 slides with the presenter assignments above;
+- the deck has 29 slides, including S10A between S10 and S11, with the presenter assignments above;
 - the story works for an observability audience new to OpenTelemetry terminology;
 - the Theoretician and Practitioner have distinct, complementary contributions;
 - both demos have an expected result and a failure fallback;

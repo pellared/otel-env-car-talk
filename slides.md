@@ -4,6 +4,7 @@ id: S01
 title: "Trace Context Beyond HTTP: Environment Variables as OpenTelemetry
   Propagation Carriers"
 info: |
+  Presented at Cloud Native Days Warsaw 2026 on 22 October 2026.
   A 20-minute, two-presenter conference talk about OpenTelemetry trace-context
   propagation through child-process environments.
 transition: slide-left
@@ -19,6 +20,10 @@ timer: countdown
   <div class="title-copy">
     <h1>Trace Context Beyond HTTP</h1>
     <h2>Environment variables as OpenTelemetry propagation carriers</h2>
+    <p class="conference">
+      <a href="https://cloudnativedayspoland.org/">Cloud Native Days Warsaw 2026</a>
+      <span>22 October 2026</span>
+    </p>
   </div>
 
   <div class="author-list" aria-label="Presenters">
@@ -42,7 +47,7 @@ timer: countdown
 <!--
 Presenter cues:
 Robert (Theoretician):
-- Say hello. Introduce the talk as a trace-context journey across process boundaries.
+- Welcome the Cloud Native Days Warsaw audience. Introduce the talk as a trace-context journey across process boundaries.
 
 Alan (Practitioner):
 - Say hello. Preview containers, build steps, and batch jobs as the concrete cases.
@@ -52,6 +57,7 @@ Delivery notes:
 - Duration: 00:20.
 - Handoff: Robert to Alan for the final 00:05; Alan hands back to Robert on S02.
 - Display: Follow the viewer’s color preference. In Slidev, use the built-in mode control or press `D` to toggle light and dark.
+- Event: Cloud Native Days Warsaw 2026, Warsaw, Poland, 22 October 2026. Event date and city verified 2026-10-20 at https://cloudnativedayspoland.org/.
 - Sources: README.md; presenter profiles and profile photos: https://github.com/pellared/, https://avatars.githubusercontent.com/u/5067549?s=512&v=4, https://github.com/Joibel, https://avatars.githubusercontent.com/u/1827156?s=512&v=4.
 -->
 
@@ -64,13 +70,13 @@ id: S02
   <div>
     <h1>Where is this?</h1>
     <div class="location-quiz-answer" v-click>
-      <h2>Hlubočepské plotny</h2>
-      <p>Prague</p>
+      <h2>Freney</h2>
+      <p>Kraków, Zakrzówek</p>
       <p class="location-quiz-detail">A beautiful spot for rock climbing</p>
     </div>
   </div>
   <figure class="location-quiz-photo">
-    <img src="/quiz/prague.jpeg" alt="Robert standing below rock cliffs surrounded by autumn foliage">
+    <img src="/quiz/freney.jpg" alt="Limestone cliff with climbing routes, surrounded by trees">
   </figure>
 </div>
 
@@ -78,14 +84,14 @@ id: S02
 Presenter cues:
 Robert (Theoretician):
 - Invite the audience to guess where the pictured cliff is.
-- Reveal Hlubočepské plotny in Prague before the presenter introductions.
-- Mention that this is your personal photo of a beautiful landmark where you can practice rock climbing.
+- Reveal Freney in Kraków, Zakrzówek, before the presenter introductions.
+- Mention rock climbing as a personal interest.
 
 Delivery notes:
 - Expected start time: 00:20.
-- Duration: 01:15, including about 01:00 for audience guesses.
+- Duration: 00:45, including about 00:30 for audience guesses.
 - Quiz cue: Press next to reveal the answer after taking guesses.
-- Photo: Robert Pająk, personal photo.
+- Photo: Supplied for this talk as public/quiz/freney.jpg; location identification supplied with the photo.
 -->
 
 ---
@@ -113,7 +119,7 @@ Robert (Theoretician):
 - Preview your focus on the model and its constraints.
 
 Delivery notes:
-- Expected start time: 01:35.
+- Expected start time: 01:05.
 - Duration: 00:35.
 - Handoff: Robert to Alan on S04.
 - Sources: https://github.com/pellared/; GitHub profile photo: https://avatars.githubusercontent.com/u/5067549?s=768&v=4; OpenTelemetry community roles: https://opentelemetry.io/community/members/.
@@ -144,7 +150,7 @@ Alan (Practitioner):
 - Preview the captured workflow and trace evidence you will explain.
 
 Delivery notes:
-- Expected start time: 02:10.
+- Expected start time: 01:40.
 - Duration: 00:35.
 - Handoff: Alan to Robert on S05.
 - Sources: https://github.com/Joibel; GitHub profile photo: https://avatars.githubusercontent.com/u/1827156?s=768&v=4; Argo Project maintainer list: https://github.com/argoproj/argoproj/blob/main/MAINTAINERS.md.
@@ -214,7 +220,7 @@ Robert (Theoretician):
 - Point out that the second boundary has no HTTP headers to carry context.
 
 Delivery notes:
-- Expected start time: 02:45.
+- Expected start time: 02:15.
 - Duration: 00:40.
 - Before the demo evidence: Let the audience locate both labeled boundaries before advancing.
 - Visual key: Teal identifies `report-client`, indigo identifies `report-api`, and orange identifies `report-cli`.
@@ -268,7 +274,7 @@ Robert (Theoretician):
 - Show where the CLI work should appear if parentage survives.
 
 Delivery notes:
-- Expected start time: 03:25.
+- Expected start time: 02:55.
 - Duration: 00:40.
 - Visual key: Service color matches S05. Every bar uses one trace timeline; horizontal position shows start time and length shows duration.
 - Fallback: This native span tree also serves as the evidence fallback if a later screenshot does not render.
@@ -329,7 +335,7 @@ Robert (Theoretician):
 - Explain that Go extracts the field before its instrumentation starts a child span.
 
 Delivery notes:
-- Expected start time: 04:05.
+- Expected start time: 03:35.
 - Duration: 00:55.
 - Sources: OpenTelemetry context propagation, https://opentelemetry.io/docs/concepts/context-propagation/; OpenTelemetry Propagators API, https://opentelemetry.io/docs/specs/otel/context/api-propagators/; W3C Trace Context, https://www.w3.org/TR/trace-context/.
 -->
@@ -383,7 +389,7 @@ Robert (Theoretician):
 - Explain that the process launch did not carry HTTP headers, so Python had no parent context.
 
 Delivery notes:
-- Expected start time: 05:00.
+- Expected start time: 04:30.
 - Duration: 00:50.
 - Evidence: Playwright captures of local Jaeger traces `7dc2cf4ed9e5e29887bee1aafa31c53c` and `662ebaa1ca31466b2827be86bdda8748`, generated by the same `make run` execution.
 - Diagnostic point: The CLI still creates spans. Missing parent context places them in a different trace.
@@ -443,10 +449,10 @@ Robert (Theoretician):
 - Separate context transport from instrumentation creating the child span.
 
 Delivery notes:
-- Expected start time: 05:50.
+- Expected start time: 05:20.
 - Duration: 00:55.
 - Implementation: Go injects into `cmd.Env`; Python extracts from `os.environ` once at startup.
-- Specification status checked 2026-09-29: Environment Variables as Context Propagation Carriers is Release Candidate.
+- Specification status checked 2026-10-20: Environment Variables as Context Propagation Carriers is Release Candidate.
 - Sources: OpenTelemetry Environment Variables as Context Propagation Carriers, https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/context/env-carriers.md; OpenTelemetry Propagators API, https://opentelemetry.io/docs/specs/otel/context/api-propagators/; demos/1-http-to-cli/cmd/report-api/main.go; demos/1-http-to-cli/python/report.py.
 -->
 
@@ -479,12 +485,55 @@ Robert (Theoretician):
 - Reinforce that the variable carried context; instrumentation created the spans.
 
 Delivery notes:
-- Expected start time: 06:45.
+- Expected start time: 06:15.
 - Duration: 00:30.
+- Handoff: Robert to Alan on S10A, 00:03 included in this slide's duration.
 - Expected result: Seven spans from `report-client`, `report-api`, and `report-cli` share trace `d2264e9b82e5cfbab0bf724d4308af96`.
 - Evidence: Playwright capture of the local Jaeger trace generated by `make fixed`.
 - Fallback: Use the complete native span tree on S06 and the process handoff on S09.
 - Sources: demos/1-http-to-cli/README.md; demos/1-http-to-cli/cmd/report-api/main.go; demos/1-http-to-cli/python/report.py.
+-->
+
+---
+layout: default
+id: S10A
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Practical demos</p>
+    <h1>Argo Workflows</h1>
+  </header>
+
+  <div class="argo-intro">
+    <div class="argo-intro-copy">
+      <p>An open source tool for coordinating container jobs on Kubernetes.</p>
+      <ul>
+        <li>Run tasks in sequence or in parallel.</li>
+        <li>Automate build pipelines, batch data processing, and machine learning.</li>
+      </ul>
+    </div>
+    <div class="argo-project">
+      <img class="argo-project-icon" src="/logos/argo-workflows.png" alt="Argo Workflows project icon">
+      <p class="argo-project-status">CNCF Graduated project</p>
+    </div>
+  </div>
+</div>
+
+<!--
+Presenter cues:
+Alan (Practitioner):
+- Introduce Argo as the workflow engine used in the practical demos; a workflow defines tasks and their dependencies.
+- Expand CNCF as Cloud Native Computing Foundation and state Argo's Graduated status.
+- Explain container tasks and parallel work using the upcoming image build and batch pipeline examples.
+
+Delivery notes:
+- Expected start time: 06:45.
+- Duration: 00:30.
+- Handoff: Receive from Robert on S10; Alan continues with the workflow graph on S11.
+- Status verified 2026-10-20: Argo joined CNCF at Incubating maturity on 26 March 2020 and graduated on 6 December 2022. Source: https://www.cncf.io/projects/argo/.
+- Project icon: Official Argo Workflows documentation logo, stored locally as public/logos/argo-workflows.png; source: https://github.com/argoproj/argo-workflows/blob/main/docs/assets/logo.png.
+- Sources: Argo Workflows overview and use cases, https://argo-workflows.readthedocs.io/en/latest/; task dependencies and parallelism, https://argo-workflows.readthedocs.io/en/latest/walk-through/dag/.
 -->
 
 ---
@@ -657,9 +706,9 @@ id: S13
         </div>
         <div class="span-row service-node depth-0"><b>A</b><span>controller</span><i style="--start: 0%; --duration: 100%"></i></div>
         <div class="span-row service-pod-a depth-1"><em>└─</em><b>A</b><span>pod</span><i style="--start: 20%; --duration: 70%"></i></div>
-        <div class="span-row service-workload depth-2"><em>├─</em><b>observability</b><span>workload</span><i style="--start: 22%; --duration: 16.5%"></i></div>
-        <div class="span-row service-workload depth-2"><em>├─</em><b>summit</b><span>workload</span><i style="--start: 39%; --duration: 27.5%"></i></div>
-        <div class="span-row service-workload depth-2"><em>└─</em><b>prague</b><span>workload</span><i style="--start: 67%; --duration: 22%"></i></div>
+        <div class="span-row service-workload depth-2"><em>├─</em><b>cloud-native</b><span>workload</span><i style="--start: 22%; --duration: 16.5%"></i></div>
+        <div class="span-row service-workload depth-2"><em>├─</em><b>days</b><span>workload</span><i style="--start: 39%; --duration: 27.5%"></i></div>
+        <div class="span-row service-workload depth-2"><em>└─</em><b>warsaw</b><span>workload</span><i style="--start: 67%; --duration: 22%"></i></div>
       </div>
     </div>
   </div>
@@ -676,6 +725,7 @@ Delivery notes:
 - Expected start time: 08:40.
 - Duration: 00:40.
 - Visual key: The controller and pod colors carry over from S12. Workload spans use the ink color to mark them as the user’s own code rather than a platform layer. In Jaeger they would share the pod’s service color; the distinction here is a teaching device.
+- Span labels: `cloud-native`, `days`, and `warsaw` match the refreshed demo shown on S14-S15.
 - Sources: demos/2-argo-to-otel-cli/README.md.
 -->
 
@@ -695,9 +745,9 @@ id: S14
     </figure>
     <div>
       <pre class="code-snippet">echo "TRACEPARENT: <span class="tok-env">${TRACEPARENT}</span>"
-/otel-cli exec --name <span class="tok-name">observability</span> -- sleep 3
-/otel-cli exec --name <span class="tok-name">summit</span>        -- sleep 5
-/otel-cli exec --name <span class="tok-name">prague</span>        -- sleep 4</pre>
+/otel-cli exec --name <span class="tok-name">cloud-native</span> -- sleep 3
+/otel-cli exec --name <span class="tok-name">days</span>         -- sleep 5
+/otel-cli exec --name <span class="tok-name">warsaw</span>       -- sleep 4</pre>
     </div>
   </div>
 </div>
@@ -712,7 +762,8 @@ Alan (Practitioner):
 Delivery notes:
 - Expected start time: 09:20.
 - Duration: 00:40.
-- Evidence: Playwright capture of the local Argo Workflows UI for the demo 2 workflow.
+- Evidence: Playwright capture of the local Argo Workflows UI for workflow `otel-cli-qrjhh`, captured 2026-10-20 from the updated demo 2 workflow.
+- Span labels: The command names spell out Cloud Native Days Warsaw and match the trace on S15.
 - Fallback: Read the snippet aloud; the DAG is a single node and needs no picture to be understood.
 - Sources: demos/2-argo-to-otel-cli/workflow.yaml; demos/2-argo-to-otel-cli/README.md.
 -->
@@ -728,10 +779,10 @@ id: S15
     <h1>The workload joins the trace</h1>
   </header>
   <figure class="trace-screenshot connected-trace">
-    <img src="/demo-2/trace-jaeger.png" alt="Jaeger trace showing observability, summit and prague spans nested under runMainContainer inside the workflow trace">
+    <img src="/demo-2/trace-jaeger.png" alt="Jaeger trace showing cloud-native, days and warsaw spans nested under runMainContainer inside the workflow trace">
     <figcaption>
       <strong>1 trace</strong>
-      <span>49 spans across 2 services</span>
+      <span>56 spans across 2 services</span>
     </figcaption>
   </figure>
 </div>
@@ -742,12 +793,13 @@ Alan (Practitioner):
 - Read the captured tree from controller workflow span through pod executor to workload spans.
 - Explain the controller-to-pod injection and executor-to-command injection.
 - Use the parentage under `runMainContainer` as evidence of the second hop.
+- Point to `cloud-native`, `days`, and `warsaw` as the three workload spans.
 
 Delivery notes:
 - Expected start time: 10:00.
 - Duration: 00:45.
-- Expected result: 49 spans, one root `workflow` span from `workflow-controller`, and `observability`, `summit`, `prague` as children of `runMainContainer`.
-- Evidence: Playwright capture of the local Jaeger UI, scrolled to the runMainContainer subtree.
+- Expected result: 56 spans across two services in this captured run, one root `workflow` span from `workflow-controller`, and `cloud-native`, `days`, `warsaw` as children of `runMainContainer`.
+- Evidence: Playwright capture of local Jaeger trace `18e3667d39e59866bdd3d81e055435d5` from workflow `otel-cli-qrjhh`, captured 2026-10-20. Helper subtrees are collapsed to expose the controller, pod, and workload parent chain.
 - Fallback: The S13 dream slide is the same tree drawn by hand.
 - Sources: demos/2-argo-to-otel-cli/README.md.
 -->
@@ -1171,7 +1223,7 @@ Robert (Theoretician):
 Delivery notes:
 - Expected start time: 17:05.
 - Duration: 00:25.
-- Status verified: 2026-09-29. The specification is Release Candidate. November 2, 2026 is the earliest stabilization date, not a guaranteed release date; a new related issue or a significant update restarts the 14-day feedback period.
+- Status verified: 2026-10-20. The specification is Release Candidate. November 2, 2026 is the earliest stabilization date, not a guaranteed release date; a new related issue or a significant update restarts the 14-day feedback period.
 - QR target: https://opentelemetry.io/blog/2026/environment-variable-context-propagation/
 - Sources: OpenTelemetry feedback article, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; environment carrier specification, https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/context/env-carriers.md; stabilization issue #5040, https://github.com/open-telemetry/opentelemetry-specification/issues/5040.
 -->

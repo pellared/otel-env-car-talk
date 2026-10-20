@@ -45,7 +45,9 @@ echo "http://localhost:16686/trace/$(kubectl get -n default "$wf" \
 
 ## What you should see
 
-One trace, one root, about 49 spans:
+One trace, one root, and three workload spans under `runMainContainer`. The
+captured run contains 56 spans across two services; the total can vary with the
+controller's reconciliation work.
 
 ```text
 workflow                          (workflow-controller)
@@ -54,12 +56,15 @@ workflow                          (workflow-controller)
         ├── runInitContainer      (argoexec)
         ├── runWaitContainer      (argoexec)
         └── runMainContainer      (argoexec)
-            ├── observability     (otel-cli)   3.0s
-            ├── summit            (otel-cli)   5.0s
-            └── prague            (otel-cli)   4.0s
+            ├── cloud-native      (otel-cli)   3.0s
+            ├── days              (otel-cli)   5.0s
+            └── warsaw            (otel-cli)   4.0s
 ```
 
 ![Jaeger showing the otel-cli spans nested under runMainContainer](trace.png)
+
+Captured on 20 October 2026 from workflow `otel-cli-qrjhh`, trace
+`18e3667d39e59866bdd3d81e055435d5`.
 
 ## What to point out
 
@@ -68,7 +73,7 @@ workflow                          (workflow-controller)
    and that is there purely so the audience can see the value exists.
 2. There are **two** injections, not one. The controller injects into the pod
    environment; the executor injects again into the child process environment,
-   with its own span as parent. That is why `observability` hangs off
+   with its own span as parent. That is why `cloud-native` hangs off
    `runMainContainer` rather than off `node`.
 3. `otel-cli` is a general-purpose binary that knows nothing about Argo. It works
    because both sides agreed on the environment carrier, not because they were
@@ -78,7 +83,8 @@ workflow                          (workflow-controller)
 
 ## Notes
 
-- The three span names are just labels; change them in `workflow.yaml`.
+- The three span names spell out Cloud Native Days Warsaw; change them in
+  `workflow.yaml` to adapt the demo for another event.
 - If `TRACEPARENT` prints as `<unset>` in the step logs, the controller is not
   exporting traces, so it never had a context to inject. Check
   `OTEL_EXPORTER_OTLP_ENDPOINT` on the workflow-controller pod.

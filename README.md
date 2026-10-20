@@ -1,5 +1,7 @@
 # Trace Context Beyond HTTP: Environment Variables as OpenTelemetry Propagation Carriers
 
+Presented at [Cloud Native Days Warsaw 2026](https://cloudnativedayspoland.org/), Warsaw, Poland, on 22 October 2026.
+
 ## Description
 
 Distributed traces usually carry context in HTTP headers or message metadata, but CI jobs, workflow engines, and build tools also cross process boundaries. This talk shows how OpenTelemetry propagators use environment variables as carriers so launched CLIs, containers, and subprocesses can continue the same trace without a network handoff or custom format.
