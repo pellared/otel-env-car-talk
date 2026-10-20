@@ -196,12 +196,12 @@ id: S05
       <strong>report-cli</strong>
       <code>build report</code>
     </div>
-    <svg class="telemetry-bus" viewBox="0 0 1128 430" aria-hidden="true">
-      <path d="M140 296 H989" />
-      <path class="service-client-line" d="M140 215 V296" />
-      <path class="service-api-line" d="M551 215 V296" />
-      <path class="service-cli-line" d="M989 215 V296" />
-      <path d="M564 296 V330" class="bus-drop" />
+    <svg class="telemetry-bus" viewBox="0 0 1128 492" aria-hidden="true">
+      <path d="M136 324 H992" />
+      <path class="service-client-line" d="M136 240 V324" />
+      <path class="service-api-line" d="M564 240 V324" />
+      <path class="service-cli-line" d="M992 240 V324" />
+      <path d="M564 324 V388" class="bus-drop" />
     </svg>
     <span class="telemetry-label">Export spans</span>
     <div class="architecture-sink">
@@ -214,7 +214,7 @@ id: S05
 <!--
 Presenter cues:
 Robert (Theoretician):
-- Software archiecture: Java application, Go web service, Python CLI, and Jaeger as tracing backend.
+- Software architecture: Java application, Go web service, Python CLI, and Jaeger as tracing backend.
 - Distinguish the Java-to-Go HTTP hop from the Go-to-Python process launch.
 - Point out that the second boundary has no HTTP headers to carry context.
 
