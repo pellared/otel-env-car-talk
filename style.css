@@ -920,57 +920,57 @@ body,
   font-size: 24px;
 }
 
-/* S10A */
-.argo-intro {
+/* Project introductions: S04A, S04B, and S10A. */
+.project-intro {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 220px;
   align-items: center;
   gap: 64px;
 }
 
-.argo-intro-copy {
+.project-intro-copy {
   display: grid;
   max-width: 1000px;
   align-self: center;
   gap: 36px;
 }
 
-.argo-intro-copy > p {
+.project-intro-copy > p {
   font-size: 38px;
   font-weight: 650;
   line-height: 1.3;
   text-wrap: balance;
 }
 
-.argo-intro-copy ul {
+.project-intro-copy ul {
   margin: 0;
   padding-left: 1.15em;
   font-size: 30px;
   line-height: 1.45;
 }
 
-.argo-intro-copy li + li {
+.project-intro-copy li + li {
   margin-top: 18px;
 }
 
-.argo-intro-copy li {
+.project-intro-copy li {
   text-wrap: balance;
 }
 
-.argo-project {
+.project-identity {
   display: grid;
   justify-items: center;
   gap: 16px;
   text-align: center;
 }
 
-.argo-project-icon {
+.project-icon {
   width: 220px;
   height: 220px;
   object-fit: contain;
 }
 
-.argo-project-status {
+.project-status {
   max-width: 220px;
   color: var(--muted);
   font-size: 26px;

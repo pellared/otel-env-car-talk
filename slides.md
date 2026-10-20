@@ -120,7 +120,7 @@ Robert (Theoretician):
 
 Delivery notes:
 - Expected start time: 01:05.
-- Duration: 00:35.
+- Duration: 00:20.
 - Handoff: Robert to Alan on S04.
 - Sources: https://github.com/pellared/; GitHub profile photo: https://avatars.githubusercontent.com/u/5067549?s=768&v=4; OpenTelemetry community roles: https://opentelemetry.io/community/members/.
 -->
@@ -150,10 +150,94 @@ Alan (Practitioner):
 - Preview the captured workflow and trace evidence you will explain.
 
 Delivery notes:
-- Expected start time: 01:40.
-- Duration: 00:35.
-- Handoff: Alan to Robert on S05.
+- Expected start time: 01:25.
+- Duration: 00:20.
+- Handoff: Alan to Robert on S04A.
 - Sources: https://github.com/Joibel; GitHub profile photo: https://avatars.githubusercontent.com/u/1827156?s=768&v=4; Argo Project maintainer list: https://github.com/argoproj/argoproj/blob/main/MAINTAINERS.md.
+-->
+
+---
+layout: default
+id: S04A
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Telemetry toolkit</p>
+    <h1>OpenTelemetry</h1>
+  </header>
+
+  <div class="project-intro">
+    <div class="project-intro-copy">
+      <p>An open source toolkit for generating and collecting traces, metrics, and logs.</p>
+      <ul>
+        <li>Instrument code to record what it does.</li>
+        <li>Export data to Jaeger or another observability tool.</li>
+      </ul>
+    </div>
+    <div class="project-identity">
+      <img class="project-icon" src="/logos/opentelemetry.svg" alt="OpenTelemetry project icon">
+      <p class="project-status">CNCF Graduated project</p>
+    </div>
+  </div>
+</div>
+
+<!--
+Presenter cues:
+Robert (Theoretician):
+- Define telemetry as software observations; instrumentation is the code or libraries that record them.
+- Name traces as connected work, metrics as measurements, and logs as events; focus here on traces.
+- Explain export to a chosen tool and state Graduated status in CNCF, the Cloud Native Computing Foundation.
+
+Delivery notes:
+- Expected start time: 01:45.
+- Duration: 00:25.
+- Handoff: Receive from Alan on S04; Robert continues with Jaeger on S04B.
+- Status verified 2026-10-20: OpenTelemetry graduated on 11 May 2026. Source: https://www.cncf.io/projects/opentelemetry/.
+- Project icon: Official CNCF artwork, stored unchanged as public/logos/opentelemetry.svg; source: https://github.com/cncf/artwork/blob/main/projects/opentelemetry/icon/color/opentelemetry-icon-color.svg.
+- Sources: OpenTelemetry overview, instrumentation, signals, and export to observability tools, https://opentelemetry.io/docs/what-is-opentelemetry/.
+-->
+
+---
+layout: default
+id: S04B
+---
+
+<div class="demo-slide">
+  <header class="demo-heading">
+    <p>Trace viewer</p>
+    <h1>Jaeger</h1>
+  </header>
+
+  <div class="project-intro">
+    <div class="project-intro-copy">
+      <p>An open source tool for storing, searching, and visualizing traces.</p>
+      <ul>
+        <li>Follow work across services and processes.</li>
+        <li>Find slow operations and investigate errors.</li>
+      </ul>
+    </div>
+    <div class="project-identity">
+      <img class="project-icon" src="/logos/jaeger.svg" alt="Jaeger project icon">
+      <p class="project-status">CNCF Graduated project</p>
+    </div>
+  </div>
+</div>
+
+<!--
+Presenter cues:
+Robert (Theoretician):
+- Introduce Jaeger as the tool that stores and displays the OpenTelemetry trace data in our captured demos.
+- Explain that it displays the operation timings and parent links recorded by instrumentation, helping locate delays and errors.
+- State its CNCF Graduated status, then connect the toolkit and viewer to the upcoming architecture.
+
+Delivery notes:
+- Expected start time: 02:10.
+- Duration: 00:25.
+- Handoff: Robert continues with the HTTP-to-CLI architecture on S05.
+- Status verified 2026-10-20: Jaeger graduated on 31 October 2019. Source: https://www.cncf.io/projects/jaeger/.
+- Project icon: Official CNCF artwork, stored unchanged as public/logos/jaeger.svg; source: https://github.com/cncf/artwork/blob/main/projects/jaeger/icon/color/jaeger-icon-color.svg.
+- Sources: Jaeger overview and troubleshooting uses, https://www.jaegertracing.io/; captured trace viewer and deployment, demos/1-http-to-cli/README.md and demos/1-http-to-cli/compose.yaml.
 -->
 
 ---
@@ -219,7 +303,7 @@ Robert (Theoretician):
 - Point out that the second boundary has no HTTP headers to carry context.
 
 Delivery notes:
-- Expected start time: 02:15.
+- Expected start time: 02:35.
 - Duration: 00:40.
 - Before the demo evidence: Let the audience locate both labeled boundaries before advancing.
 - Visual key: Teal identifies `report-client`, indigo identifies `report-api`, and orange identifies `report-cli`.
@@ -273,7 +357,7 @@ Robert (Theoretician):
 - Show where the CLI work should appear if parentage survives.
 
 Delivery notes:
-- Expected start time: 02:55.
+- Expected start time: 03:15.
 - Duration: 00:40.
 - Visual key: Service color matches S05; the process column uses language names to avoid repeating long service identifiers. Every bar uses one trace timeline; horizontal position shows start time and length shows duration.
 - Fallback: This native span tree also serves as the evidence fallback if a later screenshot does not render.
@@ -330,7 +414,7 @@ Robert (Theoretician):
 - Explain that Go extracts the field before its instrumentation starts a child span.
 
 Delivery notes:
-- Expected start time: 03:35.
+- Expected start time: 03:55.
 - Duration: 00:55.
 - Sources: OpenTelemetry context propagation, https://opentelemetry.io/docs/concepts/context-propagation/; OpenTelemetry Propagators API, https://opentelemetry.io/docs/specs/otel/context/api-propagators/; W3C Trace Context, https://www.w3.org/TR/trace-context/.
 -->
@@ -379,7 +463,7 @@ Robert (Theoretician):
 - Explain that the process launch did not carry HTTP headers, so Python had no parent context.
 
 Delivery notes:
-- Expected start time: 04:30.
+- Expected start time: 04:50.
 - Duration: 00:50.
 - Evidence: Playwright captures of local Jaeger traces `7dc2cf4ed9e5e29887bee1aafa31c53c` and `662ebaa1ca31466b2827be86bdda8748`, generated by the same `make run` execution.
 - Diagnostic point: The CLI still creates spans. Missing parent context places them in a different trace.
@@ -439,7 +523,7 @@ Robert (Theoretician):
 - Separate context transport from instrumentation creating the child span.
 
 Delivery notes:
-- Expected start time: 05:20.
+- Expected start time: 05:40.
 - Duration: 00:55.
 - Implementation: Go injects into `cmd.Env`; Python extracts from `os.environ` once at startup.
 - Specification status checked 2026-10-20: Environment Variables as Context Propagation Carriers is Release Candidate.
@@ -477,7 +561,7 @@ Robert (Theoretician):
 - Reinforce that the variable carried context; instrumentation created the spans.
 
 Delivery notes:
-- Expected start time: 06:15.
+- Expected start time: 06:35.
 - Duration: 00:30.
 - Handoff: Robert to Alan on S10A, 00:03 included in this slide's duration.
 - Expected result: Seven spans from `report-client`, `report-api`, and `report-cli` share trace `d2264e9b82e5cfbab0bf724d4308af96`.
@@ -497,17 +581,17 @@ id: S10A
     <h1>Argo Workflows</h1>
   </header>
 
-  <div class="argo-intro">
-    <div class="argo-intro-copy">
+  <div class="project-intro">
+    <div class="project-intro-copy">
       <p>An open source tool for coordinating container jobs on Kubernetes.</p>
       <ul>
         <li>Run tasks in sequence or in parallel.</li>
         <li>Automate build pipelines, batch data processing, and machine learning.</li>
       </ul>
     </div>
-    <div class="argo-project">
-      <img class="argo-project-icon" src="/logos/argo-workflows.png" alt="Argo Workflows project icon">
-      <p class="argo-project-status">CNCF Graduated project</p>
+    <div class="project-identity">
+      <img class="project-icon" src="/logos/argo-workflows.png" alt="Argo Workflows project icon">
+      <p class="project-status">CNCF Graduated project</p>
     </div>
   </div>
 </div>
@@ -520,7 +604,7 @@ Alan (Practitioner):
 - Explain container tasks and parallel work using the upcoming image build and batch pipeline examples.
 
 Delivery notes:
-- Expected start time: 06:45.
+- Expected start time: 07:05.
 - Duration: 00:30.
 - Handoff: Receive from Robert on S10; Alan continues with the workflow graph on S11.
 - Status verified 2026-10-20: Argo joined CNCF at Incubating maturity on 26 March 2020 and graduated on 6 December 2022. Source: https://www.cncf.io/projects/argo/.
@@ -584,7 +668,7 @@ Alan (Practitioner):
 - Explain how overlap and waiting become visible as timing bars.
 
 Delivery notes:
-- Expected start time: 07:15.
+- Expected start time: 07:35.
 - Duration: 00:40.
 - Visual key: The orchestrator’s span uses the API color; step spans use the client color. Same trace timeline conventions as S06: position is start time, length is duration.
 - Sources: Argo Workflows DAG templates, https://argo-workflows.readthedocs.io/en/latest/walk-through/dag/.
@@ -650,7 +734,7 @@ Alan (Practitioner):
 - Explain why the parent context must reach the pod to compare both layers.
 
 Delivery notes:
-- Expected start time: 07:55.
+- Expected start time: 08:15.
 - Duration: 00:45.
 - Visual key: The step bars keep the S11 color and are relabelled "controller". Each pod span has its own color, because in Jaeger each pod is its own service. The DAG nodes take the pod colors to tie the two halves together.
 - Sources: Argo Workflows architecture, https://argo-workflows.readthedocs.io/en/latest/architecture/.
@@ -714,7 +798,7 @@ Alan (Practitioner):
 - Emphasize that the workload must be instrumented to contribute its own spans.
 
 Delivery notes:
-- Expected start time: 08:40.
+- Expected start time: 09:00.
 - Duration: 00:40.
 - Visual key: The controller and pod colors carry over from S12. Workload spans use the ink color to mark them as the user’s own code rather than a platform layer. In Jaeger they would share the pod’s service color; the distinction here is a teaching device.
 - Span labels: `cloud-native`, `days`, and `warsaw` match the refreshed demo shown on S14-S15.
@@ -752,7 +836,7 @@ Alan (Practitioner):
 - Explain that the workflow author did not configure a propagator in this step.
 
 Delivery notes:
-- Expected start time: 09:20.
+- Expected start time: 09:40.
 - Duration: 00:40.
 - Evidence: Playwright capture of the local Argo Workflows UI for workflow `otel-cli-qrjhh`, captured 2026-10-20 from the updated demo 2 workflow.
 - Span labels: The command names spell out Cloud Native Days Warsaw and match the trace on S15.
@@ -789,7 +873,7 @@ Alan (Practitioner):
 - Point to `cloud-native`, `days`, and `warsaw` as the three workload spans.
 
 Delivery notes:
-- Expected start time: 10:00.
+- Expected start time: 10:20.
 - Duration: 00:45.
 - Expected result: 56 spans across two services in this captured run, one root `workflow` span from `workflow-controller`, and `cloud-native`, `days`, `warsaw` as children of `runMainContainer`.
 - Evidence: Playwright capture of local Jaeger trace `18e3667d39e59866bdd3d81e055435d5` from workflow `otel-cli-qrjhh`, captured 2026-10-20. Helper subtrees are collapsed to expose the controller, pod, and workload parent chain.
@@ -842,7 +926,7 @@ Alan (Practitioner):
 - Explain that both use the configured W3C propagator with environment carriers; Argo need not invent a trace format.
 
 Delivery notes:
-- Expected start time: 10:45.
+- Expected start time: 11:05.
 - Duration: 00:50.
 - Visual key: These are abridged Go excerpts; the ellipses omit SetEnvFunc bodies. The left callback uses setEnvVar to write to the copied env slice; the right callback appends apiv1.EnvVar entries to the pod spec. The local prop variable names the same W3C TraceContext propagator. The left excerpt is from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right excerpt is from PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier.
 - Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
@@ -871,7 +955,7 @@ Alan (Practitioner):
 - Preview the shared workflow trace; the next two slides show how clone and build respond differently to inherited context.
 
 Delivery notes:
-- Expected start time: 11:35.
+- Expected start time: 11:55.
 - Duration: 00:20.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 3 workflow.
 - Sources: demos/3-argo-to-buildkit/workflow.yaml.
@@ -905,7 +989,7 @@ Alan (Practitioner):
 - Use the gap to distinguish Kubernetes waiting from process runtime.
 
 Delivery notes:
-- Expected start time: 11:55.
+- Expected start time: 12:15.
 - Duration: 00:45.
 - Point at: the clone `node` bar (10.8 s) and the clone `runMainContainer` bar (2.0 s), which has no child-count badge because nothing is nested inside it.
 - Evidence: Playwright capture of the local Jaeger trace with rows below `createWorkflowPod` collapsed and the name column widened, cropped on the slide to the clone node's subtree.
@@ -943,7 +1027,7 @@ Alan (Practitioner):
 - Mention that BuildKit pushes the finished image as part of its build command; there is no separate push step.
 
 Delivery notes:
-- Expected start time: 12:40.
+- Expected start time: 13:00.
 - Duration: 00:50.
 - Point at: the three `FROM` rows starting together, the 3.1 s `go build` bar, and the `stage-2` `COPY --from` rows at the end.
 - Evidence: Playwright capture of the same Jaeger trace, collapsed to the path down to BuildKit’s `Solve` span and zoomed to 14.0–27.7 s with the minimap range selection; `cache request` rows are BuildKit’s own and left in.
@@ -979,7 +1063,7 @@ Alan (Practitioner):
 - Explain that raw tables were seeded before this workflow; the traced jobs transform and read them.
 
 Delivery notes:
-- Expected start time: 13:30.
+- Expected start time: 13:50.
 - Duration: 00:30.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 4 workflow, horizontal layout, artifact nodes hidden.
 - Display: Crop to the job nodes so their names remain readable; omit the workflow's generated identifier.
@@ -1025,7 +1109,7 @@ Alan (Practitioner):
 - Explain that the platform wrapper extracts the parent first, so the SQL spans join the workflow trace.
 
 Delivery notes:
-- Expected start time: 14:00.
+- Expected start time: 14:20.
 - Duration: 00:45.
 - Point at: the enlarged INSERT span, then the readable `db.statement` excerpt naming the output table and both upstream tables. The auto-instrumentation scope is visible in the full source capture.
 - SQL excerpt: Verbatim fragments of the captured exec_summary statement, with line breaks adjusted and ellipses marking omitted columns and expressions; the same statement is in datasci/pipeline.py.
@@ -1061,7 +1145,7 @@ Alan (Practitioner):
 - Clarify that this trace-derived view does not replace every dedicated lineage capability.
 
 Delivery notes:
-- Expected start time: 14:45.
+- Expected start time: 15:05.
 - Duration: 00:45.
 - Point at: the full-width lineage graph and artifact name; call out that `products` is absent.
 - Evidence: The SVG extracted verbatim from the workflow’s lineage-report artifact, enlarged without changing its content. The full Argo artifact-panel capture is retained as public/demo-4/argo-artifacts.png for fallback and provenance.
@@ -1097,7 +1181,7 @@ Alan (Practitioner):
 - Describe the failure mode: without extraction, jobs start separate traces and the lineage view fragments.
 
 Delivery notes:
-- Expected start time: 15:30.
+- Expected start time: 15:50.
 - Duration: 00:40.
 - Point at: `os.environ` in the extract call, then the `command` line, to show the pipeline itself is untouched.
 - Condensed: EnvironmentGetter is imported from opentelemetry.propagators._envcarrier. The real file adds a fallback if that module moves, and argv handling; this shows only the propagation, with a local getter variable for readability.
@@ -1137,7 +1221,7 @@ Robert (Theoretician):
 - Tie practitioner adoption to useful implementation guidance and future refinement.
 
 Delivery notes:
-- Expected start time: 16:10.
+- Expected start time: 16:30.
 - Duration: 00:25.
 - Sources: OpenTelemetry feedback article and linked implementations, https://opentelemetry.io/blog/2026/environment-variable-context-propagation/; otel-cli, https://github.com/equinix-labs/otel-cli; Thoth, https://github.com/liatrio-labs/thoth; Argo Workflows injection, https://github.com/argoproj/argo-workflows/blob/main/workflow/controller/workflowpod.go and https://github.com/argoproj/argo-workflows/blob/main/cmd/argoexec/commands/emissary.go; Docker BuildKit extraction and injection, https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceenv.go and https://github.com/moby/buildkit/blob/master/util/tracing/childprocess/traceexec.go; Claude Code tracing, https://code.claude.com/docs/en/monitoring-usage#traces-beta; Jenkins OpenTelemetry plugin, https://github.com/jenkinsci/opentelemetry-plugin.
 -->
@@ -1180,7 +1264,7 @@ Robert (Theoretician):
 - Allow-list baggage, scrub fields when continuity should stop, and never propagate secrets.
 
 Delivery notes:
-- Expected start time: 16:35.
+- Expected start time: 16:55.
 - Duration: 00:30.
 - Point at: `BAGGAGE`, then `X_B3_TRACEID`, then the carrier-versus-propagator line.
 - Safety reminder: Deliver the trust-boundary warning after explaining the visual; it intentionally has no separate slide.
@@ -1220,7 +1304,7 @@ Robert (Theoretician):
 - Invite concrete feedback on normalization, portability, concurrency, and security.
 
 Delivery notes:
-- Expected start time: 17:05.
+- Expected start time: 17:25.
 - Duration: 00:25.
 - Status verified: 2026-10-20. The specification is Release Candidate. November 2, 2026 is the earliest stabilization date, not a guaranteed release date; a new related issue or a significant update restarts the 14-day feedback period.
 - QR target: https://opentelemetry.io/blog/2026/environment-variable-context-propagation/
@@ -1258,7 +1342,7 @@ Robert (Theoretician):
 - Invite attendees to reproduce the examples or adapt the carrier pattern to their tools.
 
 Delivery notes:
-- Expected start time: 17:30.
+- Expected start time: 17:50.
 - Duration: 00:15.
 - QR target: https://github.com/pellared/otel-env-car-talk/
 - Sources: https://github.com/pellared/otel-env-car-talk/.
@@ -1290,7 +1374,7 @@ Alan (Practitioner):
 - Point to presenter GitHub links, CNCF Slack `#otel-cicd`, and the OpenTelemetry CI/CD SIG.
 
 Delivery notes:
-- Expected start time: 17:45.
+- Expected start time: 18:05.
 - Duration: 00:10 for the presentation transition. The reserved 05:00 Q&A and troubleshooting window begins here and remains outside the 20-minute talk.
 - Sources: presenter profiles, https://github.com/pellared/ and https://github.com/Joibel; CNCF Slack signup, https://slack.cncf.io/; `#otel-cicd`, https://cloud-native.slack.com/archives/C0598R66XAP; OpenTelemetry CI/CD SIG directory entry, https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd.
 -->
