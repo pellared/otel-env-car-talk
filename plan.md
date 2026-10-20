@@ -10,6 +10,10 @@ The opening uses a location quiz about Freney in Kraków, Zakrzówek (S02), befo
 
 The deck has 29 slides. S10A sits between S10 and S11 so existing slide identifiers remain stable.
 
+## Readability and visual hierarchy
+
+Use larger body text, code, and diagram labels with fewer repeated labels. Keep secondary explanations in the presenter cues. Crop captured evidence to the relevant span tree, repeat essential measured timings in readable captions, and show the SQL excerpt and final lineage graph at presentation size. The original captures remain available as evidence and fallback material. These layout changes keep the slide order, coverage, presenter ownership, and timing unchanged.
+
 ## Sections and timing
 
 | Section | Slides | Duration |
@@ -49,14 +53,14 @@ Presenter handoffs between slides take 00:03 and are included in the outgoing sl
 | S12 | Separate controller time from pod runtime and identify the scheduling gap. | Alan; continues. | 00:45 |
 | S13 | Add workload spans inside the pod and identify the three owners. | Alan; continues. | 00:40 |
 | S14 | Show the one-step Argo workflow before its trace. | Alan; continues. | 00:40 |
-| S15 | Read two environment injections from the captured span tree. | Alan; continues. | 00:45 |
+| S15 | Confirm executor-to-workload parentage in the enlarged trace detail and recap both environment injections. | Alan; continues. | 00:45 |
 | S16 | Show the controller and executor injection sites in Argo. | Alan; continues. | 00:50 |
 | S17 | Introduce the captured two-step clone/build DAG. | Alan; continues. | 00:20 |
 | S18 | Show what remains visible when git ignores the carrier. | Alan; continues. | 00:45 |
 | S19 | Show BuildKit child spans and the operational payoff of finding slow work. | Alan; continues. | 00:50 |
 | S20 | Show the batch DAG's setup, derived tables, summary, report, and lineage step, plus the ownership boundary. | Alan; continues. | 00:30 |
-| S21 | Show instrumented SQL spans and dataset information recorded in span metadata. | Alan; continues. | 00:45 |
-| S22 | Show the derived lineage artifact and what the trace actually observed. | Alan; continues. | 00:45 |
+| S21 | Show instrumented SQL spans and an enlarged excerpt of the recorded SQL identifying dataset inputs and outputs. | Alan; continues. | 00:45 |
+| S22 | Show the derived lineage artifact's graph at full width and explain what the trace actually observed. | Alan; continues. | 00:45 |
 | S23 | Show the platform-owned Python extraction wrapper and its failure mode. | Alan; handoff to Robert on S24. | 00:40 |
 | S24 | Show tool adoption and the value of shared propagation conventions. | Robert; continues. | 00:25 |
 | S25 | Separate carrier from format; cover baggage, inherited input, and trust boundaries. | Robert; continues. | 00:30 |

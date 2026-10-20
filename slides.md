@@ -177,7 +177,7 @@ id: S05
       <code>request report</code>
     </div>
     <div class="architecture-connector connector-http">
-      <span>HTTP boundary</span>
+      <span>HTTP</span>
       <code>POST /report</code>
       <i></i>
     </div>
@@ -187,7 +187,7 @@ id: S05
       <code>run report.py</code>
     </div>
     <div class="architecture-connector connector-process">
-      <span>Process boundary</span>
+      <span>Process launch</span>
       <code>exec python3</code>
       <i></i>
     </div>
@@ -203,11 +203,10 @@ id: S05
       <path class="service-cli-line" d="M989 215 V296" />
       <path d="M564 296 V330" class="bus-drop" />
     </svg>
-    <span class="telemetry-label">OTLP spans</span>
+    <span class="telemetry-label">Export spans</span>
     <div class="architecture-sink">
       <span>Trace backend</span>
       <strong>Jaeger</strong>
-      <small>one place to inspect every span</small>
     </div>
   </div>
 </div>
@@ -246,16 +245,16 @@ id: S06
       </div>
       <div class="span-tree" aria-label="Parent-child span tree">
         <div class="span-axis" aria-hidden="true">
-          <span>Trace time</span>
+          <span>Process</span>
           <div><b>0</b><b>1.17 s</b></div>
         </div>
-        <div class="span-row service-client depth-0"><b>request report</b><span>report-client</span><i style="--start: 0%; --duration: 100%"></i></div>
-        <div class="span-row service-client depth-1"><em>└─</em><b>HTTP POST</b><span>report-client</span><i style="--start: 1%; --duration: 97%"></i></div>
-        <div class="span-row service-api depth-2"><em>└─</em><b>POST /report</b><span>report-api</span><i style="--start: 14%; --duration: 84%"></i></div>
-        <div class="span-row service-api depth-3"><em>└─</em><b>run report.py</b><span>report-api</span><i style="--start: 15%; --duration: 83%"></i></div>
-        <div class="span-row service-cli depth-4"><em>└─</em><b>build report</b><span>report-cli</span><i style="--start: 51%; --duration: 43%"></i></div>
-        <div class="span-row service-cli depth-5"><em>├─</em><b>fetch data</b><span>report-cli</span><i style="--start: 52%; --duration: 30%"></i></div>
-        <div class="span-row service-cli depth-5"><em>└─</em><b>generate pdf</b><span>report-cli</span><i style="--start: 79%; --duration: 13%"></i></div>
+        <div class="span-row service-client depth-0"><b>request report</b><span>Java</span><i style="--start: 0%; --duration: 100%"></i></div>
+        <div class="span-row service-client depth-1"><em>└─</em><b>HTTP POST</b><span>Java</span><i style="--start: 1%; --duration: 97%"></i></div>
+        <div class="span-row service-api depth-2"><em>└─</em><b>POST /report</b><span>Go</span><i style="--start: 14%; --duration: 84%"></i></div>
+        <div class="span-row service-api depth-3"><em>└─</em><b>run report.py</b><span>Go</span><i style="--start: 15%; --duration: 83%"></i></div>
+        <div class="span-row service-cli depth-4"><em>└─</em><b>build report</b><span>Python</span><i style="--start: 51%; --duration: 43%"></i></div>
+        <div class="span-row service-cli depth-5"><em>├─</em><b>fetch data</b><span>Python</span><i style="--start: 52%; --duration: 30%"></i></div>
+        <div class="span-row service-cli depth-5"><em>└─</em><b>generate pdf</b><span>Python</span><i style="--start: 79%; --duration: 13%"></i></div>
       </div>
     </div>
     <dl class="trace-terms">
@@ -276,7 +275,7 @@ Robert (Theoretician):
 Delivery notes:
 - Expected start time: 02:55.
 - Duration: 00:40.
-- Visual key: Service color matches S05. Every bar uses one trace timeline; horizontal position shows start time and length shows duration.
+- Visual key: Service color matches S05; the process column uses language names to avoid repeating long service identifiers. Every bar uses one trace timeline; horizontal position shows start time and length shows duration.
 - Fallback: This native span tree also serves as the evidence fallback if a later screenshot does not render.
 - Sources: OpenTelemetry Tracing API, https://opentelemetry.io/docs/specs/otel/trace/api/.
 -->
@@ -294,35 +293,31 @@ id: S07
 
   <div class="propagation-diagram" role="img" aria-label="A W3C Trace Context propagator injects active trace context into an HTTP traceparent header and extracts it as a remote parent for a child span.">
     <div class="prop-context">
-      <span>Context</span>
-      <strong>Active span</strong>
-      <code>trace=T&nbsp;&nbsp;span=A</code>
-      <small>identity held while work runs</small>
+      <span>Active context</span>
+      <strong>Span A</strong>
+      <code>trace T</code>
     </div>
     <div class="propagator-step">
-      <span>Propagator</span>
-      <strong>W3C Trace Context</strong>
-      <code>inject</code>
+      <strong>inject</strong>
       <i></i>
     </div>
     <div class="prop-carrier">
       <span>Carrier</span>
       <strong>HTTP headers</strong>
-      <code>traceparent: 00-4bf92…-00f067…-01</code>
-      <small>key-value fields cross the boundary</small>
+      <code>traceparent:<br>00-4bf…-00f…-01</code>
+      <small>Fields cross the boundary</small>
     </div>
     <div class="propagator-step">
-      <span>Propagator</span>
-      <strong>W3C Trace Context</strong>
-      <code>extract</code>
+      <strong>extract</strong>
       <i></i>
     </div>
     <div class="prop-context">
-      <span>Context</span>
-      <strong>Remote parent</strong>
-      <code>trace=T&nbsp;&nbsp;parent=A</code>
-      <small>instrumentation starts child B</small>
+      <span>Remote parent</span>
+      <strong>Span A</strong>
+      <code>trace T</code>
+      <small>Instrumentation starts child span B</small>
     </div>
+    <p class="propagation-principle"><strong>Propagator:</strong> W3C Trace Context defines the fields and encoding.</p>
   </div>
 </div>
 
@@ -348,36 +343,31 @@ id: S08
 <div class="demo-slide evidence-slide">
   <header class="demo-heading">
     <p>Missing handoff</p>
-    <h1>HTTP headers stop at the process boundary</h1>
+    <h1>HTTP headers stop at process launch</h1>
   </header>
 
   <div class="broken-trace-pair" role="group" aria-label="Two Jaeger traces from the same broken run have different trace IDs">
-    <figure class="trace-screenshot broken-trace">
+    <figure class="broken-trace">
       <div class="trace-card-heading">
-        <span>Request trace</span>
+        <strong>Request trace</strong>
+        <span>4 spans<br>Java and Go</span>
         <code>7dc2cf4…</code>
       </div>
-      <img src="/demo-1/trace-broken.png" alt="Jaeger request trace with four spans ending at run report.py">
-    <figcaption>
-      <strong>Stops at <code>run report.py</code></strong>
-      <small>4 spans · Java → Go</small>
-    </figcaption>
-  </figure>
-  <div class="trace-split-marker" aria-hidden="true">
-    <span>≠</span>
-    <strong>different<br>trace IDs</strong>
-  </div>
-  <figure class="trace-screenshot broken-trace python-root-trace">
+      <div class="trace-crop crop-http-request">
+        <img src="/demo-1/trace-broken.png" alt="Jaeger request trace with four spans ending at run report.py">
+      </div>
+    </figure>
+    <figure class="broken-trace python-root-trace">
       <div class="trace-card-heading">
-        <span>Python root trace</span>
+        <strong>Python trace</strong>
+        <span>3 spans<br>Python only</span>
         <code>662ebaa…</code>
       </div>
-      <img src="/demo-1/trace-python-root.png" alt="Separate Jaeger trace rooted at the Python build report span with fetch data and generate pdf children">
-      <figcaption>
-        <strong>Starts at <code>build report</code></strong>
-        <small>3 spans · Python only</small>
-      </figcaption>
+      <div class="trace-crop crop-http-python">
+        <img src="/demo-1/trace-python-root.png" alt="Separate Jaeger trace rooted at the Python build report span with fetch data and generate pdf children">
+      </div>
     </figure>
+    <p class="trace-split-marker">Different trace IDs. The parent link is missing.</p>
   </div>
 </div>
 
@@ -405,38 +395,38 @@ id: S09
 <div class="demo-slide">
   <header class="demo-heading">
     <p>Process boundary</p>
-    <h1>The child environment carries the handoff</h1>
+    <h1>The environment carries context</h1>
   </header>
 
   <div class="environment-diagram" role="img" aria-label="The Go launcher injects W3C Trace Context into TRACEPARENT in a copied child environment. Python extracts it at startup and its instrumentation creates a child span.">
     <div class="environment-process">
-      <span>Parent process: Go</span>
-      <strong>active context</strong>
-      <code>trace=T&nbsp;&nbsp;span=R</code>
-      <small>copy the child environment</small>
+      <span>Go launcher</span>
+      <strong>Span R</strong>
+      <code>trace T</code>
+      <small>Copy the child environment</small>
     </div>
     <div class="environment-step">
       <strong>inject</strong>
-      <span>W3C Trace Context</span>
       <i></i>
     </div>
     <div class="environment-carrier">
-      <span>Child environment carrier</span>
-      <code>TRACEPARENT=<br>00-4bf92…-00f067…-01</code>
-      <small><b>traceparent</b> normalizes to <b>TRACEPARENT</b></small>
+      <span>Child environment</span>
+      <code>TRACEPARENT=<br>00-4bf…-00f…-01</code>
     </div>
     <div class="environment-step">
       <strong>extract</strong>
-      <span>W3C Trace Context</span>
       <i></i>
     </div>
     <div class="environment-process">
-      <span>Child process: Python</span>
-      <strong>extracted parent</strong>
-      <code>trace=T&nbsp;&nbsp;parent=R</code>
-      <small>instrumentation creates <b>build report</b></small>
+      <span>Python child</span>
+      <strong>Parent R</strong>
+      <code>trace T</code>
+      <small>Instrumentation starts <b>build report</b></small>
     </div>
-    <p class="environment-principle">The propagator and format stay the same. The carrier matches the boundary.</p>
+    <div class="environment-principle">
+      <p><code>traceparent</code> normalizes to <code>TRACEPARENT</code></p>
+      <p>Same W3C propagator. A carrier for the process boundary.</p>
+    </div>
   </div>
 </div>
 
@@ -468,11 +458,13 @@ id: S10
   </header>
 
   <figure class="trace-screenshot connected-trace">
-    <img src="/demo-1/trace-connected.png" alt="Jaeger trace with seven spans across report-client, report-api, and report-cli">
+    <div class="trace-crop crop-http-connected">
+      <img src="/demo-1/trace-connected.png" alt="Jaeger span-tree detail with seven spans across report-client, report-api, and report-cli">
+    </div>
     <figcaption>
       <strong>1 trace</strong>
       <span>7 spans across 3 services</span>
-      <small>Environment carried parentage. Instrumentation created the spans.</small>
+      <small>Context carries parentage. Instrumentation creates spans.</small>
     </figcaption>
   </figure>
 </div>
@@ -571,7 +563,7 @@ id: S11
     <div class="dream-trace">
       <div class="span-tree" aria-label="Workflow span with four child step spans">
         <div class="span-axis" aria-hidden="true">
-          <span>Trace time</span>
+          <span>Owner</span>
           <div><b>submit</b><b>done</b></div>
         </div>
         <div class="span-row service-workflow depth-0"><b>workflow</b><span>orchestrator</span><i style="--start: 0%; --duration: 100%"></i></div>
@@ -633,7 +625,7 @@ id: S12
     <div class="dream-trace dream-pods">
       <div class="span-tree" aria-label="Workflow span, four controller step spans, and a pod span nested under each">
         <div class="span-axis" aria-hidden="true">
-          <span>Trace time</span>
+          <span>Owner</span>
           <div><b>submit</b><b>done</b></div>
         </div>
         <div class="span-row service-workflow depth-0"><b>workflow</b><span>orchestrator</span><i style="--start: 0%; --duration: 100%"></i></div>
@@ -701,8 +693,8 @@ id: S13
     <div class="dream-trace dream-pods">
       <div class="span-tree" aria-label="Step A: controller span, pod span, and three workload spans nested inside">
         <div class="span-axis" aria-hidden="true">
-          <span>Trace time</span>
-          <div><b>pod created</b><b>pod finished</b></div>
+          <span>Owner</span>
+          <div><b>created</b><b>finished</b></div>
         </div>
         <div class="span-row service-node depth-0"><b>A</b><span>controller</span><i style="--start: 0%; --duration: 100%"></i></div>
         <div class="span-row service-pod-a depth-1"><em>└─</em><b>A</b><span>pod</span><i style="--start: 20%; --duration: 70%"></i></div>
@@ -740,7 +732,7 @@ id: S14
     <h1>One step, three spans</h1>
   </header>
   <div class="demo2-model">
-    <figure class="trace-screenshot">
+    <figure class="trace-screenshot cli-dag-shot">
       <img src="/demo-2/argo-dag.png" alt="Argo Workflows UI showing the otel-cli workflow: a single succeeded step">
     </figure>
     <div>
@@ -779,10 +771,11 @@ id: S15
     <h1>The workload joins the trace</h1>
   </header>
   <figure class="trace-screenshot connected-trace">
-    <img src="/demo-2/trace-jaeger.png" alt="Jaeger trace showing cloud-native, days and warsaw spans nested under runMainContainer inside the workflow trace">
+    <img src="/demo-2/trace-workload-detail.png" alt="Jaeger detail showing cloud-native, days and warsaw under runMainContainer, with durations of 3, 5 and 4 seconds">
     <figcaption>
       <strong>1 trace</strong>
       <span>56 spans across 2 services</span>
+      <small>Controller injects into the pod. Executor injects into the workload.</small>
     </figcaption>
   </figure>
 </div>
@@ -790,7 +783,7 @@ id: S15
 <!--
 Presenter cues:
 Alan (Practitioner):
-- Read the captured tree from controller workflow span through pod executor to workload spans.
+- Connect this detail to the controller, pod, and workload model on S13.
 - Explain the controller-to-pod injection and executor-to-command injection.
 - Use the parentage under `runMainContainer` as evidence of the second hop.
 - Point to `cloud-native`, `days`, and `warsaw` as the three workload spans.
@@ -800,6 +793,7 @@ Delivery notes:
 - Duration: 00:45.
 - Expected result: 56 spans across two services in this captured run, one root `workflow` span from `workflow-controller`, and `cloud-native`, `days`, `warsaw` as children of `runMainContainer`.
 - Evidence: Playwright capture of local Jaeger trace `18e3667d39e59866bdd3d81e055435d5` from workflow `otel-cli-qrjhh`, captured 2026-10-20. Helper subtrees are collapsed to expose the controller, pod, and workload parent chain.
+- Display: The same stored trace recaptured in Jaeger at 225% UI zoom with a wider name column, cropped to runMainContainer and its three children. The original public/demo-2/trace-jaeger.png retains the full controller and pod path. Only view settings changed; trace data is unchanged.
 - Fallback: The S13 dream slide is the same tree drawn by hand.
 - Sources: demos/2-argo-to-otel-cli/README.md.
 -->
@@ -818,28 +812,23 @@ id: S16
     <div class="inject-model">
       <div class="inject-step">
         <strong>argoexec → workload</strong>
-        <pre class="code-snippet">ctx, span := tracer.<span class="tok-fn">StartRunMainContainer</span>(ctx, …)
-<span class="tok-kw">defer</span> span.End()
-env := os.Environ()
+        <pre class="code-snippet">env := os.Environ()
 carrier := &amp;envcar.Carrier{
-    SetEnvFunc: <span class="tok-kw">func</span>(key, value string) {
-        env = setEnvVar(env, key, value)
-    },
+  SetEnvFunc: …,
 }
-propagation.TraceContext{}.<span class="tok-fn">Inject</span>(ctx, carrier)
-cmd := exec.CommandContext(ctx, name, args...)
-cmd.Env = env <span class="tok-muted">// the child’s env, not argoexec’s</span></pre>
+prop := propagation.TraceContext{}
+prop.<span class="tok-fn">Inject</span>(ctx, carrier)
+cmd.Env = env</pre>
+        <p>Writes to the copied child environment.</p>
       </div>
       <div class="inject-step">
         <strong>controller → pod</strong>
         <pre class="code-snippet">carrier := &amp;envcar.Carrier{
-    SetEnvFunc: <span class="tok-kw">func</span>(key, value string) {
-        envVars = append(envVars,
-            apiv1.EnvVar{Name: key, Value: value})
-    },
+  SetEnvFunc: …,
 }
-propagation.TraceContext{}.<span class="tok-fn">Inject</span>(ctx, carrier)
-<span class="tok-muted">// TRACEPARENT=00-&lt;trace&gt;-&lt;span&gt;-01</span></pre>
+prop := propagation.TraceContext{}
+prop.<span class="tok-fn">Inject</span>(ctx, carrier)</pre>
+        <p>Writes to the pod's container environments.</p>
       </div>
     </div>
   </div>
@@ -855,7 +844,7 @@ Alan (Practitioner):
 Delivery notes:
 - Expected start time: 10:45.
 - Duration: 00:50.
-- Visual key: The left snippet is condensed from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right snippet is abridged from argo-workflows PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier. Function names in the accent color are the propagator and tracer calls; keywords use the API color.
+- Visual key: These are abridged Go excerpts; the ellipses omit SetEnvFunc bodies. The left callback uses setEnvVar to write to the copied env slice; the right callback appends apiv1.EnvVar entries to the pod spec. The local prop variable names the same W3C TraceContext propagator. The left excerpt is from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right excerpt is from PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier.
 - Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
 - Sources: https://github.com/argoproj/argo-workflows/pull/17015 for workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
 -->
@@ -902,7 +891,9 @@ id: S18
     <div class="trace-crop crop-clone">
       <img src="/demo-3/trace-clone.png" alt="Jaeger: the clone step's node span lasts 10.8 seconds; its runMainContainer span lasts 2.0 seconds and has no child spans">
     </div>
-    <pre class="code-snippet" style="margin-top: 26px">git clone --depth 1 https://github.com/Joibel/otel-deploy /src</pre>
+    <p class="evidence-timing"><strong>Step: 10.8 s</strong><span>Command: 2.0 s</span></p>
+    <pre class="code-snippet">git clone --depth 1 \
+  https://github.com/Joibel/otel-deploy /src</pre>
   </div>
 </div>
 
@@ -931,13 +922,14 @@ id: S19
     <p>Demo 3</p>
     <h1>BuildKit reveals the build graph</h1>
   </header>
-  <figure class="trace-screenshot connected-trace">
+  <figure class="trace-screenshot connected-trace buildkit-evidence">
     <div class="trace-crop crop-buildkit">
       <img src="/demo-3/trace-buildkit.png" alt="Jaeger zoomed to the build: three FROM steps start together, the gobuild and webbuild steps run side by side, and the stage-2 COPY --from steps land last">
     </div>
     <figcaption>
-      <strong>Same carrier</strong>
-      <span>~250 spans inside one step</span>
+      <strong>Go build: 3.1 s</strong>
+      <span>Parallel image pulls</span>
+      <small>~250 spans inside one step</small>
     </figcaption>
   </figure>
 </div>
@@ -990,6 +982,7 @@ Delivery notes:
 - Expected start time: 13:30.
 - Duration: 00:30.
 - Evidence: Playwright capture of the local Argo Workflows UI for the demo 4 workflow, horizontal layout, artifact nodes hidden.
+- Display: Crop to the job nodes so their names remain readable; omit the workflow's generated identifier.
 - Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/workflow.yaml.
 -->
 
@@ -1003,13 +996,23 @@ id: S21
     <p>Demo 4</p>
     <h1>Every query is a span</h1>
   </header>
-  <figure class="trace-screenshot connected-trace">
+  <figure class="trace-screenshot connected-trace sql-evidence">
     <div class="trace-crop crop-sql">
-      <img src="/demo-4/trace-sql.png" alt="Jaeger: customer_ltv and exec_summary INSERT spans under their runMainContainer spans, with the exec_summary span expanded to show its db.statement and otel.scope.name opentelemetry.instrumentation.psycopg">
+      <img src="/demo-4/trace-sql.png" alt="Jaeger detail: exec_summary INSERT span nested under runMainContainer">
+    </div>
+    <div class="sql-excerpt">
+      <p><code>db.statement</code> <span>(excerpt)</span></p>
+      <pre class="code-snippet">INSERT INTO <span class="tok-name">exec_summary</span> (…)
+SELECT (SELECT sum(revenue) FROM <span class="tok-env">daily_revenue</span>)
+         AS total_revenue,
+       …,
+       (SELECT max(lifetime_value) FROM <span class="tok-env">customer_ltv</span>)
+         AS best_customer_value,
+       …</pre>
     </div>
     <figcaption>
-      <strong>No tracing code</strong>
-      <span>psycopg, auto-instrumented</span>
+      <strong>psycopg auto-instrumentation</strong>
+      <span>records the SQL</span>
     </figcaption>
   </figure>
 </div>
@@ -1024,7 +1027,8 @@ Alan (Practitioner):
 Delivery notes:
 - Expected start time: 14:00.
 - Duration: 00:45.
-- Point at: the highlighted INSERT rows, then `db.statement` on `exec_summary` naming both upstream tables, then `otel.scope.name: opentelemetry.instrumentation.psycopg`.
+- Point at: the enlarged INSERT span, then the readable `db.statement` excerpt naming the output table and both upstream tables. The auto-instrumentation scope is visible in the full source capture.
+- SQL excerpt: Verbatim fragments of the captured exec_summary statement, with line breaks adjusted and ellipses marking omitted columns and expressions; the same statement is in datasci/pipeline.py.
 - Evidence: Playwright capture of the local Jaeger trace with Jaeger’s own service filter pruning the pod-level executor services and the setup, report and lineage stages (the “spans pruned” rows are Jaeger’s), rows collapsed to the stage path, INSERT highlighted with Find, and the exec_summary INSERT expanded.
 - The wrapper: Python auto-instrumentation does not extract TRACEPARENT from the environment, so demos/4-argo-to-python-sql/datasci/tracectx.py does it with EnvironmentGetter. Mention only if asked, or keep for the next slide.
 - Sources: demos/4-argo-to-python-sql/README.md.
@@ -1041,12 +1045,10 @@ id: S22
     <h1>The lineage, from the trace</h1>
   </header>
   <div class="lineage-result">
-    <figure class="trace-screenshot artifact-shot">
-      <img src="/demo-4/argo-artifacts.png" alt="Argo Workflows UI artifact panel rendering the lineage-report artifact, lineage.html, with its trace id and lineage graph">
-    </figure>
     <figure class="trace-screenshot lineage-graph">
       <img src="/demo-4/lineage.svg" alt="Lineage graph: orders and order_items feed daily_revenue; customers, orders and order_items feed customer_ltv; both feed exec_summary, which report reads">
     </figure>
+    <p class="artifact-caption"><strong>lineage-report</strong><span>Argo artifact: <code>lineage.html</code></span></p>
   </div>
 </div>
 
@@ -1061,8 +1063,8 @@ Alan (Practitioner):
 Delivery notes:
 - Expected start time: 14:45.
 - Duration: 00:45.
-- Point at: the lineage-report artifact panel in Argo (the trace id under the heading), then the enlarged graph; call out that `products` is absent.
-- Evidence: Left, Playwright capture of the local Argo Workflows UI artifact panel rendering lineage.html. Right, the SVG extracted verbatim from the workflow’s lineage-report artifact.
+- Point at: the full-width lineage graph and artifact name; call out that `products` is absent.
+- Evidence: The SVG extracted verbatim from the workflow’s lineage-report artifact, enlarged without changing its content. The full Argo artifact-panel capture is retained as public/demo-4/argo-artifacts.png for fallback and provenance.
 - If asked about DDL: the setup step’s DROP and CREATE statements are in the trace but produce no edges, because DDL moves no data between tables.
 - Sources: demos/4-argo-to-python-sql/README.md; demos/4-argo-to-python-sql/datasci/lineage.py.
 -->
@@ -1078,11 +1080,12 @@ id: S23
     <h1>Python reads the carrier too</h1>
   </header>
   <div class="py-carrier">
-    <pre class="code-snippet"><span class="tok-kw">from</span> opentelemetry.propagators._envcarrier <span class="tok-kw">import</span> EnvironmentGetter
-ctx = <span class="tok-fn">extract</span>(os.environ, getter=EnvironmentGetter())
-context.<span class="tok-fn">attach</span>(ctx) <span class="tok-muted"># <span class="tok-env">TRACEPARENT</span> becomes the parent</span>
+    <pre class="code-snippet">getter = EnvironmentGetter()
+ctx = <span class="tok-fn">extract</span>(os.environ, getter=getter)
+context.<span class="tok-fn">attach</span>(ctx)
 runpy.<span class="tok-fn">run_path</span>(script, run_name=<span class="tok-name">"__main__"</span>)</pre>
-    <pre class="code-snippet py-command">command: [python, -m, <span class="tok-name">tracectx</span>]  <span class="tok-muted"># wraps the untouched pipeline</span></pre>
+    <pre class="code-snippet py-command">command: [python, -m, <span class="tok-name">tracectx</span>]</pre>
+    <p class="wrapper-principle">The platform wrapper runs the unchanged pipeline.</p>
   </div>
 </div>
 
@@ -1097,7 +1100,7 @@ Delivery notes:
 - Expected start time: 15:30.
 - Duration: 00:40.
 - Point at: `os.environ` in the extract call, then the `command` line, to show the pipeline itself is untouched.
-- Condensed: the real file adds a fallback if `_envcarrier` moves, and argv handling; this shows only the propagation.
+- Condensed: EnvironmentGetter is imported from opentelemetry.propagators._envcarrier. The real file adds a fallback if that module moves, and argv handling; this shows only the propagation, with a local getter variable for readability.
 - If asked why a private module: `_envcarrier` ships in opentelemetry-api and its docstring names child-process initialisation as its use; nothing in auto-instrumentation calls it yet.
 - If asked about uppercase keys: EnvironmentGetter maps `traceparent` to `TRACEPARENT`, matching Argo's Go carrier.
 - Sources: demos/4-argo-to-python-sql/datasci/tracectx.py; demos/4-argo-to-python-sql/datasci-lineage-trace.yaml.
@@ -1115,15 +1118,15 @@ id: S24
   </header>
 
   <div class="adoption-list" role="list" aria-label="Tools using TRACEPARENT in child environments">
-    <div role="listitem"><strong>Argo Workflows</strong><span>injects context into pods and commands</span></div>
-    <div role="listitem"><strong>Docker BuildKit</strong><span>reads and forwards process context</span></div>
-    <div role="listitem"><strong>Claude Code</strong><span>links headless sessions and subprocesses</span></div>
+    <div role="listitem"><strong>Argo Workflows</strong><span>context for pods and commands</span></div>
+    <div role="listitem"><strong>Docker BuildKit</strong><span>context for build processes</span></div>
+    <div role="listitem"><strong>Claude Code</strong><span>headless sessions and subprocesses</span></div>
     <div role="listitem"><strong>otel-cli</strong><span>wraps a command in a span</span></div>
-    <div role="listitem"><strong>Thoth</strong><span>instruments shells and GitHub Actions</span></div>
-    <div role="listitem"><strong>Jenkins OpenTelemetry plugin</strong><span>exposes context to build steps</span></div>
+    <div role="listitem"><strong>Thoth</strong><span>shells and GitHub Actions</span></div>
+    <div role="listitem"><strong>Jenkins OpenTelemetry plugin</strong><span>context for build steps</span></div>
   </div>
 
-  <p class="adoption-payoff">Shared field names let instrumented tools join without another custom adapter.</p>
+  <p class="adoption-payoff">Shared field names reduce custom adapters.</p>
 </div>
 
 <!--
@@ -1154,21 +1157,18 @@ id: S25
     <div class="format-row" role="listitem">
       <span>W3C Trace Context</span>
       <code>TRACEPARENT=00-4bf92…-00f067…-01</code>
-      <small>trace and parent identity</small>
     </div>
     <div class="format-row format-baggage" role="listitem">
       <span>W3C Baggage</span>
       <code>BAGGAGE=build.id=42,repository.name=example</code>
-      <small>application context for downstream work</small>
     </div>
     <div class="format-row format-b3" role="listitem">
       <span>B3</span>
       <code>X_B3_TRACEID=463ac35c9f6413ad</code>
-      <small>normalized from <b>x-b3-traceid</b></small>
     </div>
   </div>
 
-  <p class="format-principle"><strong>Carrier:</strong> opaque strings <span></span> <strong>Propagator:</strong> field names, format, and validation</p>
+  <p class="format-principle"><strong>Carrier:</strong> strings <span></span> <strong>Propagator:</strong> format and validation</p>
 </div>
 
 <!--
@@ -1208,7 +1208,6 @@ id: S26
     <a class="qr-link" href="https://opentelemetry.io/blog/2026/environment-variable-context-propagation/" aria-label="Open the OpenTelemetry environment variable context propagation feedback article">
       <QrCode value="https://opentelemetry.io/blog/2026/environment-variable-context-propagation/" label="QR code for the OpenTelemetry environment variable context propagation feedback article" />
       <span>Read the proposal<br>Report what breaks</span>
-      <small class="qr-url">opentelemetry.io/blog/2026/<br>environment-variable-context-propagation</small>
     </a>
   </div>
 </div>
@@ -1243,7 +1242,7 @@ id: S27
     <div class="repo-copy">
       <strong>Presentation</strong>
       <strong>Demo source</strong>
-      <a href="https://github.com/pellared/otel-env-car-talk/">github.com/pellared/otel-env-car-talk</a>
+      <a href="https://github.com/pellared/otel-env-car-talk/">github.com/pellared/<br>otel-env-car-talk</a>
     </div>
     <a class="qr-link" href="https://github.com/pellared/otel-env-car-talk/" aria-label="Open the presentation and demos repository">
       <QrCode value="https://github.com/pellared/otel-env-car-talk/" label="QR code for the presentation and demos repository" />
