@@ -1354,27 +1354,35 @@ id: S28
 ---
 
 <div class="thanks-slide">
-  <div class="thanks-heading">
-    <p>Thank you</p>
-    <h1>Questions?</h1>
+  <div class="thanks-copy">
+    <div class="thanks-heading">
+      <p>Thank you</p>
+      <h1>Questions?</h1>
+    </div>
+    <div class="contact-list" aria-label="Presenter and community contact links">
+      <a href="https://github.com/pellared/"><strong>Robert Pająk</strong><span>github.com/pellared</span></a>
+      <a href="https://github.com/Joibel"><strong>Alan Clucas</strong><span>github.com/Joibel</span></a>
+      <a href="https://cloud-native.slack.com/archives/C0598R66XAP"><strong>CNCF Slack</strong><span>#otel-cicd</span></a>
+      <a href="https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd"><strong>OpenTelemetry CI/CD SIG</strong><span>Open community meeting</span></a>
+    </div>
   </div>
 
-  <div class="contact-list" aria-label="Presenter and community contact links">
-    <a href="https://github.com/pellared/"><strong>Robert Pająk</strong><span>github.com/pellared</span></a>
-    <a href="https://github.com/Joibel"><strong>Alan Clucas</strong><span>github.com/Joibel</span></a>
-    <a href="https://cloud-native.slack.com/archives/C0598R66XAP"><strong>CNCF Slack</strong><span>#otel-cicd</span></a>
-    <a href="https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd"><strong>OpenTelemetry CI/CD SIG</strong><span>Open community meeting</span></a>
-  </div>
+  <figure class="thanks-feedback">
+    <figcaption>Share your feedback</figcaption>
+    <img class="thanks-feedback-image" src="/feedback.png" alt="QR code for feedback on Trace Context Beyond HTTP">
+  </figure>
 </div>
 
 <!--
 Presenter cues:
 Alan (Practitioner):
 - Thank the audience and open the five-minute questions and troubleshooting window.
+- Invite attendees to scan the feedback QR code during Q&A.
 - Point to presenter GitHub links, CNCF Slack `#otel-cicd`, and the OpenTelemetry CI/CD SIG.
 
 Delivery notes:
 - Expected start time: 18:05.
 - Duration: 00:10 for the presentation transition. The reserved 05:00 Q&A and troubleshooting window begins here and remains outside the 20-minute talk.
+- Feedback visual: supplied QR graphic, public/feedback.png; keep visible throughout Q&A.
 - Sources: presenter profiles, https://github.com/pellared/ and https://github.com/Joibel; CNCF Slack signup, https://slack.cncf.io/; `#otel-cicd`, https://cloud-native.slack.com/archives/C0598R66XAP; OpenTelemetry CI/CD SIG directory entry, https://github.com/open-telemetry/community/blob/main/sigs.md#semantic-conventions-cicd.
 -->

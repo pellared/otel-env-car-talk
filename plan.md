@@ -69,7 +69,7 @@ Presenter handoffs between slides take 00:03 and are included in the outgoing sl
 | S25 | Separate carrier from format; cover baggage, inherited input, and trust boundaries. | Robert; continues. | 00:30 |
 | S26 | State the verified Release Candidate status and invite concrete feedback. | Robert; continues. | 00:25 |
 | S27 | Point to slides and demo source for reproduction. | Robert; handoff to Alan on S28. | 00:15 |
-| S28 | Thank the audience and open the reserved Q&A. | Alan; Q&A follows. | 00:10 |
+| S28 | Thank the audience, invite feedback through the large QR code, and open the reserved Q&A. | Alan; Q&A follows. | 00:10 |
 
 ## Demo placement, evidence, and recovery
 
@@ -106,3 +106,5 @@ S01, S03, and S04 use the presenters' current GitHub profile photos, stored loca
 S04A and S04B use the official OpenTelemetry and Jaeger icons from CNCF's artwork repository, stored locally as `public/logos/opentelemetry.svg` and `public/logos/jaeger.svg`. Their project definitions, icon sources, and verified CNCF status are cited in the slide notes.
 
 S10A uses the official Argo Workflows project icon, stored locally as `public/logos/argo-workflows.png`. Its source is credited in the slide's `Delivery notes`.
+
+S28 places the supplied `public/feedback.png` QR graphic beside the closing remarks and contact links, with enough space for audience scanning during Q&A.
