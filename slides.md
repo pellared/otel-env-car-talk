@@ -12,7 +12,7 @@ mdc: true
 colorSchema: auto
 aspectRatio: 16/9
 canvasWidth: 1280
-duration: 25min
+duration: 30min
 timer: countdown
 ---
 
