@@ -896,23 +896,31 @@ id: S16
     <div class="inject-model">
       <div class="inject-step">
         <strong>controller → pod</strong>
-        <pre class="code-snippet">carrier := &amp;envcar.Carrier{
-  SetEnvFunc: …,
+        <pre class="code-snippet">c := &amp;pod.Spec.Containers[i]
+carrier := &amp;envcar.Carrier{
+  SetEnvFunc: func(k, v string) {
+    c.Env = <span class="tok-fn">append</span>(
+      c.Env, apiv1.EnvVar{
+        Name: k, Value: v,
+      })
+  },
 }
 prop := propagation.TraceContext{}
 prop.<span class="tok-fn">Inject</span>(ctx, carrier)</pre>
-        <p>Writes to the pod's container environments.</p>
+        <p>Pod spec: <code>EnvVar{Name, Value}</code></p>
       </div>
       <div class="inject-step">
         <strong>argoexec → workload</strong>
         <pre class="code-snippet">env := os.Environ()
 carrier := &amp;envcar.Carrier{
-  SetEnvFunc: …,
+  SetEnvFunc: func(k, v string) {
+    env = <span class="tok-fn">append</span>(env, k+"="+v)
+  },
 }
 prop := propagation.TraceContext{}
 prop.<span class="tok-fn">Inject</span>(ctx, carrier)
 cmd.Env = env</pre>
-        <p>Writes to the copied child environment.</p>
+        <p>Child process: <code>KEY=value</code></p>
       </div>
     </div>
   </div>
@@ -921,14 +929,14 @@ cmd.Env = env</pre>
 <!--
 Presenter cues:
 Alan (Practitioner):
-- Start with the controller injecting into the pod specification.
-- Follow with `argoexec` injecting into a copied environment for the launched command.
+- Point to the controller callback appending Kubernetes `EnvVar` entries to a container in the pod specification; repeat for every container.
+- Follow with `argoexec` appending `KEY=value` to a copied environment and passing it to the command through `cmd.Env`.
 - Explain that both use the configured W3C propagator with environment carriers; Argo need not invent a trace format.
 
 Delivery notes:
 - Expected start time: 11:05.
 - Duration: 00:50.
-- Visual key: These are abridged Go excerpts; the ellipses omit SetEnvFunc bodies. The left callback appends apiv1.EnvVar entries to the pod spec; the right callback uses setEnvVar to write to the copied env slice. The local prop variable names the same W3C TraceContext propagator. The left excerpt is from PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier. The right excerpt is from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand.
+- Visual key: Simplified Go adapted from Argo PRs #17015 and #17016. Left: `apiv1` aliases `k8s.io/api/core/v1`; show one regular container through a pointer into the pod spec. The real controller first collects envVars, then appends them to all init and regular containers. Right: inline injectTraceParent and its caller, shorten key/value to k/v, and retain cmd.Env to show the child-only destination. Go's exec.Cmd uses the last value of a duplicate environment key, so the appended TRACEPARENT overrides the inherited parent. The local prop variable names the same W3C TraceContext propagator in both snippets. Imports, unrelated environment fields, command construction, and command execution are omitted.
 - Order: presented chronologically. The controller injects into the pod specification on the left, then argoexec injects into the launched workload's environment on the right.
 - Sources: https://github.com/argoproj/argo-workflows/pull/17015 for workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
 -->

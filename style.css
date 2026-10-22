@@ -1260,7 +1260,7 @@ body,
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
-  align-items: center;
+  align-items: start;
 }
 
 .inject-step {
@@ -1276,7 +1276,7 @@ body,
 
 .inject-model .code-snippet {
   font-size: 24px;
-  line-height: 1.55;
+  line-height: 1.3;
   padding: 20px 22px;
 }
 

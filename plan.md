@@ -57,7 +57,7 @@ Presenter handoffs between slides take 00:03 and are included in the outgoing sl
 | S13 | Add workload spans inside the pod and identify the three owners. | Alan; continues. | 00:40 |
 | S14 | Show the one-step Argo workflow before its trace. | Alan; continues. | 00:40 |
 | S15 | Confirm executor-to-workload parentage in the enlarged trace detail and recap both environment injections. | Alan; continues. | 00:45 |
-| S16 | Show the controller and executor injection sites in Argo. | Alan; continues. | 00:50 |
+| S16 | Show simplified carrier callbacks writing a Kubernetes container's environment and the launched command's environment. | Alan; continues. | 00:50 |
 | S17 | Introduce the captured two-step clone/build DAG. | Alan; continues. | 00:20 |
 | S18 | Show what remains visible when git ignores the carrier. | Alan; continues. | 00:45 |
 | S19 | Show BuildKit child spans and the operational payoff of finding slow work. | Alan; continues. | 00:50 |
