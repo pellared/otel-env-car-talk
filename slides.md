@@ -172,7 +172,7 @@ id: S04A
       <p>An open source toolkit for generating and collecting traces, metrics, and logs.</p>
       <ul>
         <li>Instrument code to record what it does.</li>
-        <li>Export data to Jaeger or another observability tool.</li>
+        <li>Export data to an observability backend.</li>
       </ul>
     </div>
     <div class="project-identity">
@@ -895,6 +895,15 @@ id: S16
   <div>
     <div class="inject-model">
       <div class="inject-step">
+        <strong>controller → pod</strong>
+        <pre class="code-snippet">carrier := &amp;envcar.Carrier{
+  SetEnvFunc: …,
+}
+prop := propagation.TraceContext{}
+prop.<span class="tok-fn">Inject</span>(ctx, carrier)</pre>
+        <p>Writes to the pod's container environments.</p>
+      </div>
+      <div class="inject-step">
         <strong>argoexec → workload</strong>
         <pre class="code-snippet">env := os.Environ()
 carrier := &amp;envcar.Carrier{
@@ -905,15 +914,6 @@ prop.<span class="tok-fn">Inject</span>(ctx, carrier)
 cmd.Env = env</pre>
         <p>Writes to the copied child environment.</p>
       </div>
-      <div class="inject-step">
-        <strong>controller → pod</strong>
-        <pre class="code-snippet">carrier := &amp;envcar.Carrier{
-  SetEnvFunc: …,
-}
-prop := propagation.TraceContext{}
-prop.<span class="tok-fn">Inject</span>(ctx, carrier)</pre>
-        <p>Writes to the pod's container environments.</p>
-      </div>
     </div>
   </div>
 </div>
@@ -921,15 +921,15 @@ prop.<span class="tok-fn">Inject</span>(ctx, carrier)</pre>
 <!--
 Presenter cues:
 Alan (Practitioner):
-- Start with `argoexec` injecting into a copied environment for the launched command.
-- Move outward to the controller injecting into the pod specification.
+- Start with the controller injecting into the pod specification.
+- Follow with `argoexec` injecting into a copied environment for the launched command.
 - Explain that both use the configured W3C propagator with environment carriers; Argo need not invent a trace format.
 
 Delivery notes:
 - Expected start time: 11:05.
 - Duration: 00:50.
-- Visual key: These are abridged Go excerpts; the ellipses omit SetEnvFunc bodies. The left callback uses setEnvVar to write to the copied env slice; the right callback appends apiv1.EnvVar entries to the pod spec. The local prop variable names the same W3C TraceContext propagator. The left excerpt is from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand. The right excerpt is from PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier.
-- Order: presented nearest-first. The left column (argoexec) is chronologically the later of the two injections; the right column (the controller building the pod spec) happened first. Say so if asked.
+- Visual key: These are abridged Go excerpts; the ellipses omit SetEnvFunc bodies. The left callback appends apiv1.EnvVar entries to the pod spec; the right callback uses setEnvVar to write to the copied env slice. The local prop variable names the same W3C TraceContext propagator. The left excerpt is from PR #17015 (open at the time of writing), which replaces v4.1.3's own telemetry.Carrier with the contrib envcar carrier. The right excerpt is from argo-workflows PR #17016 (open at the time of writing), which replaces the v4.1.3 os.Setenv approach with the contrib environment carrier and a child-only environment; in the PR it spans injectTraceParent and startCommand.
+- Order: presented chronologically. The controller injects into the pod specification on the left, then argoexec injects into the launched workload's environment on the right.
 - Sources: https://github.com/argoproj/argo-workflows/pull/17015 for workflow/controller/workflowpod.go; https://github.com/argoproj/argo-workflows/pull/17016 for cmd/argoexec/commands/emissary.go; go.opentelemetry.io/contrib/propagators/envcar.
 -->
 
