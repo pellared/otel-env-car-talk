@@ -23,9 +23,9 @@ spec:
           - |
             set -eu
             echo "TRACEPARENT: ${TRACEPARENT:-<unset>}"
-            /otel-cli exec --name observability -- sleep 3
-            /otel-cli exec --name summit        -- sleep 5
-            /otel-cli exec --name prague        -- sleep 4
+            /otel-cli exec --name cloud-native -- sleep 3
+            /otel-cli exec --name days         -- sleep 5
+            /otel-cli exec --name warsaw       -- sleep 4
         env:
           - name: OTEL_EXPORTER_OTLP_PROTOCOL
             value: grpc

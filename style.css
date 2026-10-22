@@ -60,6 +60,7 @@ body,
   background: var(--background);
   color: var(--ink);
   font-family: Inter, Aptos, "Segoe UI", Arial, sans-serif;
+  font-size: 28px;
 }
 
 .slidev-layout h1,
@@ -81,6 +82,12 @@ body,
   font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
+.slidev-layout :not(pre) > code {
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
 /* S01 */
 .title-slide {
   display: grid;
@@ -90,22 +97,33 @@ body,
 
 .title-copy {
   align-self: center;
-  max-width: 920px;
+  max-width: 1050px;
 }
 
-.title-copy h1 {
+.slidev-layout .title-copy h1 {
   color: var(--ink);
-  font-size: 86px;
+  font-size: 80px;
   font-weight: 760;
-  letter-spacing: -0.06em;
-  line-height: 0.94;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.title-copy .conference {
+  margin-top: 28px;
+  color: var(--muted);
+  font-size: 28px;
+  line-height: 1.4;
+}
+
+.conference span {
+  display: block;
 }
 
 .author-list {
   display: grid;
-  max-width: 820px;
+  max-width: 1000px;
   grid-template-columns: 1fr 1fr;
-  gap: 52px;
+  gap: 64px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
 }
@@ -135,12 +153,12 @@ body,
 
 .author-copy b {
   color: var(--ink);
-  font-size: 24px;
+  font-size: 28px;
 }
 
 .author-url {
   color: var(--muted);
-  font: 15px/1.25 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 22px/1.25 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 /* S02 */
@@ -216,7 +234,7 @@ body,
 
 .presenter-role {
   color: var(--muted);
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -237,12 +255,12 @@ body,
   gap: 8px;
   margin-top: 24px;
   color: var(--ink);
-  font: 700 25px/1.15 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 700 30px/1.15 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .presenter-handle span {
   color: var(--muted);
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 500;
 }
 
@@ -252,7 +270,7 @@ body,
   padding-top: 22px;
   border-top: 1px solid var(--line);
   color: var(--ink);
-  font-size: 29px;
+  font-size: 32px;
   line-height: 1.2;
 }
 
@@ -260,7 +278,7 @@ body,
   display: block;
   margin-bottom: 8px;
   color: var(--muted);
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -300,24 +318,29 @@ body,
 .demo-heading p {
   flex: 0 0 auto;
   color: var(--accent);
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
 .demo-heading h1 {
   color: var(--ink);
-  font-size: 45px;
+  font-size: 48px;
   font-weight: 750;
   letter-spacing: -0.04em;
-  line-height: 1;
+  line-height: 1.05;
 }
 
 /* S05 */
 .architecture-diagram {
   position: relative;
-  height: 448px;
+  display: grid;
+  height: 492px;
+  grid-template-columns: 224px 180px 224px 180px 224px;
+  grid-template-rows: 80px 160px 1fr;
+  column-gap: 12px;
+  padding: 0 24px;
   isolation: isolate;
 }
 
@@ -325,43 +348,46 @@ body,
   position: absolute;
   z-index: 0;
   top: 28px;
-  left: 392px;
-  width: 736px;
-  height: 220px;
+  left: 432px;
+  width: 692px;
+  height: 260px;
   border: 1px dashed var(--line);
 }
 
 .runtime-boundary span {
   position: absolute;
-  top: -11px;
+  top: -16px;
   left: 18px;
   padding: 0 8px;
   background: var(--background);
   color: var(--muted);
-  font: 700 13px/1.5 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-  letter-spacing: 0.04em;
+  font: 700 20px/1.5 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0;
 }
 
 .architecture-node {
   --service-color: var(--service-client);
-  position: absolute;
+  position: relative;
   z-index: 2;
-  top: 80px;
-  display: flex;
-  width: 238px;
-  height: 136px;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  height: 160px;
+  grid-row: 2;
+  grid-template-rows: 34px 48px 34px;
+  row-gap: 12px;
+  align-items: center;
+  justify-items: center;
+  padding-top: 16px;
   border-top: 4px solid var(--service-color);
   background: var(--background);
+  text-align: center;
 }
 
 .architecture-node span,
 .architecture-sink span {
   color: var(--muted);
-  font-size: 14px;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -369,66 +395,74 @@ body,
 .architecture-sink strong {
   margin-top: 9px;
   color: var(--ink);
-  font-size: 30px;
+  font-size: 36px;
   line-height: 1;
 }
 
 .architecture-node strong {
+  margin-top: 0;
   color: var(--service-color);
 }
 
-.architecture-node code {
-  margin-top: 13px;
+.slidev-layout .architecture-node code {
+  margin-top: 0;
   color: var(--muted);
-  font-size: 16px;
+  font-size: 22px;
+  line-height: 1.25;
 }
 
 .node-java {
   --service-color: var(--service-client);
-  left: 21px;
+  grid-column: 1;
 }
 
 .node-go {
   --service-color: var(--service-api);
-  left: 432px;
+  grid-column: 3;
 }
 
 .node-python {
   --service-color: var(--service-cli);
-  left: 870px;
+  grid-column: 5;
 }
 
 .architecture-connector {
-  position: absolute;
+  position: relative;
   z-index: 3;
-  top: 99px;
-  height: 104px;
+  display: grid;
+  height: 160px;
+  grid-row: 2;
+  grid-template-rows: 34px 48px 34px;
+  row-gap: 12px;
+  align-items: center;
+  padding-top: 20px;
   color: var(--ink);
   text-align: center;
 }
 
 .connector-http {
-  left: 259px;
-  width: 173px;
+  grid-column: 2;
 }
 
 .connector-process {
-  left: 670px;
-  width: 200px;
+  grid-column: 4;
 }
 
 .architecture-connector span {
   display: block;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 24px;
   font-weight: 750;
+  line-height: 1.25;
 }
 
-.architecture-connector code {
+.slidev-layout .architecture-connector code {
   display: block;
-  margin-top: 6px;
+  grid-row: 3;
+  margin-top: 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 22px;
+  line-height: 1.25;
 }
 
 .architecture-connector i,
@@ -439,10 +473,13 @@ body,
   width: 100%;
   height: 2px;
   background: var(--ink);
+  top: 152px;
 }
 
 .architecture-connector i {
-  top: 64px;
+  position: relative;
+  top: auto;
+  grid-row: 2;
 }
 
 .architecture-connector i::after,
@@ -464,7 +501,7 @@ body,
   z-index: 1;
   inset: 0;
   width: 100%;
-  height: 430px;
+  height: 492px;
   overflow: visible;
   pointer-events: none;
 }
@@ -496,19 +533,20 @@ body,
 .telemetry-label {
   position: absolute;
   z-index: 2;
-  top: 273px;
-  left: 470px;
+  top: 300px;
+  left: 50%;
   padding: 4px 12px;
   background: var(--background);
   color: var(--muted);
-  font: 700 13px/1.2 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 700 22px/1.2 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  transform: translateX(-50%);
 }
 
 .architecture-sink {
   position: absolute;
   z-index: 2;
-  top: 330px;
-  left: 414px;
+  top: 388px;
+  left: 50%;
   display: flex;
   width: 300px;
   height: 96px;
@@ -517,23 +555,18 @@ body,
   border-top: 4px solid var(--ink);
   background: var(--background);
   text-align: center;
+  transform: translateX(-50%);
 }
 
 .architecture-sink strong {
-  font-size: 28px;
-}
-
-.architecture-sink small {
-  margin-top: 7px;
-  color: var(--muted);
-  font-size: 14px;
+  font-size: 36px;
 }
 
 /* S06 */
 .trace-model {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 286px;
-  gap: 64px;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 40px;
   align-items: center;
 }
 
@@ -551,15 +584,15 @@ body,
 
 .trace-identity span {
   color: var(--accent);
-  font-size: 15px;
+  font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.trace-identity code {
+.slidev-layout .trace-identity code {
   color: var(--ink);
-  font-size: 17px;
+  font-size: 22px;
 }
 
 .span-tree {
@@ -568,8 +601,8 @@ body,
 
 .span-axis {
   display: grid;
-  min-height: 29px;
-  grid-template-columns: 30px minmax(0, 1fr) 118px 230px;
+  min-height: 40px;
+  grid-template-columns: 30px minmax(0, 1fr) 130px 208px;
   align-items: end;
   color: var(--muted);
 }
@@ -577,9 +610,9 @@ body,
 .span-axis > span {
   grid-column: 3;
   padding: 0 13px 6px 0;
-  font-size: 11px;
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0;
   text-align: right;
   text-transform: uppercase;
 }
@@ -593,14 +626,14 @@ body,
 }
 
 .span-axis b {
-  font: 600 11px/1 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 600 20px/1 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .span-row {
   --service-color: var(--service-client);
   display: grid;
-  min-height: 42px;
-  grid-template-columns: 30px minmax(0, 1fr) 118px 230px;
+  min-height: 50px;
+  grid-template-columns: 30px minmax(0, 1fr) 130px 208px;
   align-items: center;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
@@ -609,26 +642,26 @@ body,
 .span-row em {
   grid-column: 1;
   color: var(--service-color);
-  font: normal 18px/1 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: normal 24px/1 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .span-row b {
   grid-column: 2;
-  font-size: 17px;
+  font-size: 26px;
   font-weight: 700;
 }
 
 .span-row > span {
   grid-column: 3;
   color: var(--service-color);
-  font: 700 13px/1.2 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 700 22px/1.2 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .span-row i {
   position: relative;
   display: block;
   width: 100%;
-  height: 8px;
+  height: 12px;
   grid-column: 4;
   overflow: hidden;
   border-radius: 1px;
@@ -663,23 +696,23 @@ body,
 }
 
 .depth-1 {
-  margin-left: 22px;
+  margin-left: 16px;
 }
 
 .depth-2 {
-  margin-left: 44px;
+  margin-left: 32px;
 }
 
 .depth-3 {
-  margin-left: 66px;
+  margin-left: 48px;
 }
 
 .depth-4 {
-  margin-left: 88px;
+  margin-left: 64px;
 }
 
 .depth-5 {
-  margin-left: 110px;
+  margin-left: 80px;
 }
 
 .trace-terms {
@@ -687,7 +720,7 @@ body,
 }
 
 .trace-terms div {
-  padding: 22px 0 24px;
+  padding: 20px 0;
   border-top: 1px solid var(--line);
 }
 
@@ -697,29 +730,32 @@ body,
 
 .trace-terms dt {
   color: var(--ink);
-  font-size: 25px;
+  font-size: 32px;
   font-weight: 760;
 }
 
 .trace-terms dd {
   margin: 7px 0 0;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 26px;
   line-height: 1.3;
 }
 
 /* S07 */
 .propagation-diagram {
   display: grid;
-  grid-template-columns: 196px 168px 314px 168px 196px;
-  gap: 15px;
+  grid-template-columns: 240px 100px 384px 100px 240px;
+  gap: 16px;
   align-items: center;
+  position: relative;
+  height: 460px;
+  padding-bottom: 70px;
 }
 
 .prop-context,
 .prop-carrier {
   display: flex;
-  min-height: 210px;
+  min-height: 250px;
   flex-direction: column;
   justify-content: center;
   border-top: 4px solid var(--accent);
@@ -736,9 +772,9 @@ body,
 .prop-carrier > span,
 .propagator-step > span {
   color: var(--accent);
-  font-size: 13px;
+  font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
@@ -747,19 +783,19 @@ body,
 .propagator-step strong {
   margin-top: 10px;
   color: var(--ink);
-  font-size: 22px;
+  font-size: 34px;
   line-height: 1.1;
 }
 
-.prop-context code,
-.prop-carrier code {
+.slidev-layout .prop-context code,
+.slidev-layout .prop-carrier code {
   margin-top: 18px;
   color: var(--ink);
-  font-size: 14px;
-  line-height: 1.45;
+  font-size: 26px;
+  line-height: 1.5;
 }
 
-.prop-carrier code {
+.slidev-layout .prop-carrier code {
   overflow-wrap: anywhere;
   color: var(--warm);
 }
@@ -768,36 +804,30 @@ body,
 .prop-carrier small {
   margin-top: 16px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 24px;
   line-height: 1.35;
 }
 
 .propagator-step {
   position: relative;
   display: flex;
-  height: 210px;
+  height: 250px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 38px;
+  padding-top: 90px;
   text-align: center;
 }
 
 .propagator-step strong {
-  font-size: 17px;
-}
-
-.propagator-step code {
-  margin-top: 9px;
-  color: var(--muted);
-  font-size: 15px;
+  font-size: 26px;
 }
 
 .propagator-step i {
-  top: 140px;
+  top: 152px;
 }
 
-/* S08 and S10 */
+/* S08 and S10: enlarge span-tree details from the original captures. */
 .evidence-slide {
   gap: 18px;
 }
@@ -818,141 +848,152 @@ body,
 
 .broken-trace-pair {
   display: grid;
-  min-width: 0;
-  grid-template-columns: minmax(0, 1fr) 92px minmax(0, 1fr);
-  gap: 17px;
-  align-items: center;
+  align-content: center;
+  gap: 20px;
 }
 
 .broken-trace {
   display: grid;
   min-width: 0;
-  grid-template-rows: auto auto auto;
-  gap: 10px;
+  grid-template-columns: 238px minmax(0, 1fr);
+  gap: 30px;
+  align-items: center;
 }
 
 .trace-card-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  color: var(--ink);
-}
-
-.trace-card-heading span {
-  font-size: 17px;
-  font-weight: 800;
-}
-
-.trace-card-heading code {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.broken-trace img {
-  border-top: 4px solid var(--accent);
-}
-
-.python-root-trace img {
-  border-top-color: var(--danger);
-}
-
-.broken-trace figcaption {
-  display: flex;
-  min-height: 42px;
-  align-items: baseline;
-  justify-content: space-between;
+  display: grid;
   gap: 12px;
   color: var(--ink);
 }
 
-.broken-trace figcaption strong {
-  font-size: 16px;
-  line-height: 1.25;
+.trace-card-heading strong {
+  font-size: 30px;
+  line-height: 1.1;
 }
 
-.broken-trace figcaption strong code {
-  color: inherit;
-  font-size: inherit;
-  font-weight: 700;
+.trace-card-heading span {
+  font-size: 24px;
+  line-height: 1.3;
 }
 
-.broken-trace figcaption small {
-  flex: 0 0 auto;
+.slidev-layout .trace-card-heading code {
   color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
+  font-size: 24px;
 }
 
 .trace-split-marker {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   color: var(--danger);
+  font-size: 28px;
+  font-weight: 700;
   text-align: center;
-}
-
-.trace-split-marker span {
-  font-size: 48px;
-  font-weight: 500;
-  line-height: 0.9;
-}
-
-.trace-split-marker strong {
-  margin-top: 11px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  line-height: 1.35;
-  text-transform: uppercase;
 }
 
 .connected-trace {
   display: grid;
   grid-template-rows: auto auto;
-  gap: 15px;
+  gap: 16px;
 }
 
 .connected-trace figcaption {
-  display: grid;
-  grid-template-columns: auto auto 1fr;
-  gap: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
   align-items: baseline;
   color: var(--ink);
+  line-height: 1.25;
 }
 
 .connected-trace figcaption strong {
   color: var(--accent);
-  font-size: 25px;
+  font-size: 30px;
 }
 
 .connected-trace figcaption span {
   color: var(--ink);
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 700;
 }
 
 .connected-trace figcaption small {
-  justify-self: end;
+  flex-basis: 100%;
   color: var(--muted);
-  font-size: 16px;
+  font-size: 24px;
+}
+
+/* Project introductions: S04A, S04B, and S10A. */
+.project-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  align-items: center;
+  gap: 64px;
+}
+
+.project-intro-copy {
+  display: grid;
+  max-width: 1000px;
+  align-self: center;
+  gap: 36px;
+}
+
+.project-intro-copy > p {
+  font-size: 38px;
+  font-weight: 650;
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.project-intro-copy ul {
+  margin: 0;
+  padding-left: 1.15em;
+  font-size: 30px;
+  line-height: 1.45;
+}
+
+.project-intro-copy li + li {
+  margin-top: 18px;
+}
+
+.project-intro-copy li {
+  text-wrap: balance;
+}
+
+.project-identity {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.project-icon {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+}
+
+.project-status {
+  max-width: 220px;
+  color: var(--muted);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-wrap: balance;
 }
 
 /* S09 */
 .environment-diagram {
   position: relative;
   display: grid;
-  height: 440px;
-  grid-template-columns: 215px 142px 300px 142px 215px;
-  gap: 17px;
+  height: 470px;
+  grid-template-columns: 240px 100px 384px 100px 240px;
+  gap: 16px;
   align-items: center;
-  padding-bottom: 48px;
+  padding-bottom: 105px;
 }
 
 .environment-process,
 .environment-carrier {
   display: flex;
-  min-height: 210px;
+  min-height: 250px;
   flex-direction: column;
   justify-content: center;
 }
@@ -964,28 +1005,28 @@ body,
 .environment-process > span,
 .environment-carrier > span {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
 .environment-process strong {
   margin-top: 12px;
   color: var(--ink);
-  font-size: 23px;
+  font-size: 34px;
 }
 
-.environment-process code {
+.slidev-layout .environment-process code {
   margin-top: 16px;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 26px;
 }
 
 .environment-process small {
   margin-top: 18px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 24px;
   line-height: 1.35;
 }
 
@@ -1000,48 +1041,29 @@ body,
   background: var(--warm-soft);
 }
 
-.environment-carrier code {
+.slidev-layout .environment-carrier code {
   margin-top: 20px;
   color: var(--ink);
-  font-size: 17px;
+  font-size: 26px;
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.6;
   overflow-wrap: anywhere;
-}
-
-.environment-carrier small {
-  margin-top: 18px;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.35;
-}
-
-.environment-carrier small b {
-  color: var(--warm);
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 .environment-step {
   position: relative;
   display: flex;
-  height: 210px;
+  height: 250px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 48px;
+  padding-top: 90px;
   text-align: center;
 }
 
 .environment-step strong {
   color: var(--ink);
-  font-size: 18px;
-}
-
-.environment-step span {
-  margin-top: 7px;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.3;
+  font-size: 26px;
 }
 
 .environment-step i {
@@ -1056,8 +1078,8 @@ body,
   padding-top: 18px;
   border-top: 1px solid var(--line);
   color: var(--ink);
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 500;
   text-align: center;
 }
 
@@ -1071,7 +1093,7 @@ body,
 .dream-model {
   display: grid;
   grid-template-columns: 300px minmax(0, 1fr);
-  gap: 72px;
+  gap: 40px;
   align-items: center;
 }
 
@@ -1106,7 +1128,7 @@ body,
 
 .dag-figure .dag-label {
   fill: var(--ink);
-  font: 700 30px/1 Inter, Aptos, "Segoe UI", Arial, sans-serif;
+  font: 700 36px/1 Inter, Aptos, "Segoe UI", Arial, sans-serif;
   text-anchor: middle;
   dominant-baseline: central;
 }
@@ -1117,15 +1139,15 @@ body,
 
 .dream-trace .span-axis,
 .dream-trace .span-row {
-  grid-template-columns: 30px minmax(0, 1fr) 96px 330px;
+  grid-template-columns: 34px minmax(0, 1fr) 168px 272px;
 }
 
 .dream-trace .span-row {
-  min-height: 52px;
+  min-height: 58px;
 }
 
 .dream-trace .span-row b {
-  font-size: 20px;
+  font-size: 28px;
 }
 
 .dream-trace .span-row i {
@@ -1142,11 +1164,11 @@ body,
 
 /* S12 */
 .dream-pods .span-row {
-  min-height: 42px;
+  min-height: 48px;
 }
 
 .dream-pods .span-row b {
-  font-size: 18px;
+  font-size: 26px;
 }
 
 .dream-pods .span-row i {
@@ -1185,16 +1207,26 @@ body,
 /* S14 */
 .demo2-model {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 560px;
-  gap: 52px;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 48px;
   align-items: center;
 }
 
-.demo2-model .trace-screenshot img {
-  width: 100%;
-  height: 400px;
-  object-fit: cover;
-  object-position: 57.5% 0; /* left edge lands on the gap before LOGS */
+/* S14: source x 448-673, y 180-455, at 1.2 times its original size. */
+.cli-dag-shot {
+  align-self: center;
+  width: 270px;
+  height: 330px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.cli-dag-shot img {
+  width: 1416px;
+  max-width: none;
+  height: auto;
+  margin: -216px 0 0 -538px;
+  border: 0;
 }
 
 .code-snippet {
@@ -1204,7 +1236,7 @@ body,
   border-top: 4px solid var(--ink);
   background: var(--placeholder);
   color: var(--ink);
-  font: 500 17px/1.7 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 500 26px/1.55 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
   white-space: pre;
   overflow: hidden;
 }
@@ -1227,25 +1259,25 @@ body,
 .inject-model {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 44px;
+  gap: 32px;
   align-items: start;
 }
 
 .inject-step {
   display: grid;
-  gap: 12px;
+  gap: 18px;
 }
 
 .inject-step strong {
   color: var(--ink);
-  font-size: 26px;
+  font-size: 30px;
   line-height: 1.1;
 }
 
 .inject-model .code-snippet {
-  font-size: 16.5px;
-  line-height: 1.6;
-  padding: 20px 24px;
+  font-size: 24px;
+  line-height: 1.3;
+  padding: 20px 22px;
 }
 
 .inject-model .code-snippet .tok-kw {
@@ -1258,13 +1290,9 @@ body,
   font-weight: 700;
 }
 
-/* S15 */
-.demo2-result .trace-screenshot img {
-  width: 100%;
-  height: 432px;
-  object-fit: cover;
-  /* keep the header stats line and the runMainContainer subtree near the bottom */
-  object-position: 50% 31%;
+/* S15 uses a native Jaeger detail captured with larger UI text. */
+.demo2-result .connected-trace {
+  align-self: center;
 }
 
 /* S17 and S18 */
@@ -1298,6 +1326,10 @@ body,
   height: 430px;
 }
 
+.buildkit-evidence figcaption {
+  gap: 6px 24px;
+}
+
 /* Zoomed a little further than the default 0.705 so the step names read at a
    distance: scale 0.77, dropping the indent guides on the left of the capture. */
 .crop-buildkit img {
@@ -1307,34 +1339,34 @@ body,
 }
 
 /* S17 */
-/* Just the three nodes: source x 350-850, y 165-470, scaled 1.3. */
+/* Just the three nodes: source x 409-791, y 176-458, scaled 1.7. */
 .dag-shot {
   align-self: center;
   justify-self: center;
   width: 650px;
-  height: 396px;
+  height: 480px;
   overflow: hidden;
   border: 1px solid var(--line);
 }
 
 .dag-shot img {
-  width: 1534px;
+  width: 2006px;
   max-width: none;
-  margin: -232px 0 0 -455px;
+  margin: -299px 0 0 -695px;
   border: 0;
 }
 
 /* S20 */
 .lineage-intro {
   display: grid;
-  gap: 34px;
+  gap: 24px;
   align-content: center;
 }
 
 .lineage-roles {
   display: flex;
   gap: 56px;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: 700;
   color: var(--ink);
 }
@@ -1343,68 +1375,70 @@ body,
   display: block;
   margin-bottom: 4px;
   color: var(--accent);
-  font-size: 14px;
+  font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-/* Horizontal Argo DAG: source x 380-1110, y 180-400, scaled 1.5. */
+/* Job nodes in the horizontal Argo DAG: source x 510-1110, y 185-398, scaled 1.85. */
 .dag-wide {
   justify-self: center;
-  width: 1095px;
-  height: 330px;
+  width: 1110px;
+  height: 394px;
   overflow: hidden;
   border: 1px solid var(--line);
 }
 
 .dag-wide img {
-  width: 2250px;
+  width: 2775px;
   max-width: none;
-  margin: -270px 0 0 -570px;
+  margin: -342px 0 0 -943px;
   border: 0;
 }
 
-/* S21: source y 420-1105 (customer_ltv INSERT through otel.scope.name), scaled 0.672. */
+/* S21: the selected SQL span, source y 672-736, at 1.5 times its original size. */
 .crop-sql {
-  height: 460px;
+  height: 96px;
 }
 
 .crop-sql img {
-  width: 1075px;
-  top: -282px;
-  left: 26px;
+  width: 2400px;
+  top: -1008px;
+  left: -90px;
 }
 
-/* S22 */
+.sql-evidence {
+  gap: 14px;
+}
+
+.sql-excerpt > p {
+  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.sql-excerpt > p span {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.sql-excerpt .code-snippet {
+  padding: 16px 24px;
+  font-size: 26px;
+  line-height: 1.35;
+}
+
+/* S22: the unchanged SVG artifact is large enough for every dataset name. */
 .lineage-result {
   display: grid;
   align-self: center;
-  grid-template-columns: 450px minmax(0, 1fr);
-  gap: 40px;
-  align-items: center;
-}
-
-/* Argo's artifact panel rendering lineage.html: source x 955-1481, y 150-688, scaled 0.855. */
-.artifact-shot {
-  width: 450px;
-  height: 460px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-
-.artifact-shot img {
-  width: 1283px;
-  max-width: none;
-  margin: -128px 0 0 -816px;
-  border: 0;
+  gap: 36px;
 }
 
 .lineage-graph {
-  align-self: center;
   margin: 0;
-  padding: 14px 18px;
-  border: 1px solid var(--line);
+  padding: 18px 0;
   background: #ffffff;
 }
 
@@ -1415,6 +1449,20 @@ body,
   border: 0;
 }
 
+.artifact-caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  font-size: 26px;
+}
+
+.artifact-caption strong {
+  color: var(--accent);
+  font-size: 30px;
+}
+
 /* S23 */
 .py-carrier {
   display: grid;
@@ -1423,7 +1471,7 @@ body,
 }
 
 .py-carrier .code-snippet {
-  font-size: 21px;
+  font-size: 30px;
 }
 
 .py-carrier .code-snippet .tok-kw {
@@ -1458,44 +1506,33 @@ body,
 
 .format-row {
   display: grid;
-  min-height: 92px;
-  grid-template-columns: 210px minmax(0, 1fr) 250px;
-  gap: 24px;
+  min-height: 118px;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 28px;
   align-items: center;
   border-bottom: 1px solid var(--line);
 }
 
 .format-row > span {
   color: var(--accent);
-  font-size: 15px;
+  font-size: 24px;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
 }
 
-.format-row code {
+.slidev-layout .format-row code {
   color: var(--ink);
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 650;
   white-space: nowrap;
 }
 
-.format-row small {
-  color: var(--muted);
-  font-size: 15px;
-  line-height: 1.3;
-}
-
-.format-row small b {
-  color: var(--warm);
-  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-}
-
-.format-baggage code {
+.slidev-layout .format-baggage code {
   color: var(--warm);
 }
 
-.format-b3 code {
+.slidev-layout .format-b3 code {
   color: var(--service-api);
 }
 
@@ -1507,7 +1544,7 @@ body,
   padding-top: 18px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 19px;
+  font-size: 28px;
 }
 
 .format-principle strong {
@@ -1524,29 +1561,29 @@ body,
 .adoption-list {
   display: grid;
   align-self: center;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 64px;
+  grid-template-columns: 1fr;
+  column-gap: 0;
   border-top: 4px solid var(--ink);
 }
 
 .adoption-list div {
   display: grid;
-  grid-template-columns: 245px minmax(0, 1fr);
-  gap: 22px;
+  grid-template-columns: 450px minmax(0, 1fr);
+  gap: 32px;
   align-items: baseline;
-  padding: 29px 0;
+  padding: 13px 0;
   border-bottom: 1px solid var(--line);
 }
 
 .adoption-list strong {
   color: var(--accent);
-  font-size: 22px;
+  font-size: 28px;
   line-height: 1.15;
 }
 
 .adoption-list span {
   color: var(--muted);
-  font-size: 17px;
+  font-size: 26px;
   line-height: 1.35;
 }
 
@@ -1554,7 +1591,7 @@ body,
   padding-top: 18px;
   border-top: 1px solid var(--line);
   color: var(--ink);
-  font-size: 21px;
+  font-size: 28px;
   font-weight: 700;
   text-align: center;
 }
@@ -1576,9 +1613,9 @@ body,
 
 .feedback-date > span {
   color: var(--accent);
-  font-size: 16px;
+  font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -1596,7 +1633,7 @@ body,
   max-width: 690px;
   margin-top: 24px !important;
   color: var(--ink);
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.35;
 }
 
@@ -1604,7 +1641,8 @@ body,
   display: block;
   margin-top: 24px;
   color: var(--muted);
-  font-size: 16px;
+  font-size: 24px;
+  line-height: 1.4;
 }
 
 .qr-link {
@@ -1631,14 +1669,9 @@ body,
 
 .qr-link > span:not(.qr-code) {
   color: var(--ink);
-  font-size: 18px;
+  font-size: 26px;
   font-weight: 750;
   line-height: 1.25;
-}
-
-.qr-link .qr-url {
-  color: var(--muted);
-  font: 600 13px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 /* S27 */
@@ -1649,10 +1682,10 @@ body,
 }
 
 .repo-copy strong {
-  padding: 13px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 720;
   line-height: 1.1;
 }
@@ -1660,14 +1693,40 @@ body,
 .repo-copy a {
   margin-top: 28px;
   color: var(--accent);
-  font: 700 19px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 700 30px/1.4 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
 }
 
 /* S28 */
 .thanks-slide {
   display: grid;
   min-height: 606px;
-  grid-template-rows: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) 480px;
+  gap: 64px;
+  align-items: center;
+}
+
+.thanks-copy {
+  display: grid;
+  gap: 32px;
+}
+
+.thanks-feedback {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+.thanks-feedback figcaption {
+  color: var(--accent);
+  font-size: 30px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.thanks-feedback-image {
+  display: block;
+  width: 480px;
+  height: auto;
 }
 
 .thanks-heading {
@@ -1676,7 +1735,7 @@ body,
 
 .thanks-heading p {
   color: var(--accent);
-  font-size: 19px;
+  font-size: 26px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1685,7 +1744,7 @@ body,
 .thanks-heading h1 {
   margin-top: 18px;
   color: var(--ink);
-  font-size: 104px;
+  font-size: 96px;
   font-weight: 760;
   letter-spacing: -0.065em;
   line-height: 0.94;
@@ -1693,8 +1752,8 @@ body,
 
 .contact-list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1.25fr;
-  gap: 28px;
+  grid-template-columns: 1fr;
+  gap: 18px;
   padding-top: 22px;
   border-top: 1px solid var(--line);
 }
@@ -1708,11 +1767,90 @@ body,
 
 .contact-list strong {
   color: var(--ink);
-  font-size: 20px;
+  font-size: 28px;
   line-height: 1.2;
 }
 
 .contact-list span {
   color: var(--muted);
-  font: 600 16px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font: 600 24px/1.3 "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+
+/* Presentation-size explanations and readable details. */
+.slidev-layout .title-copy h2 {
+  max-width: 1000px;
+  margin: 24px 0 0;
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.25;
+}
+
+.propagation-principle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 26px;
+  text-align: center;
+}
+
+.environment-principle p + p {
+  margin-top: 12px;
+}
+
+.slidev-layout .environment-principle code {
+  font-weight: 700;
+  color: var(--warm);
+}
+
+/* Exact 2x crops of the original HTTP trace rows, without browser chrome. */
+.crop-http-request {
+  height: 226px;
+  border-top: 4px solid var(--accent);
+}
+
+.crop-http-python {
+  height: 170px;
+  border-top: 4px solid var(--danger);
+}
+
+.crop-http-request img,
+.crop-http-python img {
+  width: 1280px;
+  top: -406px;
+}
+
+.crop-http-connected {
+  height: 396px;
+}
+
+.crop-http-connected img {
+  width: 2560px;
+  top: -406px;
+  border: 0;
+}
+
+.inject-step > p {
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.evidence-timing {
+  display: flex;
+  gap: 48px;
+  margin: 22px 0 !important;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.evidence-timing strong {
+  color: var(--accent);
+}
+
+.wrapper-principle {
+  color: var(--muted);
+  font-size: 28px;
 }

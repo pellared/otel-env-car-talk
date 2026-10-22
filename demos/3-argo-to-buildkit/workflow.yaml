@@ -30,7 +30,7 @@
 #   * There is no `#syntax=` directive, so BuildKit uses its built-in dockerfile
 #     frontend instead of pulling docker/dockerfile from the registry first.
 #
-#   kubectl create -n default -f buildkit-trace.yaml
+#   kubectl create -n default -f workflow.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
